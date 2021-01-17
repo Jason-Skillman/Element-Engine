@@ -7,6 +7,8 @@ This project was originaly based off of `The Cherno`'s Game Engine series.
 Check out the original series here: `https://youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT`
 
 ## 3rd party libraries
-- `stb` https://github.com/nothings/stb
-- `glm` https://github.com/g-truc/glm
-- `ImGui` https://github.com/ocornut/imgui
+- `spdlog` https://github.com/gabime/spdlog
+
+[comment]: <> (- `stb` https://github.com/nothings/stb)
+[comment]: <> (- `glm` https://github.com/g-truc/glm)
+[comment]: <> (- `ImGui` https://github.com/ocornut/imgui)
