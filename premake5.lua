@@ -13,6 +13,12 @@ workspace "Hazel-Engine"
 -- bin/Windows/Debug/x64
 outputdir = "%{cfg.system}/%{cfg.buildcfg}/%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
+
+-- Includes the GLFW premake file
+include "Hazel/vendor/GLFW"
+
 project "Hazel"
 	location "Hazel"
    	kind "SharedLib"
@@ -30,7 +36,13 @@ project "Hazel"
 
 	includedirs {
 		"%{prj.name}/src/",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links {
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
@@ -50,7 +62,8 @@ project "Hazel"
 
    	filter "configurations:Debug"
       	defines { 
-			"HZ_DEBUG" 
+			"HZ_DEBUG",
+			"HZ_ENABLE_ASSERTS"
 		}
       	symbols "On"
 
