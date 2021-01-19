@@ -18,7 +18,10 @@ project "Hazel"
    	kind "SharedLib"
    	language "C++"
    	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-   	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
+	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
+	   
+	pchheader "hzpch.h"
+	pchsource "Hazel/src/hzpch.cpp"
 
    	files { 
 		"%{prj.name}/src/**.h", 
