@@ -3,13 +3,16 @@
 #include <GLFW/glfw3.h>
 
 #include "Application.h"
-#include "Events/Event.h"
-#include "Events/ApplicationEvent.h"
 #include "Log.h"
+#include "Events/Event.h"
 
 namespace Hazel {
+
+#define BIND_EVENT_FUNC(x) std::bind(&x, this, std::placeholders::_1)
+	
 	Application::Application() {
 		window = std::unique_ptr<Window>(Window::Create());
+		window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
 	}
 	
 	Application::~Application() = default;
@@ -21,5 +24,17 @@ namespace Hazel {
 			
 			window->OnUpdate();
 		}
+	}
+
+	void Application::OnEvent(Event& e) {
+		//HZ_CORE_TRACE("{0}", e)
+
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClose));
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent& e) {
+		isRunning = false;
+		return true;
 	}
 }

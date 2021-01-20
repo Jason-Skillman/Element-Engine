@@ -3,6 +3,12 @@
 #include "Core.h"
 #include "Window.h"
 
+#include "Events/ApplicationEvent.h"
+#include "Events/MouseEvent.h"
+#include "Events/KeyEvent.h"
+
+//class WindowCloseEvent;
+
 namespace Hazel {
 	class HAZEL_API Application {
 	private:
@@ -15,6 +21,10 @@ namespace Hazel {
 
 	public:
 		void Run();
+		void OnEvent(Event& e);
+
+	private:
+		bool OnWindowClose(WindowCloseEvent& e);
 	};
 
 	/// <summary>
