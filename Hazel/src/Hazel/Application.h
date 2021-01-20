@@ -2,18 +2,19 @@
 
 #include "Core.h"
 #include "Window.h"
+#include "Layer.h"
+#include "LayerStack.h"
 
 #include "Events/ApplicationEvent.h"
 #include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
-
-//class WindowCloseEvent;
 
 namespace Hazel {
 	class HAZEL_API Application {
 	private:
 		std::unique_ptr<Window> window;
 		bool isRunning = true;
+		LayerStack layerStack;
 		
 	public:
 		Application();
@@ -22,6 +23,8 @@ namespace Hazel {
 	public:
 		void Run();
 		void OnEvent(Event& e);
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* layer);
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);

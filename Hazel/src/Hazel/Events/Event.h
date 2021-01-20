@@ -55,6 +55,10 @@ namespace Hazel {
 		bool IsInCategory(EventCategory category) {
 			return GetCategoryFlags() & category;
 		}
+
+		bool IsHandled() {
+			return handled;
+		}
 	};
 	
 	class EventDispatcher {
