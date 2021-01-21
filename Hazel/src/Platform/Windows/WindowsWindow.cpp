@@ -1,5 +1,6 @@
 #include "hzpch.h"
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include "WindowsWindow.h"
@@ -73,8 +74,13 @@ namespace Hazel {
 			glfwInitialized = true;
 		}
 
+		//Create window context
 		window = glfwCreateWindow(static_cast<int>(props.width), static_cast<int>(props.height), data.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(window);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		HZ_CORE_ASSERT(status, "Failed to initalized Glad!")
+		
 		glfwSetWindowUserPointer(window, &data);
 		SetVsync(true);
 

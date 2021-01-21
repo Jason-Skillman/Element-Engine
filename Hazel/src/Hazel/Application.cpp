@@ -1,6 +1,6 @@
 #include "hzpch.h"
 
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 #include "Application.h"
 #include "Log.h"

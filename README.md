@@ -10,6 +10,7 @@ Check out the original series here: `https://youtube.com/playlist?list=PLlrATfBN
 - `spdlog` https://github.com/gabime/spdlog
 - `premake` https://github.com/premake/premake-core
 - `GLFW` https://github.com/TheCherno/GLFW
+- `Glad` https://glad.dav1d.de/
 
 [comment]: <> (- `stb` https://github.com/nothings/stb)
 [comment]: <> (- `glm` https://github.com/g-truc/glm)

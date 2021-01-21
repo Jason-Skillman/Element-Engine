@@ -13,11 +13,14 @@ workspace "Hazel-Engine"
 -- bin/Windows/Debug/x64
 outputdir = "%{cfg.system}/%{cfg.buildcfg}/%{cfg.architecture}"
 
+-- Include dir relative to root folder path (solution dir)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
+IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
 
 -- Includes the GLFW premake file
 include "Hazel/vendor/GLFW"
+include "Hazel/vendor/Glad"
 
 project "Hazel"
 	location "Hazel"
@@ -37,11 +40,13 @@ project "Hazel"
 	includedirs {
 		"%{prj.name}/src/",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links {
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -52,7 +57,8 @@ project "Hazel"
 
 		defines {
 			"HZ_PLATFORM_WINDOWS",
-			"HZ_BUILD_DLL"
+			"HZ_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		-- Links DLL
