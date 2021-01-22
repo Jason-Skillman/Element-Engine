@@ -30,6 +30,7 @@ project "Hazel"
    	language "C++"
    	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
+	staticruntime "off"
 	   
 	pchheader "hzpch.h"
 	pchsource "Hazel/src/hzpch.cpp"
@@ -56,7 +57,6 @@ project "Hazel"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines {
@@ -72,24 +72,23 @@ project "Hazel"
 
    	filter "configurations:Debug"
       	defines { 
-			"HZ_DEBUG",
-			"HZ_ENABLE_ASSERTS"
+			"HZ_DEBUG"
 		}
-		buildoptions "/MDd"
+		runtime "Debug"
       	symbols "On"
 
    	filter "configurations:Release"
       	defines { 
 			"HZ_RELEASE" 
 		}
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
       	defines { 
 			"HZ_DIST" 
 		}
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	--[[
@@ -103,6 +102,7 @@ project "Sandbox"
    	language "C++"
    	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
+	staticruntime "off"
 
 	files { 
 		"%{prj.name}/src/**.h", 
@@ -120,7 +120,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines {
@@ -131,20 +130,20 @@ project "Sandbox"
       	defines { 
 			"HZ_DEBUG" 
 		}
-		buildoptions "/MDd"
+		runtime "Debug"
       	symbols "On"
 
    	filter "configurations:Release"
       	defines { 
 			"HZ_RELEASE" 
 		}
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
       	defines { 
 			"HZ_DIST" 
 		}
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 	   
