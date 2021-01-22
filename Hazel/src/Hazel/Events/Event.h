@@ -56,7 +56,7 @@ namespace Hazel {
 			return GetCategoryFlags() & category;
 		}
 
-		bool IsHandled() {
+		bool IsHandled() const {
 			return handled;
 		}
 	};

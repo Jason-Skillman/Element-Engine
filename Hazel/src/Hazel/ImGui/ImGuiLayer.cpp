@@ -88,7 +88,6 @@ namespace Hazel {
         dispatcher.Dispatch<KeyReleasedEvent>(BIND_EVENT_FUNC(ImGuiLayer::OnKeyReleasedEvent));
         dispatcher.Dispatch<KeyTypedEvent>(BIND_EVENT_FUNC(ImGuiLayer::OnKeyTypedEvent));
         dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNC(ImGuiLayer::OnWindowResizeEvent));
-
 	}
 
     bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& event) {
