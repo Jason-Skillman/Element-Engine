@@ -4,3 +4,6 @@
 [submodule "Hazel/vendor/GLFW"]
 	path = Hazel/vendor/GLFW
 	url = https://github.com/TheCherno/glfw.git
+[submodule "Hazel/vendor/ImGui"]
+	path = Hazel/vendor/ImGui
+	url = https://github.com/TheCherno/imgui.git

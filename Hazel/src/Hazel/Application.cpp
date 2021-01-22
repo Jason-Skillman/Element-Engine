@@ -2,21 +2,29 @@
 
 #include <glad/glad.h>
 
+#include "Hazel/Core.h"
 #include "Application.h"
 #include "Log.h"
 #include "Events/Event.h"
 
 namespace Hazel {
 
-#define BIND_EVENT_FUNC(x) std::bind(&x, this, std::placeholders::_1)
+	Application* Application::instance = nullptr;
 	
 	Application::Application() {
+		if(!instance) instance = this;
+		
 		window = std::unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
 	}
 	
 	Application::~Application() = default;
-
+	
+	Application& Application::GetInstance() {
+		if(!instance) instance = new Application();
+		return *instance;
+	}
+	
 	void Application::Run() {
 		while(isRunning) {
 			glClearColor(0.0f, 0.2f, 0.4f, 1.0f);
@@ -30,28 +38,34 @@ namespace Hazel {
 		}
 	}
 
-	void Application::OnEvent(Event& e) {
-		//HZ_CORE_TRACE("{0}", e)
+	void Application::OnEvent(Event& event) {
+		//HZ_CORE_TRACE("{0}", event)
 
-		EventDispatcher dispatcher(e);
+		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClose));
 
 		for(auto it = layerStack.end(); it != layerStack.begin();) {
-			(*--it)->OnEvent(e);
-			if(e.IsHandled())
+			(*--it)->OnEvent(event);
+			if(event.IsHandled())
 				break;
 		}
 	}
 
 	void Application::PushLayer(Layer* layer) {
 		layerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer) {
 		layerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
-	bool Application::OnWindowClose(WindowCloseEvent& e) {
+	Window& Application::GetWindow() const {
+		return *window;
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent& event) {
 		isRunning = false;
 		return true;
 	}
