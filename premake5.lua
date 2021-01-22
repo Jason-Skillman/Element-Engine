@@ -19,10 +19,12 @@ IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
 IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
 IncludeDir["ImGui"] = "Hazel/vendor/ImGui"
 
--- Includes the GLFW premake file
-include "Hazel/vendor/GLFW"
-include "Hazel/vendor/Glad"
-include "Hazel/vendor/ImGui"
+-- Includes other project premake files
+group "Dependencies"
+	include "Hazel/vendor/GLFW"
+	include "Hazel/vendor/Glad"
+	include "Hazel/vendor/ImGui"
+group ""
 
 project "Hazel"
 	location "Hazel"
@@ -67,7 +69,7 @@ project "Hazel"
 
 		-- Links DLL
 		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
    	filter "configurations:Debug"
