@@ -25,14 +25,16 @@ namespace Hazel {
 	public:
 		void OnUpdate() override;
 		
-		unsigned int GetWidth() override;
-		unsigned int GetHeight() override;
+		unsigned int GetWidth() const override;
+		unsigned int GetHeight() const override;
 
 		//Window attributes
 		void SetEventCallback(const EventCallbackFunc& callback) override;
 		void SetVsync(bool enabled) override;
 		bool IsVsync() const override;
 
+		inline void* GetNativeWindow() const override;
+		
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();

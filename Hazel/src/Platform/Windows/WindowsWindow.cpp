@@ -34,11 +34,11 @@ namespace Hazel {
 		glfwSwapBuffers(window);
 	}
 
-	unsigned WindowsWindow::GetWidth() {
+	unsigned WindowsWindow::GetWidth() const {
 		return data.width;
 	}
 
-	unsigned WindowsWindow::GetHeight() {
+	unsigned WindowsWindow::GetHeight() const {
 		return data.height;
 	}
 
@@ -56,7 +56,11 @@ namespace Hazel {
 	bool WindowsWindow::IsVsync() const {
 		return data.vsync;
 	}
-	
+
+	void* WindowsWindow::GetNativeWindow() const {
+		return window;
+	}
+
 	void WindowsWindow::Init(const WindowProps& props) {
 		data.title = props.title;
 		data.width = props.width;

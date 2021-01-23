@@ -4,6 +4,8 @@
 
 #include "Hazel/Core.h"
 #include "Application.h"
+
+#include "Input.h"
 #include "Log.h"
 #include "Events/Event.h"
 
@@ -33,7 +35,7 @@ namespace Hazel {
 			for(Layer* layer : layerStack) {
 				layer->OnUpdate();
 			}
-			
+
 			window->OnUpdate();
 		}
 	}

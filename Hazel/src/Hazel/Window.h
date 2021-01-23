@@ -22,13 +22,19 @@ namespace Hazel {
 		
 		virtual void OnUpdate() = 0;
 
-		virtual unsigned int GetWidth() = 0;
-		virtual unsigned int GetHeight() = 0;
+		virtual unsigned int GetWidth() const = 0;
+		virtual unsigned int GetHeight() const = 0;
 
 		//Window attributes
 		virtual void SetEventCallback(const EventCallbackFunc& callback) = 0;
 		virtual void SetVsync(bool enables) = 0;
 		virtual bool IsVsync() const = 0;
+
+		/// <summary>
+		/// Returns a GLFW window
+		/// </summary>
+		/// <returns></returns>
+		inline virtual void* GetNativeWindow() const = 0;
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	};
