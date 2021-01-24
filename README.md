@@ -12,6 +12,6 @@ Check out the original series here: `https://youtube.com/playlist?list=PLlrATfBN
 - `GLFW` https://github.com/glfw/glfw, https://github.com/TheCherno/GLFW
 - `Glad` https://glad.dav1d.de/
 - `ImGui` https://github.com/ocornut/imgui, https://github.com/TheCherno/imgui
+- `glm` https://github.com/g-truc/glm
 
 [comment]: <> (- `stb` https://github.com/nothings/stb)
-[comment]: <> (- `glm` https://github.com/g-truc/glm)

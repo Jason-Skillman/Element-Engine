@@ -15,9 +15,12 @@ outputdir = "%{cfg.system}/%{cfg.buildcfg}/%{cfg.architecture}"
 
 -- Include dir relative to root folder path (solution dir)
 IncludeDir = {}
+IncludeDir["HazelSrc"] = "Hazel/src"
+IncludeDir["spdlog"] = "Hazel/vendor/spdlog/include"
 IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
 IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
 IncludeDir["ImGui"] = "Hazel/vendor/ImGui"
+IncludeDir["glm"] = "Hazel/vendor/glm"
 
 -- Includes other project premake files
 group "Dependencies"
@@ -43,11 +46,12 @@ project "Hazel"
 	}
 
 	includedirs {
-		"%{prj.name}/src/",
-		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.HazelSrc}",
+		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links {
@@ -112,8 +116,9 @@ project "Sandbox"
 	}
 
 	includedirs {
-		"Hazel/src",
-		"Hazel/vendor/spdlog/include"
+		"%{IncludeDir.HazelSrc}",
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glm}"
 	}
 
 	links {
