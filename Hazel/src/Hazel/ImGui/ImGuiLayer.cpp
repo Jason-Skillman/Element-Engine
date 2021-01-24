@@ -16,7 +16,7 @@ namespace Hazel {
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer") {}
 	
-	ImGuiLayer::~ImGuiLayer() {}
+    ImGuiLayer::~ImGuiLayer() = default;
 	
 	void ImGuiLayer::OnAttach() {
         //----- Setup ImGui -----
@@ -59,7 +59,7 @@ namespace Hazel {
 	void ImGuiLayer::OnUpdate() {
         ImGuiIO& io = ImGui::GetIO();
         Application& app = Application::GetInstance();
-        io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+        io.DisplaySize = ImVec2(static_cast<float>(app.GetWindow().GetWidth()), static_cast<float>(app.GetWindow().GetHeight()));
 
         float time = (float)glfwGetTime();
         io.DeltaTime = deltaTime > 0.0f ? (time - deltaTime) : (1.0f / 60.0f);
@@ -77,7 +77,7 @@ namespace Hazel {
 	}
 	
 	void ImGuiLayer::OnEvent(Event& event) {
-		//HZ_TRACE("{0}", event);
+		//HZ_PRINT_TRACE("{0}", event);
 
         EventDispatcher dispatcher(event);
         dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_EVENT_FUNC(ImGuiLayer::OnMouseButtonPressedEvent));
@@ -142,14 +142,14 @@ namespace Hazel {
         ImGuiIO& io = ImGui::GetIO();
 		
         if(event.GetKeyCode() > 0 && event.GetKeyCode() < 0x10000)
-            io.AddInputCharacter((unsigned short)event.GetKeyCode());
+            io.AddInputCharacter(static_cast<unsigned short>(event.GetKeyCode()));
 
         return false;
     }
 	
     bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent& event) {
         ImGuiIO& io = ImGui::GetIO();
-        io.DisplaySize = ImVec2(event.GetWidth(), event.GetHeight());
+        io.DisplaySize = ImVec2(static_cast<float>(event.GetWidth()), static_cast<float>(event.GetHeight()));
         io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
         glViewport(0, 0, event.GetWidth(), event.GetHeight());
 		

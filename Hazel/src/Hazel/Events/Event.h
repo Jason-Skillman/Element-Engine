@@ -78,6 +78,7 @@ namespace Hazel {
 				event.handled = func(*(T*)&event);
 				return true;
 			}
+			return false;
 		}
 	};
 
