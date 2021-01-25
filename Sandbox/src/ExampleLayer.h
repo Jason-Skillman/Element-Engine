@@ -3,6 +3,8 @@
 #include "Hazel/Layer.h"
 #include "Hazel/Log.h"
 
+#include "imgui.h"
+
 class ExampleLayer : public Hazel::Layer {
 public:
 	ExampleLayer()
@@ -15,6 +17,12 @@ public:
 		if(Hazel::Input::IsKeyPressed(HZ_KEY_TAB)) {
 			HZ_PRINT_TRACE("Tab pressed");
 		}
+	}
+
+	void OnImGuiRender() override {
+		//ImGui::Begin("Test");
+		//ImGui::Text("Hello");
+		//ImGui::End();
 	}
 
 	void OnEvent(Hazel::Event& event) override {

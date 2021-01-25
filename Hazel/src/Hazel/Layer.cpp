@@ -12,10 +12,12 @@ namespace Hazel {
 	void Layer::OnDetach() {}
 
 	void Layer::OnUpdate() {}
+	
+	void Layer::OnImGuiRender() {}
 
 	void Layer::OnEvent(Event& event) {}
 
-	const std::string& Hazel::Layer::GetName() const {
+	const std::string& Layer::GetName() const {
 		return debugName;
 	}
 }

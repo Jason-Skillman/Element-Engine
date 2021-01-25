@@ -2,9 +2,7 @@
 #include "LayerStack.h"
 
 namespace Hazel {
-	LayerStack::LayerStack() {
-		layerInsert = layers.begin();
-	}
+	LayerStack::LayerStack() = default;
 	
 	LayerStack::~LayerStack() {
 		for(Layer* layer : layers)
@@ -12,7 +10,8 @@ namespace Hazel {
 	}
 	
 	void LayerStack::PushLayer(Layer* layer) {
-		layerInsert = layers.emplace(layerInsert, layer);
+		layers.emplace(layers.begin() + layerInsertIndex, layer);
+		layerInsertIndex++;
 	}
 	
 	void LayerStack::PushOverlay(Layer* overlay) {
@@ -23,7 +22,7 @@ namespace Hazel {
 		auto it = std::find(layers.begin(), layers.end(), layer);
 		if(it != layers.end()) {
 			layers.erase(it);
-			layerInsert--;
+			layerInsertIndex--;
 		}
 	}
 	

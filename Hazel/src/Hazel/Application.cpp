@@ -18,6 +18,9 @@ namespace Hazel {
 		
 		window = std::unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
+
+		imGuiLayer = new ImGuiLayer();
+		PushOverlay(imGuiLayer);
 	}
 	
 	Application::~Application() = default;
@@ -35,6 +38,12 @@ namespace Hazel {
 			for(Layer* layer : layerStack) {
 				layer->OnUpdate();
 			}
+
+			//Render each layer's ImGui
+			imGuiLayer->Begin();
+			for(Layer* layer : layerStack)
+				layer->OnImGuiRender();
+			imGuiLayer->End();
 
 			window->OnUpdate();
 		}

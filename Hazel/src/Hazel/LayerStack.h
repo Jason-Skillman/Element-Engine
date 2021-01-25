@@ -9,7 +9,7 @@ namespace Hazel {
 	class HAZEL_API LayerStack {
 	private:
 		std::vector<Layer*> layers;
-		std::vector<Layer*>::iterator layerInsert;
+		unsigned int layerInsertIndex = 0;
 
 	public:
 		LayerStack();

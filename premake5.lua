@@ -118,7 +118,8 @@ project "Sandbox"
 	includedirs {
 		"%{IncludeDir.HazelSrc}",
 		"%{IncludeDir.spdlog}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links {

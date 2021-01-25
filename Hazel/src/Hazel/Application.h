@@ -9,12 +9,15 @@
 #include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
 
+#include "Hazel/ImGui/ImGuiLayer.h"
+
 namespace Hazel {
 	class HAZEL_API Application {
 	private:
 		static Application* instance;
 		
 		std::unique_ptr<Window> window;
+		ImGuiLayer* imGuiLayer;
 		bool isRunning = true;
 		LayerStack layerStack;
 		
