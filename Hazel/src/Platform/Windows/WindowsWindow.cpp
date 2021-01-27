@@ -57,10 +57,6 @@ namespace Hazel {
 		return data.vsync;
 	}
 
-	void* WindowsWindow::GetNativeWindow() const {
-		return window;
-	}
-
 	void WindowsWindow::Init(const WindowProps& props) {
 		data.title = props.title;
 		data.width = props.width;

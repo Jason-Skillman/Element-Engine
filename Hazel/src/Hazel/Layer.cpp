@@ -16,8 +16,4 @@ namespace Hazel {
 	void Layer::OnImGuiRender() {}
 
 	void Layer::OnEvent(Event& event) {}
-
-	const std::string& Layer::GetName() const {
-		return debugName;
-	}
 }
