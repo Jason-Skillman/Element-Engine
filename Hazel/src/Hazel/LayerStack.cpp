@@ -32,12 +32,4 @@ namespace Hazel {
 			layers.erase(it);
 		}
 	}
-	
-	std::vector<Layer*>::iterator LayerStack::begin() {
-		return layers.begin();
-	}
-	
-	std::vector<Layer*>::iterator LayerStack::end() {
-		return layers.end();
-	}
 }

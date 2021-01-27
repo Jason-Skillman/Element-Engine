@@ -20,9 +20,9 @@ public:
 	}
 
 	void OnImGuiRender() override {
-		ImGui::Begin("Test");
+		/*ImGui::Begin("Test");
 		ImGui::Text("Hello");
-		ImGui::End();
+		ImGui::End();*/
 	}
 
 	void OnEvent(Hazel::Event& event) override {

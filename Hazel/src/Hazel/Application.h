@@ -26,14 +26,19 @@ namespace Hazel {
 		virtual ~Application();
 
 	public:
-		inline static Application& GetInstance();
+		inline static Application& GetInstance() {
+			if(!instance) instance = new Application();
+			return *instance;
+		}
 		
 		void Run();
 		void OnEvent(Event& event);
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
-		inline Window& GetWindow() const;
+		inline Window& GetWindow() const {
+			return *window;
+		}
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& event);

@@ -31,18 +31,24 @@ group ""
 
 project "Hazel"
 	location "Hazel"
-   	kind "SharedLib"
-   	language "C++"
-   	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+   	kind "StaticLib"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+	
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
-	staticruntime "off"
-	   
+
 	pchheader "hzpch.h"
 	pchsource "Hazel/src/hzpch.cpp"
 
    	files { 
 		"%{prj.name}/src/**.h", 
 		"%{prj.name}/src/**.cpp" 
+	}
+
+	defines {
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs {
@@ -62,54 +68,47 @@ project "Hazel"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines {
 			"HZ_PLATFORM_WINDOWS",
 			"HZ_BUILD_DLL",
-			"GLFW_INCLUDE_NONE",
-			"IMGUI_API=__declspec(dllexport);"
+			"GLFW_INCLUDE_NONE"
 		}
 
-		-- Links DLL
-		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-		}
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
 
-   	filter "configurations:Debug"
-      	defines { 
+		defines { 
 			"HZ_DEBUG"
 		}
-		runtime "Debug"
-      	symbols "On"
 
-   	filter "configurations:Release"
-      	defines { 
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
+
+		defines { 
 			"HZ_RELEASE" 
 		}
-		runtime "Release"
-		optimize "On"
 
 	filter "configurations:Dist"
-      	defines { 
+		runtime "Release"
+		optimize "on"
+
+		defines { 
 			"HZ_DIST" 
 		}
-		runtime "Release"
-		optimize "On"
-
-	--[[
-	filter { "system:windows", "configurations:Release" }
-		buildoptions "/MT"
-	]]--
 
 project "Sandbox"
 	location "Sandbox"
    	kind "ConsoleApp"
-   	language "C++"
-   	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
-	staticruntime "off"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+	
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+ 	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
 
 	files { 
 		"%{prj.name}/src/**.h", 
@@ -128,32 +127,32 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines {
-			"HZ_PLATFORM_WINDOWS",
-			"IMGUI_API=__declspec(dllimport);"
+			"HZ_PLATFORM_WINDOWS"
 		}
 
-   	filter "configurations:Debug"
-      	defines { 
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+		defines { 
 			"HZ_DEBUG" 
 		}
-		runtime "Debug"
-      	symbols "On"
 
-   	filter "configurations:Release"
-      	defines { 
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
+
+		defines { 
 			"HZ_RELEASE" 
 		}
-		runtime "Release"
-		optimize "On"
 
 	filter "configurations:Dist"
-      	defines { 
+		runtime "Release"
+		optimize "on"
+
+		defines { 
 			"HZ_DIST" 
 		}
-		runtime "Release"
-		optimize "On"
-	   

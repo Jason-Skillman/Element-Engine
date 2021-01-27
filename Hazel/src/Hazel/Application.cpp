@@ -25,11 +25,6 @@ namespace Hazel {
 	
 	Application::~Application() = default;
 	
-	Application& Application::GetInstance() {
-		if(!instance) instance = new Application();
-		return *instance;
-	}
-	
 	void Application::Run() {
 		while(isRunning) {
 			glClearColor(0.0f, 0.2f, 0.4f, 1.0f);
@@ -70,10 +65,6 @@ namespace Hazel {
 	void Application::PushOverlay(Layer* layer) {
 		layerStack.PushOverlay(layer);
 		layer->OnAttach();
-	}
-
-	Window& Application::GetWindow() const {
-		return *window;
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& event) {
