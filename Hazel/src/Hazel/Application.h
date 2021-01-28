@@ -11,6 +11,8 @@
 
 #include "Hazel/ImGui/ImGuiLayer.h"
 
+#include "Hazel/Renderer/Shader.h"
+
 namespace Hazel {
 	class HAZEL_API Application {
 	private:
@@ -22,6 +24,7 @@ namespace Hazel {
 		LayerStack layerStack;
 
 		unsigned int vertextArray, vertextBuffer, indexBuffer;
+		std::unique_ptr<Shader> shader;
 		
 	public:
 		Application();
