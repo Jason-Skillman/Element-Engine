@@ -23,33 +23,31 @@ namespace Hazel {
 		PushOverlay(imGuiLayer);
 
 		
+		
 		//Todo: move
-		glGenVertexArrays(1, &vertextArray);
-		glBindVertexArray(vertextArray);
+		glGenBuffers(1, &vertexArray);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexArray);
 
-		glGenBuffers(1, &vertextBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, vertextBuffer);
-
+		
 		float vertices[3 * 3] = {
 			-0.5f, -0.5f, 0.0f,
 			0.5f, -0.5f, 0.0f,
 			0.0f, 0.5f, 0.0f
 		};
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		vertexBuffer->Bind();
 
+		
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-		
-
-		glGenBuffers(1, &indexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 
 		unsigned int indices[3] = { 0, 1, 2 };
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		unsigned int indicesSize = sizeof(indices) / sizeof(uint32_t);
+		indexBuffer.reset(IndexBuffer::Create(indices, indicesSize));
 
-
+		
 		//Create shader
 		std::string vertexSrc = R"(
 			#version 330 core
@@ -90,8 +88,8 @@ namespace Hazel {
 
 			//Todo: move
 			shader->Bind();
-			glBindVertexArray(vertextArray);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			glBindVertexArray(vertexArray);
+			glDrawElements(GL_TRIANGLES, indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 			
 
 			for(Layer* layer : layerStack) {
