@@ -20,6 +20,8 @@ namespace Hazel {
 		ImGuiLayer* imGuiLayer;
 		bool isRunning = true;
 		LayerStack layerStack;
+
+		unsigned int vertextArray, vertextBuffer, indexBuffer;
 		
 	public:
 		Application();
