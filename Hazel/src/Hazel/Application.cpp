@@ -59,29 +59,33 @@ namespace Hazel {
 		glBindBuffer(GL_ARRAY_BUFFER, vertexArray);
 
 		
-		float vertices[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f,
-			0.0f, 0.5f, 0.0f
+		float vertices[3 * 7] = {
+			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
+			0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f
 		};
 
 		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		vertexBuffer->Bind();
 
-		BufferLayout layout = {
-			{ ShaderDataType::Float3, "a_Position" }
-		};
+		{
+			BufferLayout layout = {
+				{ ShaderDataType::Float3, "a_Position" },
+				{ ShaderDataType::Float4, "a_Color" }
+			};
+
+			vertexBuffer->SetLayout(layout);
+		}
+		
 
 		uint32_t index = 0;
-		for(const auto& element : layout) {
+		for(const auto& element : vertexBuffer->GetLayout()) {
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(index, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type), 
-				element.normalized ? GL_TRUE : GL_FALSE, layout.GetStride(), reinterpret_cast<const void*>(element.offset));
+				element.normalized ? GL_TRUE : GL_FALSE, vertexBuffer->GetLayout().GetStride(), reinterpret_cast<const void*>(element.offset));
 
 			index++;
 		}
-
-		vertexBuffer->SetLayout(layout);
 		
 		
 
@@ -95,12 +99,16 @@ namespace Hazel {
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Color;
 
 			out vec3 v_Position;
+			out vec4 v_Color;
 
 			void main() {
-				v_Position = a_Position;
 				gl_Position = vec4(a_Position, 1.0);
+		
+				v_Position = a_Position;
+				v_Color = a_Color;
 			}
 		)";
 
@@ -110,10 +118,12 @@ namespace Hazel {
 			layout(location = 0) out vec4 o_Color;
 
 			in vec3 v_Position;
+			in vec4 v_Color;
 
 			void main() {
-				o_Color = vec4(v_Position * 0.5 + 0.5, 1.0);
 				//o_Color = vec4(0.8, 0.2, 0.3, 1.0);
+				//o_Color = vec4(v_Position * 0.5 + 0.5, 1.0);
+				o_Color = v_Color;
 			}
 		)";
 
