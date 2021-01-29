@@ -11,6 +11,36 @@
 
 namespace Hazel {
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
+		switch(type) {
+			case ShaderDataType::Float:
+				return GL_FLOAT;
+			case ShaderDataType::Float2:
+				return GL_FLOAT;
+			case ShaderDataType::Float3:
+				return GL_FLOAT;
+			case ShaderDataType::Float4:
+				return GL_FLOAT;
+			case ShaderDataType::Mat3:
+				return GL_FLOAT;
+			case ShaderDataType::Mat4:
+				return GL_FLOAT;
+			case ShaderDataType::Int:
+				return GL_INT;
+			case ShaderDataType::Int2:
+				return GL_INT;
+			case ShaderDataType::Int3:
+				return GL_INT;
+			case ShaderDataType::Int4:
+				return GL_INT;
+			case ShaderDataType::Bool:
+				return GL_BOOL;
+			default:
+				HZ_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
+				return 0;
+		}
+	}
+
 	Application* Application::instance = nullptr;
 	
 	Application::Application() {
@@ -38,10 +68,22 @@ namespace Hazel {
 		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		vertexBuffer->Bind();
 
-		
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		BufferLayout layout = {
+			{ ShaderDataType::Float3, "a_Position" }
+		};
 
+		uint32_t index = 0;
+		for(const auto& element : layout) {
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type), 
+				element.normalized ? GL_TRUE : GL_FALSE, layout.GetStride(), reinterpret_cast<const void*>(element.offset));
+
+			index++;
+		}
+
+		vertexBuffer->SetLayout(layout);
+		
+		
 
 		unsigned int indices[3] = { 0, 1, 2 };
 		unsigned int indicesSize = sizeof(indices) / sizeof(uint32_t);
@@ -62,7 +104,7 @@ namespace Hazel {
 			}
 		)";
 
-		std::string fragmnetSrc = R"(
+		std::string fragmentSrc = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 o_Color;
@@ -75,7 +117,7 @@ namespace Hazel {
 			}
 		)";
 
-		shader.reset(new Shader(vertexSrc, fragmnetSrc));
+		shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 	
 	Application::~Application() = default;

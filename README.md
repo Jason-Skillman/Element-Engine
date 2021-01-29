@@ -13,5 +13,3 @@ Check out the original series here: `https://youtube.com/playlist?list=PLlrATfBN
 - `Glad` https://glad.dav1d.de/
 - `ImGui` https://github.com/ocornut/imgui, https://github.com/TheCherno/imgui
 - `glm` https://github.com/g-truc/glm
-
-[comment]: <> (- `stb` https://github.com/nothings/stb)
