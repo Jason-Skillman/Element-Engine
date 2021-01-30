@@ -9,6 +9,11 @@
 #include "Log.h"
 #include "Events/Event.h"
 
+//#include "Renderer/Renderer.h"
+#include "Renderer/RendererAPI.h"
+#include "Renderer/RenderCommand.h"
+#include "Renderer/Renderer.h"
+
 namespace Hazel {
 
 	//Todo: Move OpenGL content
@@ -55,7 +60,7 @@ namespace Hazel {
 
 		
 		
-		//Todo: move
+		//Todo: Move
 		vertexArray.reset(VertexArray::Create());
 		
 		float vertices[3 * 7] = {
@@ -90,11 +95,9 @@ namespace Hazel {
 		vertexArray->SetIndexBuffer(indexBuffer);
 
 
-
-
-
 		
-
+		//Square
+		//Todo: Move
 		float sqVertices[4 * 7] = {
 			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
 			0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
@@ -125,9 +128,6 @@ namespace Hazel {
 		squareVA->SetIndexBuffer(squareIB);
 
 
-
-
-		
 
 		
 		//Create shader
@@ -170,18 +170,18 @@ namespace Hazel {
 	
 	void Application::Run() {
 		while(isRunning) {
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			RenderCommand::Clear();
 
-
-			//Todo: move
-			shader->Bind();
-
-			squareVA->Bind();
-			glDrawElements(GL_TRIANGLES, squareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 			
-			//vertexArray->Bind();
-			//glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			//Start rendering
+			Renderer::BeginScene();
+
+			shader->Bind();
+			Renderer::Submit(squareVA);
+			//Renderer::Submit(vertexArray);
+
+			Renderer::EndScene();
 			
 
 			for(Layer* layer : layerStack) {
