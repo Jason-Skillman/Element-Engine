@@ -10,7 +10,7 @@ namespace Hazel {
 		: rendererId(0) {
 
 		glCreateBuffers(1, &rendererId);
-		Bind();
+		glBindBuffer(GL_ARRAY_BUFFER, rendererId);
 		
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
@@ -33,7 +33,7 @@ namespace Hazel {
 		: count(count), rendererId(0) {
 
 		glCreateBuffers(1, &rendererId);
-		Bind();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererId);
 		
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}

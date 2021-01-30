@@ -1,7 +1,5 @@
 #pragma once
 #include "ShaderDataType.h"
-//#include "../../../vendor/GLFW/src/internal.h"
-//#include "glad/glad.h"
 
 namespace Hazel {
 

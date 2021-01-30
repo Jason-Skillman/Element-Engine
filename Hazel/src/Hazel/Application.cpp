@@ -11,33 +11,34 @@
 
 namespace Hazel {
 
+	//Todo: Move OpenGL content
 	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
 		switch(type) {
-			case ShaderDataType::Float:
-				return GL_FLOAT;
-			case ShaderDataType::Float2:
-				return GL_FLOAT;
-			case ShaderDataType::Float3:
-				return GL_FLOAT;
-			case ShaderDataType::Float4:
-				return GL_FLOAT;
-			case ShaderDataType::Mat3:
-				return GL_FLOAT;
-			case ShaderDataType::Mat4:
-				return GL_FLOAT;
-			case ShaderDataType::Int:
-				return GL_INT;
-			case ShaderDataType::Int2:
-				return GL_INT;
-			case ShaderDataType::Int3:
-				return GL_INT;
-			case ShaderDataType::Int4:
-				return GL_INT;
-			case ShaderDataType::Bool:
-				return GL_BOOL;
-			default:
-				HZ_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
-				return 0;
+		case ShaderDataType::Float:
+			return GL_FLOAT;
+		case ShaderDataType::Float2:
+			return GL_FLOAT;
+		case ShaderDataType::Float3:
+			return GL_FLOAT;
+		case ShaderDataType::Float4:
+			return GL_FLOAT;
+		case ShaderDataType::Mat3:
+			return GL_FLOAT;
+		case ShaderDataType::Mat4:
+			return GL_FLOAT;
+		case ShaderDataType::Int:
+			return GL_INT;
+		case ShaderDataType::Int2:
+			return GL_INT;
+		case ShaderDataType::Int3:
+			return GL_INT;
+		case ShaderDataType::Int4:
+			return GL_INT;
+		case ShaderDataType::Bool:
+			return GL_BOOL;
+		default:
+			HZ_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
+			return 0;
 		}
 	}
 
@@ -55,9 +56,7 @@ namespace Hazel {
 		
 		
 		//Todo: move
-		glGenBuffers(1, &vertexArray);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexArray);
-
+		vertexArray.reset(VertexArray::Create());
 		
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
@@ -68,30 +67,25 @@ namespace Hazel {
 		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		vertexBuffer->Bind();
 
-		{
-			BufferLayout layout = {
-				{ ShaderDataType::Float3, "a_Position" },
-				{ ShaderDataType::Float4, "a_Color" }
-			};
 
-			vertexBuffer->SetLayout(layout);
-		}
-		
+		//Setup layout
+		BufferLayout layout = {
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Color" }
+		};
 
-		uint32_t index = 0;
-		for(const auto& element : vertexBuffer->GetLayout()) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type), 
-				element.normalized ? GL_TRUE : GL_FALSE, vertexBuffer->GetLayout().GetStride(), reinterpret_cast<const void*>(element.offset));
+		vertexBuffer->SetLayout(layout);
 
-			index++;
-		}
+		//Layout must de set before
+		vertexArray->AddVertexBuffer(vertexBuffer);
 		
 		
 
 		unsigned int indices[3] = { 0, 1, 2 };
 		unsigned int indicesSize = sizeof(indices) / sizeof(uint32_t);
 		indexBuffer.reset(IndexBuffer::Create(indices, indicesSize));
+
+		vertexArray->SetIndexBuffer(indexBuffer);
 
 		
 		//Create shader
@@ -140,7 +134,7 @@ namespace Hazel {
 
 			//Todo: move
 			shader->Bind();
-			glBindVertexArray(vertexArray);
+			vertexArray->Bind();
 			glDrawElements(GL_TRIANGLES, indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 			
 
