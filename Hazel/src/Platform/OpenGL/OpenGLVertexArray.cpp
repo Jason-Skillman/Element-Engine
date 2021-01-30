@@ -53,7 +53,6 @@ namespace Hazel {
 	}
 	
 	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
-		HZ_CORE_ERROR("Vertex buffer has no layout!");
 		HZ_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout!");
 		
 		glBindVertexArray(rendererId);
