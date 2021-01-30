@@ -42,7 +42,9 @@ namespace Hazel {
 		glCreateVertexArrays(1, &rendererId);
 	}
 	
-	OpenGLVertexArray::~OpenGLVertexArray() = default;
+	OpenGLVertexArray::~OpenGLVertexArray() {
+		glDeleteVertexArrays(1, &rendererId);
+	}
 	
 	void OpenGLVertexArray::Bind() const {
 		glBindVertexArray(rendererId);

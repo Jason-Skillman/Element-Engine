@@ -30,7 +30,7 @@ namespace Hazel {
 
 	//----- Index Buffer -----
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
-		: count(count), rendererId(0) {
+		: rendererId(0), count(count) {
 
 		glCreateBuffers(1, &rendererId);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererId);

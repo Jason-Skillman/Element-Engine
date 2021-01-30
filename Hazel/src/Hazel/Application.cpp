@@ -64,6 +64,7 @@ namespace Hazel {
 			0.0f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f
 		};
 
+		std::shared_ptr<VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		vertexBuffer->Bind();
 
@@ -82,10 +83,51 @@ namespace Hazel {
 		
 
 		unsigned int indices[3] = { 0, 1, 2 };
-		unsigned int indicesSize = sizeof(indices) / sizeof(uint32_t);
+		unsigned int indicesSize = sizeof(indices) / sizeof(unsigned int);
+		std::shared_ptr<IndexBuffer> indexBuffer;
 		indexBuffer.reset(IndexBuffer::Create(indices, indicesSize));
 
 		vertexArray->SetIndexBuffer(indexBuffer);
+
+
+
+
+
+		
+
+		float sqVertices[4 * 7] = {
+			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
+			0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
+			0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f,
+			-0.5f, 0.5f, 0.0f,		0.8f, 0.0f, 1.0f, 1.0f
+		};
+
+		squareVA.reset(VertexArray::Create());
+		//std::shared_ptr<VertexBuffer> squareVB = std::make_shared<VertexBuffer>(VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
+
+		std::shared_ptr<VertexBuffer> squareVB;
+		squareVB.reset(VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
+		squareVB->SetLayout(layout);
+
+		squareVA->AddVertexBuffer(squareVB);
+
+
+		
+		unsigned int squareIndices[6] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+		unsigned int squareIndicesSize = sizeof(squareIndices) / sizeof(unsigned int);
+		
+		std::shared_ptr<IndexBuffer> squareIB;
+		squareIB.reset(IndexBuffer::Create(squareIndices, squareIndicesSize));
+
+		squareVA->SetIndexBuffer(squareIB);
+
+
+
+
+		
 
 		
 		//Create shader
@@ -134,8 +176,12 @@ namespace Hazel {
 
 			//Todo: move
 			shader->Bind();
-			vertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			squareVA->Bind();
+			glDrawElements(GL_TRIANGLES, squareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			
+			//vertexArray->Bind();
+			//glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 			
 
 			for(Layer* layer : layerStack) {
