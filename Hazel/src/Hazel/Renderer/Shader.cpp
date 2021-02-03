@@ -2,6 +2,7 @@
 #include "Shader.h"
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Hazel {
 
@@ -127,5 +128,16 @@ namespace Hazel {
 	
 	void Shader::Unbind() const {
 		glUseProgram(0);
+	}
+
+	/// <summary>
+	/// <para>Shader must be bound before setting uniform.</para>
+	/// </summary>
+	/// <param name="matrix"></param>
+	void Shader::SetUniformMat4fv(const std::string& name, const glm::mat4& matrix) {
+		int location = glGetUniformLocation(rendererId, name.c_str());
+		HZ_CORE_ASSERT(location >= 0, "Uniform {0} could not be found!", name);
+
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 }

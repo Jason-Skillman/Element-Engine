@@ -2,17 +2,16 @@
 
 #include <glad/glad.h>
 
-#include "Hazel/Core.h"
+#include "Core.h"
 #include "Application.h"
 
 #include "Input.h"
 #include "Log.h"
 #include "Events/Event.h"
 
-//#include "Renderer/Renderer.h"
+#include "Renderer/Renderer.h"
 #include "Renderer/RendererAPI.h"
 #include "Renderer/RenderCommand.h"
-#include "Renderer/Renderer.h"
 
 namespace Hazel {
 
@@ -49,7 +48,9 @@ namespace Hazel {
 
 	Application* Application::instance = nullptr;
 	
-	Application::Application() {
+	Application::Application()
+		: camera(1.0f, AspectRatio::Ratio16x9) {
+		
 		if(!instance) instance = this;
 		
 		window = std::unique_ptr<Window>(Window::Create());
@@ -137,11 +138,13 @@ namespace Hazel {
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+		
 			out vec3 v_Position;
 			out vec4 v_Color;
 
 			void main() {
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 		
 				v_Position = a_Position;
 				v_Color = a_Color;
@@ -178,6 +181,8 @@ namespace Hazel {
 			Renderer::BeginScene();
 
 			shader->Bind();
+			shader->SetUniformMat4fv("u_ViewProjection", camera.GetViewProjectionMatrix());
+			
 			Renderer::Submit(squareVA);
 			//Renderer::Submit(vertexArray);
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 namespace Hazel {
 	class Shader {
 	private:
@@ -12,5 +14,7 @@ namespace Hazel {
 	public:
 		void Bind() const;
 		void Unbind() const;
+
+		void SetUniformMat4fv(const std::string& name, const glm::mat4& matrix);
 	};
 }

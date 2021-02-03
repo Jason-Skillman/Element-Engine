@@ -6,14 +6,12 @@
 #include "LayerStack.h"
 
 #include "Events/ApplicationEvent.h"
-#include "Events/MouseEvent.h"
-#include "Events/KeyEvent.h"
 
-#include "Hazel/ImGui/ImGuiLayer.h"
+#include "ImGui/ImGuiLayer.h"
 
 #include "Renderer/Shader.h"
-#include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
+#include "Renderer/OrthographicCamera.h"
 
 namespace Hazel {
 	class HAZEL_API Application {
@@ -29,6 +27,8 @@ namespace Hazel {
 		std::shared_ptr<VertexArray> vertexArray;
 		
 		std::shared_ptr<VertexArray> squareVA;
+
+		OrthographicCamera camera;
 		
 	public:
 		Application();
