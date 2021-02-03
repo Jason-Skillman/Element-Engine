@@ -178,13 +178,9 @@ namespace Hazel {
 
 			
 			//Start rendering
-			Renderer::BeginScene();
+			Renderer::BeginScene(camera);
 
-			shader->Bind();
-			shader->SetUniformMat4fv("u_ViewProjection", camera.GetViewProjectionMatrix());
-			
-			Renderer::Submit(squareVA);
-			//Renderer::Submit(vertexArray);
+			Renderer::Submit(shader, squareVA);
 
 			Renderer::EndScene();
 			
