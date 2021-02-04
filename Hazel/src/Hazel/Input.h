@@ -3,7 +3,7 @@
 #include "Core.h"
 
 namespace Hazel {
-	class HAZEL_API Input {
+	class Input {
 	private:
 		static Input* instance;
 

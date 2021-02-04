@@ -37,7 +37,7 @@ namespace Hazel {
 	/// <summary>
 	/// Base class for other events
 	/// </summary>
-	class HAZEL_API Event {
+	class Event {
 		friend class EventDispatcher;
 
 	protected:

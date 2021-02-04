@@ -21,7 +21,7 @@
 #define HZ_PRINT_CRITICAL(...) ::Hazel::Log::GetClientLogger()->critical(__VA_ARGS__);
 
 namespace Hazel {
-	class HAZEL_API Log {
+	class Log {
 	private:
 		static std::shared_ptr<spdlog::logger> coreLogger;
 		static std::shared_ptr<spdlog::logger> clientLogger;

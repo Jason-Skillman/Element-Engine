@@ -6,7 +6,7 @@
 #include <vector>
 
 namespace Hazel {
-	class HAZEL_API LayerStack {
+	class LayerStack {
 	private:
 		std::vector<Layer*> layers;
 		unsigned int layerInsertIndex = 0;

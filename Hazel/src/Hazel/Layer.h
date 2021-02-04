@@ -4,7 +4,7 @@
 #include "Hazel/Events/Event.h"
 
 namespace Hazel {
-	class HAZEL_API Layer {
+	class Layer {
 	protected:
 		std::string debugName;
 
