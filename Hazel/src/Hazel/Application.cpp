@@ -49,7 +49,7 @@ namespace Hazel {
 	Application* Application::instance = nullptr;
 	
 	Application::Application()
-		: camera(1.0f, AspectRatio::Ratio16x9) {
+		: camera(-1.6f, 1.6f, -0.9f, 0.9f) {
 		
 		if(!instance) instance = this;
 		
@@ -175,6 +175,9 @@ namespace Hazel {
 		while(isRunning) {
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 			RenderCommand::Clear();
+
+			//camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+			camera.SetRotation(45.0f);
 
 			
 			//Start rendering

@@ -22,7 +22,8 @@ namespace Hazel {
 		
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);
-		OrthographicCamera(float scalar, AspectRatio ratio = AspectRatio::Ratio1x1);
+		OrthographicCamera(float scalar);
+		OrthographicCamera(float scalar, AspectRatio ratio);
 
 	public:
 		inline const glm::mat4& GetProjectionMatrix() const {
