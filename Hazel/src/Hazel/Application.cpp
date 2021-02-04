@@ -5,14 +5,11 @@
 #include "Core.h"
 #include "Application.h"
 
-#include "Input.h"
 #include "Log.h"
-#include "Codes/KeyCodes.h"
 #include "Events/Event.h"
 
 #include "Renderer/Renderer.h"
 #include "Renderer/RendererAPI.h"
-#include "Renderer/RenderCommand.h"
 
 namespace Hazel {
 
@@ -49,8 +46,7 @@ namespace Hazel {
 
 	Application* Application::instance = nullptr;
 	
-	Application::Application()
-		: camera(-1.6f, 1.6f, -0.9f, 0.9f), cameraPosition(0), cameraRotation(0) {
+	Application::Application() {
 		
 		if(!instance) instance = this;
 		
@@ -59,148 +55,13 @@ namespace Hazel {
 
 		imGuiLayer = new ImGuiLayer();
 		PushOverlay(imGuiLayer);
-
-		
-		
-		//Todo: Move
-		vertexArray.reset(VertexArray::Create());
-		
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
-			0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
-			0.0f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f
-		};
-
-		std::shared_ptr<VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		vertexBuffer->Bind();
-
-
-		//Setup layout
-		BufferLayout layout = {
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float4, "a_Color" }
-		};
-
-		vertexBuffer->SetLayout(layout);
-
-		//Layout must de set before
-		vertexArray->AddVertexBuffer(vertexBuffer);
-		
-		
-
-		unsigned int indices[3] = { 0, 1, 2 };
-		unsigned int indicesSize = sizeof(indices) / sizeof(unsigned int);
-		std::shared_ptr<IndexBuffer> indexBuffer;
-		indexBuffer.reset(IndexBuffer::Create(indices, indicesSize));
-
-		vertexArray->SetIndexBuffer(indexBuffer);
-
-
-		
-		//Square
-		//Todo: Move
-		float sqVertices[4 * 7] = {
-			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
-			0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
-			0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f,
-			-0.5f, 0.5f, 0.0f,		0.8f, 0.0f, 1.0f, 1.0f
-		};
-
-		squareVA.reset(VertexArray::Create());
-		//std::shared_ptr<VertexBuffer> squareVB = std::make_shared<VertexBuffer>(VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
-
-		std::shared_ptr<VertexBuffer> squareVB;
-		squareVB.reset(VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
-		squareVB->SetLayout(layout);
-
-		squareVA->AddVertexBuffer(squareVB);
-
-
-		
-		unsigned int squareIndices[6] = {
-			0, 1, 2,
-			2, 3, 0
-		};
-		unsigned int squareIndicesSize = sizeof(squareIndices) / sizeof(unsigned int);
-		
-		std::shared_ptr<IndexBuffer> squareIB;
-		squareIB.reset(IndexBuffer::Create(squareIndices, squareIndicesSize));
-
-		squareVA->SetIndexBuffer(squareIB);
-
-
-
-		
-		//Create shader
-		std::string vertexSrc = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-
-			uniform mat4 u_ViewProjection;
-		
-			out vec3 v_Position;
-			out vec4 v_Color;
-
-			void main() {
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-		
-				v_Position = a_Position;
-				v_Color = a_Color;
-			}
-		)";
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 o_Color;
-
-			in vec3 v_Position;
-			in vec4 v_Color;
-
-			void main() {
-				//o_Color = vec4(0.8, 0.2, 0.3, 1.0);
-				//o_Color = vec4(v_Position * 0.5 + 0.5, 1.0);
-				o_Color = v_Color;
-			}
-		)";
-
-		shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 	
 	Application::~Application() = default;
 	
 	void Application::Run() {
 		while(isRunning) {
-			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-			RenderCommand::Clear();
-
-
-			float cameraPosAmount = 0.01f;
-			float cameraRotAmount = 0.5f;
-
-			//Handle input
-			if(Input::IsKeyPressed(HZ_KEY_W)) cameraPosition.y += cameraPosAmount;
-			else if(Input::IsKeyPressed(HZ_KEY_S)) cameraPosition.y -= cameraPosAmount;
-			else if(Input::IsKeyPressed(HZ_KEY_D)) cameraPosition.x += cameraPosAmount;
-			else if(Input::IsKeyPressed(HZ_KEY_A)) cameraPosition.x -= cameraPosAmount;
-			else if(Input::IsKeyPressed(HZ_KEY_E)) cameraRotation += cameraRotAmount;
-			else if(Input::IsKeyPressed(HZ_KEY_Q)) cameraRotation -= cameraRotAmount;
 			
-			camera.SetPosition(cameraPosition);
-			camera.SetRotation(cameraRotation);
-
-			
-			//Start rendering
-			Renderer::BeginScene(camera);
-
-			Renderer::Submit(shader, squareVA);
-
-			Renderer::EndScene();
-			
-
 			for(Layer* layer : layerStack) {
 				layer->OnUpdate();
 			}
@@ -216,11 +77,8 @@ namespace Hazel {
 	}
 
 	void Application::OnEvent(Event& event) {
-		//HZ_CORE_TRACE("{0}", event)
-
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClose));
-		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FUNC(Application::OnKeyPressedEvent));
 
 		for(auto it = layerStack.end(); it != layerStack.begin();) {
 			(*--it)->OnEvent(event);
@@ -241,13 +99,6 @@ namespace Hazel {
 
 	bool Application::OnWindowClose(WindowCloseEvent& event) {
 		isRunning = false;
-		return true;
-	}
-
-	bool Application::OnKeyPressedEvent(KeyPressedEvent& event) {
-		if(event.GetKeyCode() == HZ_KEY_W) {
-			
-		}
 		return true;
 	}
 }

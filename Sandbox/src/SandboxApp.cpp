@@ -7,9 +7,7 @@ public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
 	}
-	~Sandbox() {
-		
-	}
+	~Sandbox() = default;
 };
 
 Hazel::Application* Hazel::CreateApplication() {

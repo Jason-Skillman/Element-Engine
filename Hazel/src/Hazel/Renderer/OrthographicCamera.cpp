@@ -14,14 +14,7 @@ namespace Hazel {
 
 		viewProjectionMatrix = projectionMatrix * viewMatrix;
 	}
-
-	OrthographicCamera::OrthographicCamera(float scalar)
-		: projectionMatrix(glm::ortho(-scalar, scalar, -scalar, scalar, -1.0f, 1.0f)), viewMatrix(1.0f), position(0.0f) {
-
-		viewProjectionMatrix = projectionMatrix * viewMatrix;
-		
-	}
-
+	
 	OrthographicCamera::OrthographicCamera(float scalar, AspectRatio ratio)
 		: projectionMatrix(glm::ortho(ratio.width * -scalar, ratio.width * scalar, ratio.height * -scalar, ratio.height* scalar, -1.0f, 1.0f)), viewMatrix(1.0f), position(0.0f) {
 

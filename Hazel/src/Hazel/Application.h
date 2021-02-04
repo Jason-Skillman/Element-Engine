@@ -10,10 +10,6 @@
 
 #include "ImGui/ImGuiLayer.h"
 
-#include "Renderer/Shader.h"
-#include "Renderer/VertexArray.h"
-#include "Renderer/OrthographicCamera.h"
-
 namespace Hazel {
 	class HAZEL_API Application {
 	private:
@@ -23,15 +19,6 @@ namespace Hazel {
 		ImGuiLayer* imGuiLayer;
 		bool isRunning = true;
 		LayerStack layerStack;
-		
-		std::shared_ptr<Shader> shader;
-		std::shared_ptr<VertexArray> vertexArray;
-		
-		std::shared_ptr<VertexArray> squareVA;
-
-		OrthographicCamera camera;
-		glm::vec3 cameraPosition;
-		float cameraRotation;
 		
 	public:
 		Application();
