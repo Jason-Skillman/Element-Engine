@@ -4,6 +4,7 @@ Intended to be included by other client applications.
 
 #pragma once
 
+#include "Hazel/Core.h"
 #include "Hazel/Application.h"
 #include "Hazel/Layer.h"
 #include "Hazel/Log.h"

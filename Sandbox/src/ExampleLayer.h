@@ -1,11 +1,7 @@
 #pragma once
 
 #include "Hazel.h"
-#include "Hazel/Layer.h"
-#include "Hazel/Log.h"
-
 #include "imgui.h"
-
 
 class ExampleLayer : public Hazel::Layer {
 private:
@@ -17,6 +13,9 @@ private:
 	Hazel::OrthographicCamera camera;
 	glm::vec3 cameraPosition;
 	float cameraRotation;
+
+	float cameraSpeed = 0.01f;
+	float cameraRotSpeed = 0.5f;
 	
 public:
 	ExampleLayer()
@@ -134,16 +133,13 @@ public:
 		Hazel::RenderCommand::Clear();
 
 
-		float cameraPosAmount = 0.01f;
-		float cameraRotAmount = 0.5f;
-
-		//Handle input
-		if(Hazel::Input::IsKeyPressed(HZ_KEY_W)) cameraPosition.y += cameraPosAmount;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_S)) cameraPosition.y -= cameraPosAmount;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_D)) cameraPosition.x += cameraPosAmount;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_A)) cameraPosition.x -= cameraPosAmount;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_E)) cameraRotation += cameraRotAmount;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_Q)) cameraRotation -= cameraRotAmount;
+		//Move camera
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_W)) cameraPosition.y += cameraSpeed;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_S)) cameraPosition.y -= cameraSpeed;
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_D)) cameraPosition.x += cameraSpeed;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_A)) cameraPosition.x -= cameraSpeed;
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_E)) cameraRotation -= cameraRotSpeed;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_Q)) cameraRotation += cameraRotSpeed;
 
 		camera.SetPosition(cameraPosition);
 		camera.SetRotation(cameraRotation);
@@ -169,5 +165,14 @@ public:
 
 	void OnEvent(Hazel::Event& event) override {
 		//HZ_PRINT_TRACE("{0}", event)
+
+		Hazel::EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<Hazel::KeyPressedEvent>(BIND_EVENT_FUNC(ExampleLayer::OnKeyPressedEvent));
+	}
+
+	bool OnKeyPressedEvent(Hazel::KeyPressedEvent& event) {
+		//if(event.GetKeyCode() == HZ_KEY_W) {}
+		
+		return false;
 	}
 };
