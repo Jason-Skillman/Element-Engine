@@ -63,6 +63,7 @@ namespace Hazel {
 	void Application::Run() {
 		while(isRunning) {
 			//Todo: Replace with Platform::GetTime()
+			//Find delta time
 			float time = static_cast<float>(glfwGetTime());
 			Timestep timestep = time - lastFrameTime;;
 			lastFrameTime = time;

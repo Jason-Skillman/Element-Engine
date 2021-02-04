@@ -1,27 +1,33 @@
 #pragma once
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "Hazel.h"
 #include "imgui.h"
 
 class ExampleLayer : public Hazel::Layer {
 private:
 	std::shared_ptr<Hazel::Shader> shader;
-	std::shared_ptr<Hazel::VertexArray> vertexArray;
-
+	
+	std::shared_ptr<Hazel::VertexArray> triangleVA;
 	std::shared_ptr<Hazel::VertexArray> squareVA;
 
+	glm::vec3 trianglePosition;
+	
 	Hazel::OrthographicCamera camera;
 	glm::vec3 cameraPosition;
 	float cameraRotation;
 
 	float cameraSpeed = 0.5f;
 	float cameraRotSpeed = 20.0f;
+
+	float moveSpeed = 0.5f;
 	
 public:
 	ExampleLayer()
-		: Layer("Example"), camera(1.0f, Hazel::AspectRatio::Ratio16x9), cameraPosition(0), cameraRotation(0) {
+		: Layer("Example"), trianglePosition(0.0f), camera(1.0f, Hazel::AspectRatio::Ratio16x9), cameraPosition(0), cameraRotation(0) {
 
-		vertexArray.reset(Hazel::VertexArray::Create());
+		triangleVA.reset(Hazel::VertexArray::Create());
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
@@ -43,7 +49,7 @@ public:
 		vertexBuffer->SetLayout(layout);
 
 		//Layout must de set before
-		vertexArray->AddVertexBuffer(vertexBuffer);
+		triangleVA->AddVertexBuffer(vertexBuffer);
 
 
 
@@ -52,7 +58,7 @@ public:
 		std::shared_ptr<Hazel::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Hazel::IndexBuffer::Create(indices, indicesSize));
 
-		vertexArray->SetIndexBuffer(indexBuffer);
+		triangleVA->SetIndexBuffer(indexBuffer);
 
 
 
@@ -98,12 +104,13 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 		
 			out vec3 v_Position;
 			out vec4 v_Color;
 
 			void main() {
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 		
 				v_Position = a_Position;
 				v_Color = a_Color;
@@ -142,6 +149,15 @@ public:
 		camera.SetPosition(cameraPosition);
 		camera.SetRotation(cameraRotation);
 
+
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_UP)) trianglePosition.y += moveSpeed * timestep;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_DOWN)) trianglePosition.y -= moveSpeed * timestep;
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT)) trianglePosition.x += moveSpeed * timestep;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_LEFT)) trianglePosition.x -= moveSpeed * timestep;
+		
+		glm::mat4 triangleTransform = glm::translate(glm::mat4(1.0f), trianglePosition);
+		
+
 		
 		Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Hazel::RenderCommand::Clear();
@@ -150,6 +166,7 @@ public:
 		Hazel::Renderer::BeginScene(camera);
 
 		Hazel::Renderer::Submit(shader, squareVA);
+		Hazel::Renderer::Submit(shader, triangleVA, triangleTransform);
 
 		Hazel::Renderer::EndScene();
 
