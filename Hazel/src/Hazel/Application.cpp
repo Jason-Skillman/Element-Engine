@@ -1,6 +1,7 @@
 #include "hzpch.h"
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include "Core.h"
 #include "Application.h"
@@ -61,9 +62,14 @@ namespace Hazel {
 	
 	void Application::Run() {
 		while(isRunning) {
-			
+			//Todo: Replace with Platform::GetTime()
+			float time = static_cast<float>(glfwGetTime());
+			Timestep timestep = time - lastFrameTime;;
+			lastFrameTime = time;
+
+			//Update each layer
 			for(Layer* layer : layerStack) {
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 			}
 
 			//Render each layer's ImGui

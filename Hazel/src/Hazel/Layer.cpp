@@ -11,7 +11,7 @@ namespace Hazel {
 
 	void Layer::OnDetach() {}
 
-	void Layer::OnUpdate() {}
+	void Layer::OnUpdate(Timestep timestep) {}
 	
 	void Layer::OnImGuiRender() {}
 

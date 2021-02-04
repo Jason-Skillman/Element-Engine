@@ -14,6 +14,9 @@ Intended to be included by other client applications.
 #include "Hazel/Codes/KeyCodes.h"
 #include "Hazel/Codes/MouseCodes.h"
 
+//Core
+#include "Hazel/Core/Timestep.h"
+
 //ImGui
 #include "Hazel/ImGui/ImGuiLayer.h"
 

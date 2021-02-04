@@ -14,8 +14,8 @@ private:
 	glm::vec3 cameraPosition;
 	float cameraRotation;
 
-	float cameraSpeed = 0.01f;
-	float cameraRotSpeed = 0.5f;
+	float cameraSpeed = 0.5f;
+	float cameraRotSpeed = 20.0f;
 	
 public:
 	ExampleLayer()
@@ -128,22 +128,23 @@ public:
 		shader.reset(new Hazel::Shader(vertexSrc, fragmentSrc));
 	}
 
-	void OnUpdate() override {
-		Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-		Hazel::RenderCommand::Clear();
-
+	void OnUpdate(Hazel::Timestep timestep) override {
+		//HZ_PRINT_TRACE("Delta time: {0}s", timestep);
 
 		//Move camera
-		if(Hazel::Input::IsKeyPressed(HZ_KEY_W)) cameraPosition.y += cameraSpeed;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_S)) cameraPosition.y -= cameraSpeed;
-		if(Hazel::Input::IsKeyPressed(HZ_KEY_D)) cameraPosition.x += cameraSpeed;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_A)) cameraPosition.x -= cameraSpeed;
-		if(Hazel::Input::IsKeyPressed(HZ_KEY_E)) cameraRotation -= cameraRotSpeed;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_Q)) cameraRotation += cameraRotSpeed;
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_W)) cameraPosition.y += cameraSpeed * timestep;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_S)) cameraPosition.y -= cameraSpeed * timestep;
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_D)) cameraPosition.x += cameraSpeed * timestep;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_A)) cameraPosition.x -= cameraSpeed * timestep;
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_E)) cameraRotation -= cameraRotSpeed * timestep;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_Q)) cameraRotation += cameraRotSpeed * timestep;
 
 		camera.SetPosition(cameraPosition);
 		camera.SetRotation(cameraRotation);
 
+		
+		Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		Hazel::RenderCommand::Clear();
 
 		//Start rendering
 		Hazel::Renderer::BeginScene(camera);

@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "Layer.h"
 #include "LayerStack.h"
+#include "Core/Timestep.h"
 
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"
@@ -19,6 +20,7 @@ namespace Hazel {
 		ImGuiLayer* imGuiLayer;
 		bool isRunning = true;
 		LayerStack layerStack;
+		float lastFrameTime = 0.0f;
 		
 	public:
 		Application();
