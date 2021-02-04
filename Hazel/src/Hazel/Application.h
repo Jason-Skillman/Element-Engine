@@ -6,6 +6,7 @@
 #include "LayerStack.h"
 
 #include "Events/ApplicationEvent.h"
+#include "Events/KeyEvent.h"
 
 #include "ImGui/ImGuiLayer.h"
 
@@ -29,6 +30,8 @@ namespace Hazel {
 		std::shared_ptr<VertexArray> squareVA;
 
 		OrthographicCamera camera;
+		glm::vec3 cameraPosition;
+		float cameraRotation;
 		
 	public:
 		Application();
@@ -51,6 +54,7 @@ namespace Hazel {
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& event);
+		bool OnKeyPressedEvent(KeyPressedEvent& event);
 	};
 
 	/// <summary>

@@ -7,6 +7,7 @@
 
 #include "Input.h"
 #include "Log.h"
+#include "Codes/KeyCodes.h"
 #include "Events/Event.h"
 
 #include "Renderer/Renderer.h"
@@ -49,7 +50,7 @@ namespace Hazel {
 	Application* Application::instance = nullptr;
 	
 	Application::Application()
-		: camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+		: camera(-1.6f, 1.6f, -0.9f, 0.9f), cameraPosition(0), cameraRotation(0) {
 		
 		if(!instance) instance = this;
 		
@@ -176,8 +177,20 @@ namespace Hazel {
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 			RenderCommand::Clear();
 
-			//camera.SetPosition({ 0.5f, 0.5f, 0.0f });
-			camera.SetRotation(45.0f);
+
+			float cameraPosAmount = 0.01f;
+			float cameraRotAmount = 0.5f;
+
+			//Handle input
+			if(Input::IsKeyPressed(HZ_KEY_W)) cameraPosition.y += cameraPosAmount;
+			else if(Input::IsKeyPressed(HZ_KEY_S)) cameraPosition.y -= cameraPosAmount;
+			else if(Input::IsKeyPressed(HZ_KEY_D)) cameraPosition.x += cameraPosAmount;
+			else if(Input::IsKeyPressed(HZ_KEY_A)) cameraPosition.x -= cameraPosAmount;
+			else if(Input::IsKeyPressed(HZ_KEY_E)) cameraRotation += cameraRotAmount;
+			else if(Input::IsKeyPressed(HZ_KEY_Q)) cameraRotation -= cameraRotAmount;
+			
+			camera.SetPosition(cameraPosition);
+			camera.SetRotation(cameraRotation);
 
 			
 			//Start rendering
@@ -207,6 +220,7 @@ namespace Hazel {
 
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClose));
+		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FUNC(Application::OnKeyPressedEvent));
 
 		for(auto it = layerStack.end(); it != layerStack.begin();) {
 			(*--it)->OnEvent(event);
@@ -227,6 +241,13 @@ namespace Hazel {
 
 	bool Application::OnWindowClose(WindowCloseEvent& event) {
 		isRunning = false;
+		return true;
+	}
+
+	bool Application::OnKeyPressedEvent(KeyPressedEvent& event) {
+		if(event.GetKeyCode() == HZ_KEY_W) {
+			
+		}
 		return true;
 	}
 }
