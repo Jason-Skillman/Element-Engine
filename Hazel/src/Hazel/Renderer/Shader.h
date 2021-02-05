@@ -16,5 +16,6 @@ namespace Hazel {
 		void Unbind() const;
 
 		void SetUniformMat4fv(const std::string& name, const glm::mat4& matrix);
+		void SetUniformFloat4(const std::string& name, const glm::vec4& values);
 	};
 }

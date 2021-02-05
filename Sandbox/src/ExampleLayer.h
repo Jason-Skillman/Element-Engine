@@ -125,10 +125,13 @@ public:
 			in vec3 v_Position;
 			in vec4 v_Color;
 
+			uniform vec4 u_Color;
+			
 			void main() {
 				//o_Color = vec4(0.8, 0.2, 0.3, 1.0);
 				//o_Color = vec4(v_Position * 0.5 + 0.5, 1.0);
-				o_Color = v_Color;
+				//o_Color = v_Color;
+				o_Color = u_Color;
 			}
 		)";
 
@@ -155,9 +158,7 @@ public:
 		if(Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT)) trianglePosition.x += moveSpeed * timestep;
 		else if(Hazel::Input::IsKeyPressed(HZ_KEY_LEFT)) trianglePosition.x -= moveSpeed * timestep;
 		
-		glm::mat4 triangleTransform = glm::translate(glm::mat4(1.0f), trianglePosition);
 		
-
 		
 		Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Hazel::RenderCommand::Clear();
@@ -165,7 +166,32 @@ public:
 		//Start rendering
 		Hazel::Renderer::BeginScene(camera);
 
-		Hazel::Renderer::Submit(shader, squareVA);
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		glm::vec4 colorRed(0.8f, 0.2f, 0.2f, 1.0f);
+		glm::vec4 colorGreen(0.2f, 0.8f, 0.2f, 1.0f);
+		glm::vec4 colorBlue(0.2f, 0.2f, 0.8f, 1.0f);
+
+		/*Hazel::MaterialRef material = new Hazel::Material(shader);
+		Hazel::MaterialInstanceRef mi = new Hazel::MaterialInstanceRef(material);
+		mi->Set("u_Color", colorRed);*/
+		
+		for(int y = 0; y < 10; y++) {
+			for(int x = 0; x < 10; x++) {
+				glm::vec3 squarePos(x * 0.12f, y * 0.12f, 0.0f);
+				glm::mat4 squareTransform = glm::translate(glm::mat4(1.0f), squarePos) * scale;
+
+				if(x % 2 == 0) {
+					shader->SetUniformFloat4("u_Color", colorRed);
+				} else {
+					shader->SetUniformFloat4("u_Color", colorBlue);
+				}
+				
+				Hazel::Renderer::Submit(shader, squareVA, squareTransform);
+			}
+		}
+
+		glm::mat4 triangleTransform = glm::translate(glm::mat4(1.0f), trianglePosition);
 		Hazel::Renderer::Submit(shader, triangleVA, triangleTransform);
 
 		Hazel::Renderer::EndScene();

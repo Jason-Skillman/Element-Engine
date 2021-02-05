@@ -140,4 +140,11 @@ namespace Hazel {
 
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
+
+	void Shader::SetUniformFloat4(const std::string& name, const glm::vec4& values) {
+		int location = glGetUniformLocation(rendererId, name.c_str());
+		HZ_CORE_ASSERT(location >= 0, "Uniform {0} could not be found!", name);
+
+		glUniform4f(location, values.x, values.y, values.z, values.w);
+	}
 }
