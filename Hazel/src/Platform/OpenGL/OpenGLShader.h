@@ -1,5 +1,6 @@
 #pragma once
 
+#include <unordered_map>
 #include <glm/glm.hpp>
 
 #include "Hazel/Renderer/Shader.h"
@@ -8,6 +9,7 @@ namespace Hazel {
 	class OpenGLShader : public Shader {
 	private:
 		uint32_t rendererId;
+		mutable std::unordered_map<std::string, int> locationCache;
 
 	public:
 		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
@@ -16,6 +18,8 @@ namespace Hazel {
 	public:
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+
+		int OpenGLShader::GetUniformLocation(const std::string& name) const;
 
 		void SetUniformInt(const std::string& name, int value);
 		

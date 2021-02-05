@@ -130,55 +130,64 @@ namespace Hazel {
 		glUseProgram(0);
 	}
 
-	//Shader must be bound before setting any uniforms.
-	
+	int OpenGLShader::GetUniformLocation(const std::string& name) const {
+		if(locationCache.find(name) != locationCache.end())
+			return locationCache[name];
+
+		int location = glGetUniformLocation(rendererId, name.c_str());
+		HZ_CORE_ASSERT(location != -1, "Uniform {0} could not be found!", name.c_str());
+
+		locationCache[name] = location;
+
+		return location;
+	}
+
+	/// <summary>
+	/// <para>Shader must be bound before setting uniform.</para>
+	/// </summary>
 	void OpenGLShader::SetUniformInt(const std::string& name, int value) {
-		//Todo: Cache location in hash map
-		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location >= 0, "Uniform {0} could not be found!", name);
-
-		glUniform1i(location, value);
+		glUniform1i(GetUniformLocation(name), value);
 	}
-	
+
+	/// <summary>
+	/// <para>Shader must be bound before setting uniform.</para>
+	/// </summary>
 	void OpenGLShader::SetUniformFloat(const std::string& name, float value) {
-		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location >= 0, "Uniform {0} could not be found!", name);
-
-		glUniform1f(location, value);
+		glUniform1f(GetUniformLocation(name), value);
 	}
-	
+
+	/// <summary>
+	/// <para>Shader must be bound before setting uniform.</para>
+	/// </summary>
 	void OpenGLShader::SetUniformFloat2(const std::string& name, const glm::vec2& value) {
-		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location >= 0, "Uniform {0} could not be found!", name);
-
-		glUniform2f(location, value.x, value.y);
+		glUniform2f(GetUniformLocation(name), value.x, value.y);
 	}
-	
+
+	/// <summary>
+	/// <para>Shader must be bound before setting uniform.</para>
+	/// </summary>
 	void OpenGLShader::SetUniformFloat3(const std::string& name, const glm::vec3& value) {
-		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location >= 0, "Uniform {0} could not be found!", name);
-
-		glUniform3f(location, value.x, value.y, value.z);
+		glUniform3f(GetUniformLocation(name), value.x, value.y, value.z);
 	}
 
+	/// <summary>
+	/// <para>Shader must be bound before setting uniform.</para>
+	/// </summary>
 	void OpenGLShader::SetUniformFloat4(const std::string& name, const glm::vec4& value) {
-		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location >= 0, "Uniform {0} could not be found!", name);
-
-		glUniform4f(location, value.x, value.y, value.z, value.w);
+		glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
 	}
-	
+
+	/// <summary>
+	/// <para>Shader must be bound before setting uniform.</para>
+	/// </summary>
 	void OpenGLShader::SetUniformMat3(const std::string& name, const glm::mat3& matrix) {
-		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location >= 0, "Uniform {0} could not be found!", name);
-
-		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+		glUniformMatrix3fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
+	/// <summary>
+	/// <para>Shader must be bound before setting uniform.</para>
+	/// </summary>
 	void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& matrix) {
-		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location >= 0, "Uniform {0} could not be found!", name);
-
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 }

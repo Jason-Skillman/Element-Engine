@@ -67,7 +67,6 @@ public:
 
 
 		//Square
-		//Todo: Move
 		float sqVertices[4 * 7] = {
 			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
 			0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
@@ -181,6 +180,7 @@ public:
 		mi->Set("u_Color", colorRed);*/
 
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformFloat3("u_Color", squareColor);
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformFloat3("u_Color", squareColor);
 		
 		for(int y = 0; y < 10; y++) {
