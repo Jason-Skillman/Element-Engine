@@ -1,6 +1,8 @@
 #include "hzpch.h"
 #include "Renderer.h"
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 namespace Hazel {
 
 	Renderer::SceneData* Renderer::sceneData = new Renderer::SceneData();
@@ -14,8 +16,8 @@ namespace Hazel {
 	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform) {
 		vertexArray->Bind();
 		shader->Bind();
-		shader->SetUniformMat4fv("u_ViewProjection", sceneData->viewProjectionMatrix);
-		shader->SetUniformMat4fv("u_Transform", transform);
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformMat4("u_ViewProjection", sceneData->viewProjectionMatrix);
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformMat4("u_Transform", transform);
 		
 		RenderCommand::DrawIndexed(vertexArray);
 	}

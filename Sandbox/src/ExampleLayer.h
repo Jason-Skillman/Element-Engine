@@ -1,9 +1,11 @@
 #pragma once
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Hazel.h"
 #include "imgui.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 class ExampleLayer : public Hazel::Layer {
 private:
@@ -22,6 +24,8 @@ private:
 	float cameraRotSpeed = 20.0f;
 
 	float moveSpeed = 0.5f;
+
+	glm::vec3 squareColor = { 0.2f, 0.2f, 0.8f };
 	
 public:
 	ExampleLayer()
@@ -125,17 +129,17 @@ public:
 			in vec3 v_Position;
 			in vec4 v_Color;
 
-			uniform vec4 u_Color;
+			uniform vec3 u_Color;
 			
 			void main() {
 				//o_Color = vec4(0.8, 0.2, 0.3, 1.0);
 				//o_Color = vec4(v_Position * 0.5 + 0.5, 1.0);
 				//o_Color = v_Color;
-				o_Color = u_Color;
+				o_Color = vec4(u_Color, 1.0);
 			}
 		)";
 
-		shader.reset(new Hazel::Shader(vertexSrc, fragmentSrc));
+		shader.reset(Hazel::Shader::Create(vertexSrc, fragmentSrc));
 	}
 
 	void OnUpdate(Hazel::Timestep timestep) override {
@@ -175,18 +179,14 @@ public:
 		/*Hazel::MaterialRef material = new Hazel::Material(shader);
 		Hazel::MaterialInstanceRef mi = new Hazel::MaterialInstanceRef(material);
 		mi->Set("u_Color", colorRed);*/
+
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformFloat3("u_Color", squareColor);
 		
 		for(int y = 0; y < 10; y++) {
 			for(int x = 0; x < 10; x++) {
 				glm::vec3 squarePos(x * 0.12f, y * 0.12f, 0.0f);
 				glm::mat4 squareTransform = glm::translate(glm::mat4(1.0f), squarePos) * scale;
-
-				if(x % 2 == 0) {
-					shader->SetUniformFloat4("u_Color", colorRed);
-				} else {
-					shader->SetUniformFloat4("u_Color", colorBlue);
-				}
-				
 				Hazel::Renderer::Submit(shader, squareVA, squareTransform);
 			}
 		}
@@ -202,9 +202,9 @@ public:
 	}
 
 	void OnImGuiRender() override {
-		/*ImGui::Begin("Test");
-		ImGui::Text("Hello");
-		ImGui::End();*/
+		ImGui::Begin("Test");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(squareColor));
+		ImGui::End();
 	}
 
 	void OnEvent(Hazel::Event& event) override {
