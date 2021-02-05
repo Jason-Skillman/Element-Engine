@@ -130,18 +130,6 @@ namespace Hazel {
 		glUseProgram(0);
 	}
 
-	int OpenGLShader::GetUniformLocation(const std::string& name) const {
-		if(locationCache.find(name) != locationCache.end())
-			return locationCache[name];
-
-		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location != -1, "Uniform {0} could not be found!", name.c_str());
-
-		locationCache[name] = location;
-
-		return location;
-	}
-
 	/// <summary>
 	/// <para>Shader must be bound before setting uniform.</para>
 	/// </summary>
@@ -189,5 +177,17 @@ namespace Hazel {
 	/// </summary>
 	void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& matrix) {
 		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+	int OpenGLShader::GetUniformLocation(const std::string& name) const {
+		if(locationCache.find(name) != locationCache.end())
+			return locationCache[name];
+
+		int location = glGetUniformLocation(rendererId, name.c_str());
+		HZ_CORE_ASSERT(location != -1, "Uniform {0} could not be found!", name.c_str());
+
+		locationCache[name] = location;
+
+		return location;
 	}
 }
