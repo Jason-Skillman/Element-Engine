@@ -9,10 +9,10 @@
 
 class ExampleLayer : public Hazel::Layer {
 private:
-	std::shared_ptr<Hazel::Shader> shader;
+	Hazel::Ref<Hazel::Shader> shader;
 	
-	std::shared_ptr<Hazel::VertexArray> triangleVA;
-	std::shared_ptr<Hazel::VertexArray> squareVA;
+	Hazel::Ref<Hazel::VertexArray> triangleVA;
+	Hazel::Ref<Hazel::VertexArray> squareVA;
 
 	glm::vec3 trianglePosition;
 	
@@ -39,7 +39,7 @@ public:
 			0.0f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f
 		};
 
-		std::shared_ptr<Hazel::VertexBuffer> vertexBuffer;
+		Hazel::Ref<Hazel::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Hazel::VertexBuffer::Create(vertices, sizeof(vertices)));
 		vertexBuffer->Bind();
 
@@ -59,7 +59,7 @@ public:
 
 		unsigned int indices[3] = { 0, 1, 2 };
 		unsigned int indicesSize = sizeof(indices) / sizeof(unsigned int);
-		std::shared_ptr<Hazel::IndexBuffer> indexBuffer;
+		Hazel::Ref<Hazel::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Hazel::IndexBuffer::Create(indices, indicesSize));
 
 		triangleVA->SetIndexBuffer(indexBuffer);
@@ -75,9 +75,9 @@ public:
 		};
 
 		squareVA.reset(Hazel::VertexArray::Create());
-		//std::shared_ptr<VertexBuffer> squareVB = std::make_shared<VertexBuffer>(VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
+		//Hazel::Ref<VertexBuffer> squareVB = std::make_shared<VertexBuffer>(VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
 
-		std::shared_ptr<Hazel::VertexBuffer> squareVB;
+		Hazel::Ref<Hazel::VertexBuffer> squareVB;
 		squareVB.reset(Hazel::VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
 		squareVB->SetLayout(layout);
 
@@ -91,7 +91,7 @@ public:
 		};
 		unsigned int squareIndicesSize = sizeof(squareIndices) / sizeof(unsigned int);
 
-		std::shared_ptr<Hazel::IndexBuffer> squareIB;
+		Hazel::Ref<Hazel::IndexBuffer> squareIB;
 		squareIB.reset(Hazel::IndexBuffer::Create(squareIndices, squareIndicesSize));
 
 		squareVA->SetIndexBuffer(squareIB);

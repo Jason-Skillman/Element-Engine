@@ -3,7 +3,6 @@
 
 
 #include "Renderer.h"
-#include "Platform/OpenGL/OpenGLBuffer.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace Hazel {
