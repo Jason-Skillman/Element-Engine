@@ -5,6 +5,9 @@
 
 #include "Hazel/Renderer/Shader.h"
 
+//Todo: Remove
+typedef unsigned int GLenum;
+
 namespace Hazel {
 	class OpenGLShader : public Shader {
 	private:
@@ -12,6 +15,7 @@ namespace Hazel {
 		mutable std::unordered_map<std::string, int> locationCache;
 
 	public:
+		OpenGLShader(const std::string& filepath);
 		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~OpenGLShader();
 
@@ -30,6 +34,10 @@ namespace Hazel {
 		void SetUniformMat4(const std::string& name, const glm::mat4& matrix);
 
 	private:
+		std::string ReadFile(const std::string& filepath);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+		
 		int OpenGLShader::GetUniformLocation(const std::string& name) const;
 	};
 }
