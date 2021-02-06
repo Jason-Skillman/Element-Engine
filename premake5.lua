@@ -21,6 +21,7 @@ IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
 IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
 IncludeDir["ImGui"] = "Hazel/vendor/ImGui"
 IncludeDir["glm"] = "Hazel/vendor/glm"
+IncludeDir["stb"] = "Hazel/vendor/stb"
 
 -- Includes other project premake files
 group "Dependencies"
@@ -44,7 +45,9 @@ project "Hazel"
 
    	files { 
 		"%{prj.name}/src/**.h", 
-		"%{prj.name}/src/**.cpp" 
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb/**.h",
+		"%{prj.name}/vendor/stb/**.cpp"
 	}
 
 	defines {
@@ -57,7 +60,8 @@ project "Hazel"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb}"
 	}
 
 	links {

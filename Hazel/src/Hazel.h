@@ -27,6 +27,7 @@ Intended to be included by other client applications.
 #include "Hazel/Renderer/Buffer.h"
 #include "Hazel/Renderer/VertexArray.h"
 #include "Hazel/Renderer/Shader.h"
+#include "Hazel/Renderer/Texture.h"
 
 //Entry Point
 #include "Hazel/EntryPoint.h"

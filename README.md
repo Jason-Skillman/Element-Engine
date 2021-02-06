@@ -8,6 +8,7 @@ C++ Application: An OpenGL game engine written in C++.
 - `Glad` https://glad.dav1d.de/
 - `ImGui` https://github.com/ocornut/imgui, https://github.com/TheCherno/imgui
 - `glm` https://github.com/g-truc/glm
+- `stb` https://github.com/nothings/stb
 
 ## Original link
 This project was originaly based off of `The Cherno`'s Game Engine series.

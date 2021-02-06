@@ -14,6 +14,8 @@ private:
 	Hazel::Ref<Hazel::VertexArray> triangleVA;
 	Hazel::Ref<Hazel::VertexArray> squareVA;
 
+	Hazel::Ref<Hazel::Texture2D> texture;
+
 	glm::vec3 trianglePosition;
 	
 	Hazel::OrthographicCamera camera;
@@ -33,10 +35,10 @@ public:
 
 		triangleVA.reset(Hazel::VertexArray::Create());
 
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
-			0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
-			0.0f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f
+		float vertices[3 * 9] = {
+			-0.5f, -0.5f, 0.0f,			0.0f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
+			0.5f, -0.5f, 0.0f,			0.0f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 0.5f, 0.0f,			0.0f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f
 		};
 
 		Hazel::Ref<Hazel::VertexBuffer> vertexBuffer;
@@ -47,6 +49,7 @@ public:
 		//Setup layout
 		Hazel::BufferLayout layout = {
 			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float2, "a_TexCoord" },
 			{ ShaderDataType::Float4, "a_Color" }
 		};
 
@@ -67,11 +70,11 @@ public:
 
 
 		//Square
-		float sqVertices[4 * 7] = {
-			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
-			0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
-			0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f,
-			-0.5f, 0.5f, 0.0f,		0.8f, 0.0f, 1.0f, 1.0f
+		float sqVertices[4 * 9] = {
+			-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
+			0.5f, -0.5f, 0.0f,		1.0f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
+			0.5f, 0.5f, 0.0f,		1.0f, 1.0f,		0.0f, 0.0f, 1.0f, 1.0f,
+			-0.5f, 0.5f, 0.0f,		0.0f, 1.0f,		0.8f, 0.0f, 1.0f, 1.0f
 		};
 
 		squareVA.reset(Hazel::VertexArray::Create());
@@ -104,18 +107,21 @@ public:
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
+			layout(location = 1) in vec2 a_TexCoord;
+			layout(location = 2) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
 			uniform mat4 u_Transform;
 		
 			out vec3 v_Position;
+			out vec2 v_TexCoord;
 			out vec4 v_Color;
 
 			void main() {
 				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 		
 				v_Position = a_Position;
+				v_TexCoord = a_TexCoord;
 				v_Color = a_Color;
 			}
 		)";
@@ -126,19 +132,29 @@ public:
 			layout(location = 0) out vec4 o_Color;
 
 			in vec3 v_Position;
+			in vec2 v_TexCoord;
 			in vec4 v_Color;
 
 			uniform vec3 u_Color;
+			uniform sampler2D u_Texture;
 			
 			void main() {
 				//o_Color = vec4(0.8, 0.2, 0.3, 1.0);
 				//o_Color = vec4(v_Position * 0.5 + 0.5, 1.0);
 				//o_Color = v_Color;
-				o_Color = vec4(u_Color, 1.0);
+				//o_Color = vec4(u_Color, 1.0);
+
+				//o_Color = vec4(v_TexCoord, 0.0, 1.0);
+				o_Color = texture(u_Texture, v_TexCoord);
 			}
 		)";
 
 		shader.reset(Hazel::Shader::Create(vertexSrc, fragmentSrc));
+
+		texture = Hazel::Texture2D::Create("assets/textures/cherno_checkerboard.png");
+
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Hazel::Timestep timestep) override {
@@ -179,9 +195,9 @@ public:
 		Hazel::MaterialInstanceRef mi = new Hazel::MaterialInstanceRef(material);
 		mi->Set("u_Color", colorRed);*/
 
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->Bind();
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformFloat3("u_Color", squareColor);
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformFloat3("u_Color", squareColor);
+		//std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->Bind();
+		//std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformFloat3("u_Color", squareColor);
+		//std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformFloat3("u_Color", squareColor);
 		
 		for(int y = 0; y < 10; y++) {
 			for(int x = 0; x < 10; x++) {
@@ -192,7 +208,11 @@ public:
 		}
 
 		glm::mat4 triangleTransform = glm::translate(glm::mat4(1.0f), trianglePosition);
-		Hazel::Renderer::Submit(shader, triangleVA, triangleTransform);
+		//Hazel::Renderer::Submit(shader, triangleVA, triangleTransform);
+
+		//Quad
+		texture->Bind();
+		Hazel::Renderer::Submit(shader, squareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		Hazel::Renderer::EndScene();
 
