@@ -151,7 +151,7 @@ public:
 
 		shader.reset(Hazel::Shader::Create(vertexSrc, fragmentSrc));
 
-		texture = Hazel::Texture2D::Create("assets/textures/cherno_checkerboard.png");
+		texture = Hazel::Texture2D::Create("assets/textures/uv_checkerboard.png");
 
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->Bind();
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformInt("u_Texture", 0);
