@@ -91,8 +91,8 @@ namespace Hazel {
 
 	std::string Hazel::OpenGLShader::ReadFile(const std::string& filepath) {
 		std::string result;
-		std::ifstream in(filepath, std::ios::in, std::ios::binary);
-		if(!in.fail()) {
+		std::ifstream in(filepath, std::ios::in | std::ios::binary);
+		if(in) {
 			in.seekg(0, std::ios::end);
 			result.resize(in.tellg());
 			in.seekg(0, std::ios::beg);
@@ -134,8 +134,10 @@ namespace Hazel {
 		unsigned int program = glCreateProgram();
 
 		//Keep track of the rendererIds
-		std::vector<GLenum> glShaderIds(shaderSources.size());
-		
+		HZ_CORE_ASSERT(shaderSources.size() <= 2, "Only 2 shaders are supported for now.")
+		std::array<GLenum, 2> glShaderIds;
+
+		int index = 0;
 		for(auto& pair : shaderSources) {
 			GLenum type = pair.first;
 			const std::string& source = pair.second;
@@ -168,7 +170,9 @@ namespace Hazel {
 			}
 
 			glAttachShader(program, shader);
-			glShaderIds.push_back(shader);
+			glShaderIds[index] = shader;
+
+			index++;
 		}
 
 		// Link our program
