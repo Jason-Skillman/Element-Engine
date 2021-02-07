@@ -9,7 +9,7 @@
 
 class ExampleLayer : public Hazel::Layer {
 private:
-	Hazel::Ref<Hazel::Shader> shader;
+	Hazel::ShaderLibrary library;
 	
 	Hazel::Ref<Hazel::VertexArray> triangleVA;
 	Hazel::Ref<Hazel::VertexArray> squareVA;
@@ -103,12 +103,14 @@ public:
 
 
 		//shader.reset(Hazel::Shader::Create(vertexSrc, fragmentSrc));
-		shader.reset(Hazel::Shader::Create("assets/shaders/glsl/Texture.shader"));
+		//Hazel::Ref<Hazel::Shader> shader = Hazel::Shader::Create("assets/shaders/glsl/Texture.shader");
+		Hazel::Ref<Hazel::Shader> textureShader = library.Load("assets/shaders/glsl/Texture.shader");
 
+		
 		texture = Hazel::Texture2D::Create("assets/textures/uv_checkerboard.png");
 
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->Bind();
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->SetUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Hazel::Timestep timestep) override {
@@ -152,12 +154,16 @@ public:
 		//std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->Bind();
 		//std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformFloat3("u_Color", squareColor);
 		//std::dynamic_pointer_cast<Hazel::OpenGLShader>(shader)->SetUniformFloat3("u_Color", squareColor);
+
+		
+		Hazel::Ref<Hazel::Shader> textureShader = library.Get("Texture");
+
 		
 		for(int y = 0; y < 10; y++) {
 			for(int x = 0; x < 10; x++) {
 				glm::vec3 squarePos(x * 0.12f, y * 0.12f, 0.0f);
 				glm::mat4 squareTransform = glm::translate(glm::mat4(1.0f), squarePos) * scale;
-				Hazel::Renderer::Submit(shader, squareVA, squareTransform);
+				Hazel::Renderer::Submit(textureShader, squareVA, squareTransform);
 			}
 		}
 
@@ -166,7 +172,7 @@ public:
 
 		//Quad
 		texture->Bind();
-		Hazel::Renderer::Submit(shader, squareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Hazel::Renderer::Submit(textureShader, squareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		Hazel::Renderer::EndScene();
 
