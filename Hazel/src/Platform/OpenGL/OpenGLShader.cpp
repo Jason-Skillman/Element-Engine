@@ -11,7 +11,7 @@ namespace Hazel {
 		if(type == "vertex") return GL_VERTEX_SHADER;
 		if(type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
 
-		HZ_CORE_ASSERT(false, "Unknown shader type: {0}", type);
+		HZ_CORE_ASSERT(true, "Unknown shader type: {0}", type);
 		return -1;
 	}
 
@@ -128,11 +128,11 @@ namespace Hazel {
 		//Loop through every type token found
 		while(pos != std::string::npos) {
 			size_t eol = source.find_first_of("\r\n", pos);
-			HZ_CORE_ASSERT(eol != std::string::npos, "Syntax error!");
+			HZ_CORE_ASSERT(eol == std::string::npos, "Syntax error!");
 
 			size_t begin = pos + typeTokenLength + 1;
 			std::string type = source.substr(begin, eol - begin);
-			HZ_CORE_ASSERT(type == "vertex" || type == "fragment" || type == "pixel", "Invalid shader type specified: {0}", type);
+			HZ_CORE_ASSERT(type != "vertex" && type != "fragment" && type != "pixel", "Invalid shader type specified: {0}", type);
 
 			size_t nextLinePos = source.find_first_not_of("\r\n", eol);
 			pos = source.find(typeToken, nextLinePos);
@@ -147,7 +147,7 @@ namespace Hazel {
 		unsigned int program = glCreateProgram();
 
 		//Keep track of the rendererIds
-		HZ_CORE_ASSERT(shaderSources.size() <= 2, "Only 2 shaders are supported for now.")
+		HZ_CORE_ASSERT(shaderSources.size() > 2, "Only 2 shaders are supported for now.")
 		std::array<GLenum, 2> glShaderIds;
 
 		int index = 0;
@@ -178,7 +178,7 @@ namespace Hazel {
 				glDeleteShader(shader);
 
 				// Use the infoLog as you see fit.
-				HZ_CORE_ASSERT(false, "{0} shader failed to compile: {1}", type, infoLog.data());
+				HZ_CORE_ASSERT(true, "{0} shader failed to compile: {1}", type, infoLog.data());
 				return;;
 			}
 
@@ -209,7 +209,7 @@ namespace Hazel {
 				glDeleteShader(id);
 
 			// Use the infoLog as you see fit.
-			HZ_CORE_ASSERT(false, "Shader failed to link: {0}", infoLog.data());
+			HZ_CORE_ASSERT(true, "Shader failed to link: {0}", infoLog.data());
 			return;
 		}
 
@@ -225,7 +225,7 @@ namespace Hazel {
 			return locationCache[name];
 
 		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location != -1, "Uniform {0} could not be found!", name.c_str());
+		HZ_CORE_ASSERT(location == -1, "Uniform {0} could not be found!", name.c_str());
 
 		locationCache[name] = location;
 

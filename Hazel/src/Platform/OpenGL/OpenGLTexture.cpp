@@ -14,7 +14,7 @@ namespace Hazel {
 
 		stbi_set_flip_vertically_on_load(1);
 		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-		HZ_CORE_ASSERT(data, "Failed to load image: {0}", path);
+		HZ_CORE_ASSERT(!data, "Failed to load image: {0}", path);
 
 		GLenum internalFormat = 0, dataFormat = 0;
 		if(channels == 4) {
@@ -24,7 +24,7 @@ namespace Hazel {
 			internalFormat = GL_RGB8;
 			dataFormat = GL_RGB;
 		}
-		HZ_CORE_ASSERT(internalFormat & dataFormat, "Image format not supported! path: {0}, channels: {1}", path, channels);
+		//HZ_CORE_ASSERT(internalFormat & dataFormat, "Image format not supported! path: {0}, channels: {1}", path, channels);
 		
 		this->width = width;
 		this->height = height;

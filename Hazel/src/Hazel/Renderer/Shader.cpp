@@ -11,7 +11,7 @@ namespace Hazel {
 			case RendererAPI::API::OpenGL:
 				return std::make_shared<OpenGLShader>(filepath);
 			default:
-				HZ_CORE_ASSERT(false, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				HZ_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}
@@ -21,7 +21,7 @@ namespace Hazel {
 			case RendererAPI::API::OpenGL:
 				return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
 			default:
-				HZ_CORE_ASSERT(false, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				HZ_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}
@@ -29,13 +29,13 @@ namespace Hazel {
 
 	
 	void ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader) {
-		HZ_CORE_ASSERT(!Exists(name), "Shader \"{0}\" already exists in shader library!", name);
+		HZ_CORE_ASSERT(Exists(name), "Shader \"{0}\" already exists in shader library!", name);
 		shaders[name] = shader;
 	}
 
 	void ShaderLibrary::Add(const Ref<Shader>& shader) {
 		const std::string& name = shader->GetName();
-		HZ_CORE_ASSERT(!Exists(name), "Shader \"{0}\" already exists in shader library!", name);
+		HZ_CORE_ASSERT(Exists(name), "Shader \"{0}\" already exists in shader library!", name);
 		Add(name, shader);
 	}
 
@@ -52,7 +52,7 @@ namespace Hazel {
 	}
 	
 	Ref<Shader> ShaderLibrary::Get(const std::string& name) const {
-		HZ_CORE_ASSERT(Exists(name), "Shader \"{0}\" not found!", name);
+		HZ_CORE_ASSERT(!Exists(name), "Shader \"{0}\" not found!", name);
 		//return shaders[name];
 		return shaders.at(name);
 	}

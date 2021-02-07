@@ -71,7 +71,7 @@ namespace Hazel {
 		if(!glfwInitialized) {
 			//Todo: glfwTerminate
 			int success = glfwInit();
-			HZ_CORE_ASSERT(success, "Could not initalize GLFW!");
+			HZ_CORE_ASSERT(!success, "Could not initalize GLFW!");
 
 			glfwSetErrorCallback(GLFWErrorCallback);
 

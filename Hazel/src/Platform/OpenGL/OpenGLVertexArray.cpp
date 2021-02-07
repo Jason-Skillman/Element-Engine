@@ -31,7 +31,7 @@ namespace Hazel {
 			case ShaderDataType::Bool:
 				return GL_BOOL;
 			default:
-				HZ_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
+				HZ_CORE_ASSERT(true, "Unknown ShaderDataType: {0}", type);
 				return 0;
 		}
 	}
@@ -55,7 +55,7 @@ namespace Hazel {
 	}
 	
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) {
-		HZ_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout!");
+		HZ_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size() == 0, "Vertex buffer has no layout!");
 		
 		glBindVertexArray(rendererId);
 		vertexBuffer->Bind();

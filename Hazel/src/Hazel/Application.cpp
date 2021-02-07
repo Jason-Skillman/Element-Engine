@@ -40,7 +40,7 @@ namespace Hazel {
 			case ShaderDataType::Bool:
 				return GL_BOOL;
 			default:
-				HZ_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
+				HZ_CORE_ASSERT(true, "Unknown ShaderDataType: {0}", type);
 				return 0;
 		}
 	}

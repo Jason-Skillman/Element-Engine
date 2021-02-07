@@ -40,7 +40,7 @@ static uint32_t ShaderDataTypeSize(ShaderDataType type) {
 		case ShaderDataType::Bool:
 			return 1;
 		default:
-			HZ_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
+			HZ_CORE_ASSERT(true, "Unknown ShaderDataType: {0}", type);
 			return 0;
 	}
 }
@@ -70,7 +70,7 @@ static uint32_t ShaderDataTypeCount(ShaderDataType type) {
 		case ShaderDataType::Bool:
 			return 1;
 		default:
-			HZ_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
+			HZ_CORE_ASSERT(true, "Unknown ShaderDataType: {0}", type);
 			return 0;
 	}
 }

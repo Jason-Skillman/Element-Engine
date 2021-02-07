@@ -11,7 +11,7 @@ namespace Hazel {
 			case RendererAPI::API::OpenGL:
 				return new OpenGLVertexBuffer(vertices, size);
 			default:
-				HZ_CORE_ASSERT(false, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				HZ_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}
@@ -21,7 +21,7 @@ namespace Hazel {
 			case RendererAPI::API::OpenGL:
 				return new OpenGLIndexBuffer(indices, size);
 			default:
-				HZ_CORE_ASSERT(false, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				HZ_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}

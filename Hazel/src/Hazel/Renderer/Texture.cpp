@@ -11,7 +11,7 @@ namespace Hazel {
 			case RendererAPI::API::OpenGL:
 				return std::make_shared<OpenGLTexture2D>(path);
 			default:
-				HZ_CORE_ASSERT(false, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				HZ_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}
