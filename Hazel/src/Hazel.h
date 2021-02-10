@@ -9,6 +9,7 @@ Intended to be included by other client applications.
 #include "Hazel/Layer.h"
 #include "Hazel/Log.h"
 #include "Hazel/Input.h"
+#include "Hazel/OrthographicCameraController.h"
 
 //Codes
 #include "Hazel/Codes/KeyCodes.h"

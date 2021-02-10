@@ -5,6 +5,7 @@
 
 #include "Hazel.h"
 #include "imgui.h"
+
 #include "Platform/OpenGL/OpenGLShader.h"
 
 class ExampleLayer : public Hazel::Layer {
@@ -18,20 +19,15 @@ private:
 
 	glm::vec3 trianglePosition;
 	
-	Hazel::OrthographicCamera camera;
-	glm::vec3 cameraPosition;
-	float cameraRotation;
-
-	float cameraSpeed = 0.5f;
-	float cameraRotSpeed = 20.0f;
-
+	Hazel::OrthographicCameraController cameraController;
+	
 	float moveSpeed = 0.5f;
 
 	glm::vec3 squareColor = { 0.2f, 0.2f, 0.8f };
 	
 public:
 	ExampleLayer()
-		: Layer("Example"), trianglePosition(0.0f), camera(1.0f, Hazel::AspectRatio::Ratio16x9), cameraPosition(0), cameraRotation(0) {
+		: Layer("Example"), trianglePosition(0.0f), cameraController(1280.0f / 720.0f) {
 
 		triangleVA.reset(Hazel::VertexArray::Create());
 
@@ -113,33 +109,28 @@ public:
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->SetUniformInt("u_Texture", 0);
 	}
 
-	void OnUpdate(Hazel::Timestep timestep) override {
-		//HZ_PRINT_TRACE("Delta time: {0}s", timestep);
+	void OnUpdate(Hazel::Timestep ts) override {
+		//HZ_PRINT_TRACE("Delta time: {0}s", ts);
 
-		//Move camera
-		if(Hazel::Input::IsKeyPressed(HZ_KEY_W)) cameraPosition.y += cameraSpeed * timestep;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_S)) cameraPosition.y -= cameraSpeed * timestep;
-		if(Hazel::Input::IsKeyPressed(HZ_KEY_D)) cameraPosition.x += cameraSpeed * timestep;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_A)) cameraPosition.x -= cameraSpeed * timestep;
-		if(Hazel::Input::IsKeyPressed(HZ_KEY_E)) cameraRotation -= cameraRotSpeed * timestep;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_Q)) cameraRotation += cameraRotSpeed * timestep;
+		//Update
+		cameraController.OnUpdate(ts);
 
-		camera.SetPosition(cameraPosition);
-		camera.SetRotation(cameraRotation);
-
-
-		if(Hazel::Input::IsKeyPressed(HZ_KEY_UP)) trianglePosition.y += moveSpeed * timestep;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_DOWN)) trianglePosition.y -= moveSpeed * timestep;
-		if(Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT)) trianglePosition.x += moveSpeed * timestep;
-		else if(Hazel::Input::IsKeyPressed(HZ_KEY_LEFT)) trianglePosition.x -= moveSpeed * timestep;
+		//Todo: Move
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_UP)) trianglePosition.y += moveSpeed * ts;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_DOWN)) trianglePosition.y -= moveSpeed * ts;
+		if(Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT)) trianglePosition.x += moveSpeed * ts;
+		else if(Hazel::Input::IsKeyPressed(HZ_KEY_LEFT)) trianglePosition.x -= moveSpeed * ts;
 		
 		
-		
+		//Render
 		Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Hazel::RenderCommand::Clear();
 
 		//Start rendering
-		Hazel::Renderer::BeginScene(camera);
+		Hazel::Renderer::BeginScene(cameraController.GetCamera());
+
+		/*Hazel::OrthographicCamera cam(1);
+		cameraController.GetCamera() = cam;*/
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -189,6 +180,8 @@ public:
 
 	void OnEvent(Hazel::Event& event) override {
 		//HZ_PRINT_TRACE("{0}", event)
+
+		cameraController.OnEvent(event);
 
 		Hazel::EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<Hazel::KeyPressedEvent>(BIND_EVENT_FUNC(ExampleLayer::OnKeyPressedEvent));
