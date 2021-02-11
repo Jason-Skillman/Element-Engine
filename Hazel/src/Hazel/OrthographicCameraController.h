@@ -25,6 +25,13 @@ namespace Hazel {
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& event);
 
+		inline void SetZoomLevel(float zoomLevel) {
+			this->zoomLevel = zoomLevel;
+		}
+		inline float GetZoomLevel() const {
+			return zoomLevel;
+		}
+
 		inline OrthographicCamera& GetCamera() {
 			return camera;
 		}

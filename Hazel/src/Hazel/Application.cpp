@@ -69,9 +69,11 @@ namespace Hazel {
 			Timestep timestep = time - lastFrameTime;;
 			lastFrameTime = time;
 
-			//Update each layer
-			for(Layer* layer : layerStack) {
-				layer->OnUpdate(timestep);
+			if(!isMinimized) {
+				//Update each layer
+				for(Layer* layer : layerStack) {
+					layer->OnUpdate(timestep);
+				}
 			}
 
 			//Render each layer's ImGui
@@ -79,7 +81,7 @@ namespace Hazel {
 			for(Layer* layer : layerStack)
 				layer->OnImGuiRender();
 			imGuiLayer->End();
-
+			
 			window->OnUpdate();
 		}
 	}
@@ -87,6 +89,7 @@ namespace Hazel {
 	void Application::OnEvent(Event& event) {
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNC(Application::OnWindowResizeEvent));
 
 		for(auto it = layerStack.end(); it != layerStack.begin();) {
 			(*--it)->OnEvent(event);
@@ -108,5 +111,19 @@ namespace Hazel {
 	bool Application::OnWindowClose(WindowCloseEvent& event) {
 		isRunning = false;
 		return true;
+	}
+
+	bool Application::OnWindowResizeEvent(WindowResizeEvent& event) {
+		if(event.GetWidth() == 0 || event.GetHeight() == 0) {
+			isMinimized = true;
+			return true;
+		}
+		
+		isMinimized = false;
+
+		//Tell the frame buffer to resize
+		Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+		
+		return false;
 	}
 }

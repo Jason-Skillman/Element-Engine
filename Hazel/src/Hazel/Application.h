@@ -18,8 +18,9 @@ namespace Hazel {
 		
 		std::unique_ptr<Window> window;
 		ImGuiLayer* imGuiLayer;
-		bool isRunning = true;
 		LayerStack layerStack;
+		
+		bool isRunning = true, isMinimized = false;
 		float lastFrameTime = 0.0f;
 		
 	public:
@@ -41,9 +42,13 @@ namespace Hazel {
 			return *window;
 		}
 
+		inline bool IsMinimized() const {
+			return isMinimized;
+		}
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& event);
-		bool OnKeyPressedEvent(KeyPressedEvent& event);
+		bool OnWindowResizeEvent(WindowResizeEvent& event);
 	};
 
 	/// <summary>
