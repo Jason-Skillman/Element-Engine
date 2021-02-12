@@ -7,7 +7,7 @@ namespace Hazel {
 		std::string name;
 		ShaderDataType type;
 		uint32_t size;
-		uint32_t offset;
+		uint64_t offset;
 		bool normalized;
 
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)

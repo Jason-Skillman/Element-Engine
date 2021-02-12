@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Hazel/Core.h"
-#include "Hazel/Layer.h"
-
-#include <vector>
+#include "Hazel/Core/Layer.h"
 
 namespace Hazel {
 	class LayerStack {

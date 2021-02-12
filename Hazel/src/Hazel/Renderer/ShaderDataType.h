@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Hazel/Core/Core.h"
+
 enum class ShaderDataType {
 	None = 0,
 	Float,

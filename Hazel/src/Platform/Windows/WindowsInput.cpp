@@ -1,19 +1,15 @@
-#include "hzpch.h"
+#include "pch.h"
 #include "WindowsInput.h"
 
 #include <GLFW/glfw3.h>
 
-#include "Hazel/Application.h"
-#include "Hazel/Window.h"
+#include "Hazel/Core/Application.h"
+#include "Hazel/Core/Window.h"
 
 namespace Hazel {
 	
 	//Todo: Fix mem leak
 	Input* Input::instance = new WindowsInput();
-
-	/*WindowsInput::~WindowsInput() {
-		HZ_CORE_DEBUG("~WindowsInput()");
-	}*/
 
 	bool WindowsInput::IsKeyPressedImpl(int keycode) {
 		auto window = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetNativeWindow());

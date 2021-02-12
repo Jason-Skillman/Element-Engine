@@ -6,6 +6,8 @@
 #include "Hazel.h"
 #include "imgui.h"
 
+#include "Hazel/Events/KeyEvent.h"
+
 #include "Platform/OpenGL/OpenGLShader.h"
 
 class ExampleLayer : public Hazel::Layer {

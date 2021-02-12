@@ -1,16 +1,17 @@
-#include "hzpch.h"
+#include "pch.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include "Core.h"
-#include "Application.h"
-
 #include "Log.h"
-#include "Events/Event.h"
+#include "Application.h"
+#include "Timestep.h"
 
-#include "Renderer/Renderer.h"
-#include "Renderer/RendererAPI.h"
+#include "Hazel/Events/Event.h"
+
+#include "Hazel/Renderer/Renderer.h"
+#include "Hazel/Renderer/RendererAPI.h"
 
 namespace Hazel {
 

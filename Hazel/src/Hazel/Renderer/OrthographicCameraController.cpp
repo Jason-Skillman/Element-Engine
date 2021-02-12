@@ -1,8 +1,9 @@
-#include "hzpch.h"
+#include "pch.h"
 #include "OrthographicCameraController.h"
 
-#include "Input.h"
-#include "Codes/KeyCodes.h"
+#include "Hazel/Codes/KeyCodes.h"
+
+#include "Hazel/Core/Input.h"
 
 namespace Hazel {
 

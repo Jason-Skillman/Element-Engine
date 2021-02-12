@@ -2,7 +2,6 @@
 
 #include <glm/glm.hpp>
 
-#include "Hazel/Core.h"
 #include "Hazel/Renderer/VertexArray.h"
 
 namespace Hazel {

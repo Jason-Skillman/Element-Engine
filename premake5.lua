@@ -40,8 +40,8 @@ project "Hazel"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
 
-	pchheader "hzpch.h"
-	pchsource "Hazel/src/hzpch.cpp"
+	pchheader "pch.h"
+	pchsource "Hazel/src/pch.cpp"
 
    	files { 
 		"%{prj.name}/src/**.h", 

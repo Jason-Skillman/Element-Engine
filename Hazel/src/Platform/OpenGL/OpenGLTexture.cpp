@@ -1,9 +1,10 @@
-#include "hzpch.h"
+#include "pch.h"
 #include "OpenGLTexture.h"
 
 #include <glad/glad.h>
+#include <stb_image.h>
 
-#include "stb_image.h"
+#include "Hazel/Core/Core.h"
 
 namespace Hazel {
 

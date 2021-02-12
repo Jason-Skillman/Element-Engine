@@ -1,4 +1,4 @@
-#include "hzpch.h"
+#include "pch.h"
 #include "Layer.h"
 
 namespace Hazel {
@@ -11,7 +11,7 @@ namespace Hazel {
 
 	void Layer::OnDetach() {}
 
-	void Layer::OnUpdate(Timestep timestep) {}
+	void Layer::OnUpdate(Timestep ts) {}
 	
 	void Layer::OnImGuiRender() {}
 

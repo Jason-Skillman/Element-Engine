@@ -1,4 +1,4 @@
-#include "hzpch.h"
+#include "pch.h"
 #include "OpenGLRendererAPI.h"
 
 #include <glad/glad.h>

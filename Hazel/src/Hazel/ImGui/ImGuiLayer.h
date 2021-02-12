@@ -1,5 +1,6 @@
 #pragma once
-#include "Hazel/Layer.h"
+
+#include "Hazel/Core/Layer.h"
 
 namespace Hazel {
 	class ImGuiLayer : public Layer {

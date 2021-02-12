@@ -1,17 +1,10 @@
 #pragma once
 
-#include "Core.h"
-
 namespace Hazel {
 	class Input {
 	private:
+		//Todo: Fix mem leak
 		static Input* instance;
-
-	public:
-		/*virtual ~Input() {
-			delete instance;
-			HZ_CORE_DEBUG("~Input()");
-		}*/
 		
 	public:
 		static bool IsKeyPressed(int keycode) {

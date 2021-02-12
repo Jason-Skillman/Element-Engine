@@ -1,4 +1,4 @@
-#include "hzpch.h"
+#include "pch.h"
 #include "OpenGLVertexArray.h"
 
 #include <glad/glad.h>
@@ -55,7 +55,7 @@ namespace Hazel {
 	}
 	
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) {
-		HZ_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size() == 0, "Vertex buffer has no layout!");
+		HZ_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().empty(), "Vertex buffer has no layout!");
 		
 		glBindVertexArray(rendererId);
 		vertexBuffer->Bind();
@@ -64,7 +64,7 @@ namespace Hazel {
 		for(const auto& element : vertexBuffer->GetLayout()) {
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(index, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
-				element.normalized ? GL_TRUE : GL_FALSE, vertexBuffer->GetLayout().GetStride(), (const void*)(element.offset));
+				element.normalized ? GL_TRUE : GL_FALSE, vertexBuffer->GetLayout().GetStride(), reinterpret_cast<const void*>(element.offset));
 
 			index++;
 		}

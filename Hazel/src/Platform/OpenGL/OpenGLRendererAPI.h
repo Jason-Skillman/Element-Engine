@@ -1,7 +1,8 @@
 #pragma once
 
+#include "Hazel/Core/Core.h"
+
 #include "Hazel/Renderer/RendererAPI.h"
-#include "Hazel/Core.h"
 
 namespace Hazel {
 	class OpenGLRendererAPI : public RendererAPI {
