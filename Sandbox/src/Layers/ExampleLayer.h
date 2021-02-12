@@ -2,11 +2,10 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <imgui.h>
 
-#include "Hazel.h"
-#include "imgui.h"
-
-#include "Hazel/Events/KeyEvent.h"
+#include <Hazel.h>
+#include <Hazel/Events/KeyEvent.h>
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
@@ -31,7 +30,7 @@ public:
 	ExampleLayer()
 		: Layer("Example"), trianglePosition(0.0f), cameraController(1280.0f / 720.0f) {
 
-		triangleVA.reset(Hazel::VertexArray::Create());
+		triangleVA = Hazel::VertexArray::Create();
 
 		float vertices[3 * 9] = {
 			-0.5f, -0.5f, 0.0f,			0.0f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
@@ -76,7 +75,7 @@ public:
 			-0.5f, 0.5f, 0.0f,		0.0f, 1.0f,		0.8f, 0.0f, 1.0f, 1.0f
 		};
 
-		squareVA.reset(Hazel::VertexArray::Create());
+		squareVA = Hazel::VertexArray::Create();
 		//Hazel::Ref<VertexBuffer> squareVB = std::make_shared<VertexBuffer>(VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
 
 		Hazel::Ref<Hazel::VertexBuffer> squareVB;

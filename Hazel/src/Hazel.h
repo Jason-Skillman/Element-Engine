@@ -4,9 +4,6 @@ Intended to be included by other client applications.
 
 #pragma once
 
-//Entry Point
-#include "Hazel/Core/EntryPoint.h"
-
 //Codes
 #include "Hazel/Codes/KeyCodes.h"
 #include "Hazel/Codes/MouseCodes.h"

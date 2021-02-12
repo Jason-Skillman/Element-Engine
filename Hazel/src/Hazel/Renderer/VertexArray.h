@@ -10,7 +10,7 @@ namespace Hazel {
 		virtual ~VertexArray() = default;
 
 	public:
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
