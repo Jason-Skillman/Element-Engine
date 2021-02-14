@@ -48,6 +48,10 @@ namespace Hazel {
 		glUseProgram(0);
 	}
 
+	void OpenGLShader::SetUniformInt(const std::string& name, int value) {
+		UploadUniformInt(name, value);
+	}
+
 	void OpenGLShader::SetUniformFloat3(const std::string& name, const glm::vec3& vector) {
 		UploadUniformFloat3(name, vector);
 	}
@@ -215,7 +219,7 @@ namespace Hazel {
 			return locationCache[name];
 
 		int location = glGetUniformLocation(rendererId, name.c_str());
-		HZ_CORE_ASSERT(location == -1, "Uniform {0} could not be found!", name.c_str());
+		//HZ_CORE_ASSERT(location == -1, "Uniform {0} could not be found!", name.c_str());
 
 		locationCache[name] = location;
 

@@ -6,8 +6,11 @@ class SandboxLayer : public Hazel::Layer {
 private:
 	Hazel::OrthographicCameraController cameraController;
 
+	//Todo: Temp
 	Hazel::Ref<Hazel::VertexArray> squareVA;
-	Hazel::Ref<Hazel::Shader> colorShader;
+	//Hazel::Ref<Hazel::Shader> colorShader;
+	Hazel::Ref<Hazel::Texture2D> texture;
+	
 	glm::vec4 squareColor = { 0.2f, 0.2f, 0.8f, 1.0f };
 	
 public:

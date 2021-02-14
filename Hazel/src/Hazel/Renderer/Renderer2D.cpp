@@ -42,7 +42,7 @@ namespace Hazel {
 		//Objects
 		storage = new Renderer2DStorage();
 		storage->vertexArray = VertexArray::Create();
-		storage->shader = Shader::Create("assets/shaders/glsl/UniColor.shader");
+		storage->shader = Shader::Create("assets/shaders/glsl/Texture.shader");
 
 		//Setup vertex buffer
 		Ref<VertexBuffer> vertexBuffer;
@@ -54,6 +54,9 @@ namespace Hazel {
 		Ref<IndexBuffer> indexBuffer;
 		indexBuffer.reset(IndexBuffer::Create(indices, indicesSize));
 		storage->vertexArray->SetIndexBuffer(indexBuffer);
+
+		//
+		storage->shader->SetUniformInt("u_Texture", 0);
 	}
 	
 	void Renderer2D::Shutdown() {
@@ -80,6 +83,26 @@ namespace Hazel {
 			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) *
 			glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
 		storage->shader->SetUniformMat4("u_Transform", transform);
+
+		storage->vertexArray->Bind();
+		RenderCommand::DrawIndexed(storage->vertexArray);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture) {
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, scale, texture);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture) {
+		storage->shader->Bind();
+		storage->shader->SetUniformFloat4("u_Color", glm::vec4(1.0f));
+
+		glm::mat4 transform =
+			glm::translate(glm::mat4(1.0f), position) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) *
+			glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
+		storage->shader->SetUniformMat4("u_Transform", transform);
+
+		texture->Bind();
 
 		storage->vertexArray->Bind();
 		RenderCommand::DrawIndexed(storage->vertexArray);

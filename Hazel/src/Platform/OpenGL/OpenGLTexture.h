@@ -23,5 +23,6 @@ namespace Hazel {
 		}
 		
 		virtual void Bind(uint32_t slot = 0) const override;
+		virtual void Unbind(uint32_t slot) const override;
 	};
 }
