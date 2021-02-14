@@ -24,17 +24,20 @@ namespace Hazel {
 		virtual void Unbind() const override;
 
 		virtual void SetUniformInt(const std::string& name, int value) override;
+		virtual void SetUniformFloat(const std::string& name, float value) override;
+		virtual void SetUniformFloat2(const std::string& name, const glm::vec2& vector) override;
 		virtual void SetUniformFloat3(const std::string& name, const glm::vec3& vector) override;
 		virtual void SetUniformFloat4(const std::string& name, const glm::vec4& vector) override;
+		virtual void SetUniformMat3(const std::string& name, const glm::mat3& matrix) override;
 		virtual void SetUniformMat4(const std::string& name, const glm::mat4& matrix) override;
 
 		virtual const std::string& GetName() const override;
 
 		void UploadUniformInt(const std::string& name, int value);
 		void UploadUniformFloat(const std::string& name, float value);
-		void UploadUniformFloat2(const std::string& name, const glm::vec2& value);
-		void UploadUniformFloat3(const std::string& name, const glm::vec3& value);
-		void UploadUniformFloat4(const std::string& name, const glm::vec4& value);
+		void UploadUniformFloat2(const std::string& name, const glm::vec2& vector);
+		void UploadUniformFloat3(const std::string& name, const glm::vec3& vector);
+		void UploadUniformFloat4(const std::string& name, const glm::vec4& vector);
 		void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
 		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 

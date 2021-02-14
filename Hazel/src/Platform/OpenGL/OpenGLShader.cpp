@@ -52,6 +52,14 @@ namespace Hazel {
 		UploadUniformInt(name, value);
 	}
 
+	void OpenGLShader::SetUniformFloat(const std::string& name, float value) {
+		UploadUniformFloat(name, value);
+	}
+
+	void OpenGLShader::SetUniformFloat2(const std::string& name, const glm::vec2& vector) {
+		UploadUniformFloat2(name, vector);
+	}
+
 	void OpenGLShader::SetUniformFloat3(const std::string& name, const glm::vec3& vector) {
 		UploadUniformFloat3(name, vector);
 	}
@@ -59,7 +67,11 @@ namespace Hazel {
 	void OpenGLShader::SetUniformFloat4(const std::string& name, const glm::vec4& vector) {
 		UploadUniformFloat4(name, vector);
 	}
-	
+
+	void OpenGLShader::SetUniformMat3(const std::string& name, const glm::mat3& matrix) {
+		UploadUniformMat3(name, matrix);
+	}
+
 	void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& matrix) {
 		UploadUniformMat4(name, matrix);
 	}
@@ -76,16 +88,16 @@ namespace Hazel {
 		glUniform1f(GetUniformLocation(name), value);
 	}
 
-	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& value) {
-		glUniform2f(GetUniformLocation(name), value.x, value.y);
+	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& vector) {
+		glUniform2f(GetUniformLocation(name), vector.x, vector.y);
 	}
 
-	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value) {
-		glUniform3f(GetUniformLocation(name), value.x, value.y, value.z);
+	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& vector) {
+		glUniform3f(GetUniformLocation(name), vector.x, vector.y, vector.z);
 	}
 
-	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& value) {
-		glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
+	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& vector) {
+		glUniform4f(GetUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
 	}
 
 	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix) {
