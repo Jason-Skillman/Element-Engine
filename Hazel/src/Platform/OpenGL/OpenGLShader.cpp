@@ -48,56 +48,47 @@ namespace Hazel {
 		glUseProgram(0);
 	}
 
+	void OpenGLShader::SetUniformFloat3(const std::string& name, const glm::vec3& vector) {
+		UploadUniformFloat3(name, vector);
+	}
+	
+	void OpenGLShader::SetUniformFloat4(const std::string& name, const glm::vec4& vector) {
+		UploadUniformFloat4(name, vector);
+	}
+	
+	void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& matrix) {
+		UploadUniformMat4(name, matrix);
+	}
+
 	const std::string& OpenGLShader::GetName() const {
 		return name;
 	}
 
-	/// <summary>
-	/// <para>Shader must be bound before setting uniform.</para>
-	/// </summary>
-	void OpenGLShader::SetUniformInt(const std::string& name, int value) {
+	void OpenGLShader::UploadUniformInt(const std::string& name, int value) {
 		glUniform1i(GetUniformLocation(name), value);
 	}
 
-	/// <summary>
-	/// <para>Shader must be bound before setting uniform.</para>
-	/// </summary>
-	void OpenGLShader::SetUniformFloat(const std::string& name, float value) {
+	void OpenGLShader::UploadUniformFloat(const std::string& name, float value) {
 		glUniform1f(GetUniformLocation(name), value);
 	}
 
-	/// <summary>
-	/// <para>Shader must be bound before setting uniform.</para>
-	/// </summary>
-	void OpenGLShader::SetUniformFloat2(const std::string& name, const glm::vec2& value) {
+	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& value) {
 		glUniform2f(GetUniformLocation(name), value.x, value.y);
 	}
 
-	/// <summary>
-	/// <para>Shader must be bound before setting uniform.</para>
-	/// </summary>
-	void OpenGLShader::SetUniformFloat3(const std::string& name, const glm::vec3& value) {
+	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value) {
 		glUniform3f(GetUniformLocation(name), value.x, value.y, value.z);
 	}
 
-	/// <summary>
-	/// <para>Shader must be bound before setting uniform.</para>
-	/// </summary>
-	void OpenGLShader::SetUniformFloat4(const std::string& name, const glm::vec4& value) {
+	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& value) {
 		glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
 	}
 
-	/// <summary>
-	/// <para>Shader must be bound before setting uniform.</para>
-	/// </summary>
-	void OpenGLShader::SetUniformMat3(const std::string& name, const glm::mat3& matrix) {
+	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix) {
 		glUniformMatrix3fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	/// <summary>
-	/// <para>Shader must be bound before setting uniform.</para>
-	/// </summary>
-	void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& matrix) {
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) {
 		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 

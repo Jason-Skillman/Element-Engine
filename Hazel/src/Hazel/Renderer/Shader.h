@@ -1,10 +1,12 @@
 #pragma once
 
+#include <glm/fwd.hpp>
+
 #include "Hazel/Core/Core.h"
 
 namespace Hazel {
 	/// <summary>
-	/// Abstract Shader class
+	/// Abstract class
 	/// </summary>
 	class Shader {
 	public:
@@ -17,6 +19,10 @@ namespace Hazel {
 		
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
+
+		virtual void SetUniformFloat3(const std::string& name, const glm::vec3& vector) = 0;
+		virtual void SetUniformFloat4(const std::string& name, const glm::vec4& vector) = 0;
+		virtual void SetUniformMat4(const std::string& name, const glm::mat4& matrix) = 0;
 
 		inline virtual const std::string& GetName() const = 0;
 	};
