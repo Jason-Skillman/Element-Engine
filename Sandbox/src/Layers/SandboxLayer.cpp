@@ -24,12 +24,8 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 	//Start rendering
 	Hazel::Renderer2D::BeginScene(cameraController.GetCamera());
 
-	//Todo: Change to Shader::SetMat4()
-	//std::dynamic_pointer_cast<Hazel::OpenGLShader>(colorShader)->Bind();
-	//std::dynamic_pointer_cast<Hazel::OpenGLShader>(colorShader)->SetUniformFloat4("u_Color", squareColor);
-
-	//Hazel::Renderer::Submit(colorShader, squareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-	Hazel::Renderer2D::DrawQuad(glm::vec2(0, 0), glm::vec2(1, 1), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	Hazel::Renderer2D::DrawQuad(glm::vec2(0, 0), glm::vec2(1, 1), glm::vec4(0.8f, 0.2f, 0.3f, 1.0f));
+	Hazel::Renderer2D::DrawQuad(glm::vec2(-0.5f, -0.5f), glm::vec2(0.8f, 0.5f), glm::vec4(0.2f, 0.8f, 0.3f, 1.0f));
 
 	Hazel::Renderer2D::EndScene();
 }
