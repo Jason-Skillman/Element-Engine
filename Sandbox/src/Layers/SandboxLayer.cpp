@@ -24,8 +24,8 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 	//Start rendering
 	Hazel::Renderer2D::BeginScene(cameraController.GetCamera());
 
-	Hazel::Renderer2D::DrawQuad(glm::vec2(0, 0), glm::vec2(1, 1), glm::vec4(0.8f, 0.2f, 0.3f, 1.0f));
-	Hazel::Renderer2D::DrawQuad(glm::vec2(-0.5f, -0.5f), glm::vec2(0.8f, 0.5f), glm::vec4(0.2f, 0.8f, 0.3f, 1.0f));
+	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f}, 15.0f, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+	Hazel::Renderer2D::DrawQuad({ -0.5f, -0.5f}, 15.0f, { 0.8f, 0.5f }, { 0.2f, 0.8f, 0.3f, 1.0f });
 
 	Hazel::Renderer2D::EndScene();
 }
