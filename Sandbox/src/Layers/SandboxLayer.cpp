@@ -18,18 +18,18 @@ void SandboxLayer::OnAttach() {
 void SandboxLayer::OnDetach() {}
 
 void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
-	PROFILE_SCOPE("Sandbox::OnUpdate");
+	HZ_PROFILE_FUNCTION();
 	
 	//Update
 	{
-		PROFILE_SCOPE("Update");
+		HZ_PROFILE_SCOPE("Update");
 		
 		cameraController.OnUpdate(ts);
 	}
 
 	//Pre-render
 	{
-		PROFILE_SCOPE("Pre-render");
+		HZ_PROFILE_SCOPE("Pre-render");
 		
 		Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Hazel::RenderCommand::Clear();
@@ -37,7 +37,7 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 
 	//Rendering
 	{
-		PROFILE_SCOPE("Rendering");
+		HZ_PROFILE_SCOPE("Rendering");
 
 		Hazel::Renderer2D::BeginScene(cameraController.GetCamera());
 

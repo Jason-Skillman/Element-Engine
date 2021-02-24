@@ -17,6 +17,7 @@
 
 //Hazel
 #include "Hazel/Core/Log.h"
+#include "Hazel/Debug/Instrumentor.h"
 
 //Windows
 #ifdef HZ_PLATFORM_WINDOWS
