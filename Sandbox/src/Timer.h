@@ -1,16 +1,7 @@
 #pragma once
 
-#if 0
 #include <chrono>
-#include <iostream>
 #include <functional>
-
-struct ProfileResult {
-	const char* name;
-	float time;
-};
-
-#define PROFILE_SCOPE(name, profileResults) Timer timer##__LINE__(name, [&](ProfileResult profileResult) { profileResults.push_back(profileResult); });
 
 template<typename Fn>
 class Timer {
@@ -44,4 +35,3 @@ public:
 		func({ name, duration });
 	}
 };
-#endif
