@@ -2,6 +2,11 @@
 
 #include <Hazel.h>
 
+struct ProfileResult {
+	const char* name;
+	float time;
+};
+
 class SandboxLayer : public Hazel::Layer {
 private:
 	Hazel::OrthographicCameraController cameraController;
@@ -12,6 +17,10 @@ private:
 	Hazel::Ref<Hazel::Texture2D> texture;
 	
 	glm::vec4 squareColor = { 0.2f, 0.2f, 0.8f, 1.0f };
+
+	
+
+	std::vector<ProfileResult> profileResults;
 	
 public:
 	SandboxLayer();

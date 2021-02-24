@@ -121,6 +121,7 @@ project "Sandbox"
 	}
 
 	includedirs {
+		"Sandbox/src",
 		"%{IncludeDir.HazelSrc}",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
