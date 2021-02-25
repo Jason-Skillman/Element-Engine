@@ -9,6 +9,8 @@ namespace Hazel {
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
 		: rendererId(0) {
 
+		HZ_PROFILE_FUNCTION();
+
 		glCreateBuffers(1, &rendererId);
 		glBindBuffer(GL_ARRAY_BUFFER, rendererId);
 		
@@ -16,14 +18,20 @@ namespace Hazel {
 	}
 	
 	OpenGLVertexBuffer::~OpenGLVertexBuffer() {
+		HZ_PROFILE_FUNCTION();
+		
 		glDeleteBuffers(1, &rendererId);
 	}
 	
 	void OpenGLVertexBuffer::Bind() const {
+		HZ_PROFILE_FUNCTION();
+		
 		glBindBuffer(GL_ARRAY_BUFFER, rendererId);
 	}
 	
 	void OpenGLVertexBuffer::Unbind() const {
+		HZ_PROFILE_FUNCTION();
+		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
@@ -32,6 +40,8 @@ namespace Hazel {
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
 		: rendererId(0), count(count) {
 
+		HZ_PROFILE_FUNCTION();
+
 		glCreateBuffers(1, &rendererId);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererId);
 		
@@ -39,14 +49,20 @@ namespace Hazel {
 	}
 	
 	OpenGLIndexBuffer::~OpenGLIndexBuffer() {
+		HZ_PROFILE_FUNCTION();
+		
 		glDeleteBuffers(1, &rendererId);
 	}
 	
 	void OpenGLIndexBuffer::Bind() const {
+		HZ_PROFILE_FUNCTION();
+		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererId);
 	}
 	
 	void OpenGLIndexBuffer::Unbind() const {
+		HZ_PROFILE_FUNCTION();
+		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 }

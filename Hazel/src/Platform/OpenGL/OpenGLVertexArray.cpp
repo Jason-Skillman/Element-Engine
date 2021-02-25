@@ -38,23 +38,33 @@ namespace Hazel {
 
 	OpenGLVertexArray::OpenGLVertexArray()
 		: rendererId(0) {
+
+		HZ_PROFILE_FUNCTION();
 		
 		glCreateVertexArrays(1, &rendererId);
 	}
 	
 	OpenGLVertexArray::~OpenGLVertexArray() {
+		HZ_PROFILE_FUNCTION();
+		
 		glDeleteVertexArrays(1, &rendererId);
 	}
 	
 	void OpenGLVertexArray::Bind() const {
+		HZ_PROFILE_FUNCTION();
+		
 		glBindVertexArray(rendererId);
 	}
 	
 	void OpenGLVertexArray::Unbind() const {
+		HZ_PROFILE_FUNCTION();
+		
 		glBindVertexArray(0);
 	}
 	
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) {
+		HZ_PROFILE_FUNCTION();
+		
 		HZ_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().empty(), "Vertex buffer has no layout!");
 		
 		glBindVertexArray(rendererId);
@@ -73,6 +83,8 @@ namespace Hazel {
 	}
 	
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) {
+		HZ_PROFILE_FUNCTION();
+		
 		glBindVertexArray(rendererId);
 		indexBuffer->Bind();
 

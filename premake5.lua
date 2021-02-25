@@ -51,7 +51,8 @@ project "Hazel"
 	}
 
 	defines {
-		"_CRT_SECURE_NO_WARNINGS"
+		"_CRT_SECURE_NO_WARNINGS",
+		"HZ_PROFILE"
 	}
 
 	includedirs {
@@ -118,6 +119,10 @@ project "Sandbox"
 		"%{prj.name}/src/**.h", 
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/assets/**"
+	}
+
+	defines {
+		"HZ_PROFILE"
 	}
 
 	includedirs {

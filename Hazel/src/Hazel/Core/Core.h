@@ -24,7 +24,6 @@
 //Asserts
 #ifdef HZ_DEBUG
 	#define HZ_ENABLE_ASSERTS 1
-	#define HZ_PROFILE 1
 #endif
 
 #if HZ_ENABLE_ASSERTS

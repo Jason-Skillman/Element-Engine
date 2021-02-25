@@ -15,6 +15,8 @@ namespace Hazel {
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filepath) {
+		HZ_PROFILE_FUNCTION();
+		
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
@@ -29,6 +31,8 @@ namespace Hazel {
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: rendererId(-1), name(name) {
+
+		HZ_PROFILE_FUNCTION();
 		
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
@@ -37,14 +41,20 @@ namespace Hazel {
 	}
 
 	OpenGLShader::~OpenGLShader() {
+		HZ_PROFILE_FUNCTION();
+		
 		glDeleteProgram(rendererId);
 	}
 
 	void OpenGLShader::Bind() const {
+		HZ_PROFILE_FUNCTION();
+		
 		glUseProgram(rendererId);
 	}
 
 	void OpenGLShader::Unbind() const {
+		HZ_PROFILE_FUNCTION();
+		
 		glUseProgram(0);
 	}
 
@@ -109,6 +119,8 @@ namespace Hazel {
 	}
 
 	std::string Hazel::OpenGLShader::ReadFile(const std::string& filepath) {
+		HZ_PROFILE_FUNCTION();
+		
 		std::string result;
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if(in) {
@@ -125,6 +137,8 @@ namespace Hazel {
 	}
 
 	std::unordered_map<GLenum, std::string> Hazel::OpenGLShader::PreProcess(const std::string& source) {
+		HZ_PROFILE_FUNCTION();
+		
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -149,6 +163,8 @@ namespace Hazel {
 	}
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
+		HZ_PROFILE_FUNCTION();
+		
 		// Get a program object.
 		unsigned int program = glCreateProgram();
 

@@ -19,6 +19,8 @@ namespace Hazel {
 	static Renderer2DStorage* storage;
 
 	void Renderer2D::Init() {
+		HZ_PROFILE_FUNCTION();
+		
 		//Data
 		float vertices[4 * 9] = {
 			-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
@@ -60,15 +62,21 @@ namespace Hazel {
 	}
 	
 	void Renderer2D::Shutdown() {
+		HZ_PROFILE_FUNCTION();
+		
 		delete storage;
 	}
 	
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
+		HZ_PROFILE_FUNCTION();
+		
 		storage->shader->Bind();
 		storage->shader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 	}
 	
-	void Renderer2D::EndScene() {}
+	void Renderer2D::EndScene() {
+		HZ_PROFILE_FUNCTION();
+	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const glm::vec4& color) {
 		DrawQuad({ position.x, position.y, 0.0f }, rotation, scale, color);

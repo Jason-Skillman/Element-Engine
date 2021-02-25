@@ -75,14 +75,14 @@ namespace Hazel {
 				for(Layer* layer : layerStack) {
 					layer->OnUpdate(timestep);
 				}
+
+				//Render each layer's ImGui
+				imGuiLayer->Begin();
+				for(Layer* layer : layerStack)
+					layer->OnImGuiRender();
+				imGuiLayer->End();
 			}
 
-			//Render each layer's ImGui
-			imGuiLayer->Begin();
-			for(Layer* layer : layerStack)
-				layer->OnImGuiRender();
-			imGuiLayer->End();
-			
 			window->OnUpdate();
 		}
 	}

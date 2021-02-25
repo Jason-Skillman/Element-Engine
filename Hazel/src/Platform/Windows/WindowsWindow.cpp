@@ -25,6 +25,8 @@ namespace Hazel {
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props) : window(nullptr) {
+		HZ_PROFILE_FUNCTION();
+		
 		Init(props);
 	}
 
@@ -33,6 +35,8 @@ namespace Hazel {
 	}
 	
 	void WindowsWindow::OnUpdate() {
+		HZ_PROFILE_FUNCTION();
+		
 		glfwPollEvents();
 
 		context->SwapBuffers();
@@ -62,6 +66,8 @@ namespace Hazel {
 	}
 
 	void WindowsWindow::Init(const WindowProps& props) {
+		HZ_PROFILE_FUNCTION();
+		
 		data.title = props.title;
 		data.width = props.width;
 		data.height = props.height;
@@ -173,6 +179,8 @@ namespace Hazel {
 	}
 
 	void WindowsWindow::Shutdown() {
+		HZ_PROFILE_FUNCTION();
+		
 		glfwDestroyWindow(window);
 	}
 }
