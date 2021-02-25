@@ -51,7 +51,7 @@ namespace Hazel {
 	Application::Application() {
 		if(!instance) instance = this;
 		
-		window = std::unique_ptr<Window>(Window::Create());
+		window = Window::Create();
 		window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
 
 		Renderer::Init();

@@ -13,7 +13,7 @@ namespace Hazel {
 	private:
 		static Application* instance;
 		
-		std::unique_ptr<Window> window;
+		Scope<Window> window;
 		ImGuiLayer* imGuiLayer;
 		LayerStack layerStack;
 		

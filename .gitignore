@@ -354,3 +354,6 @@ MigrationBackup/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+
+#Project files
+*.json
