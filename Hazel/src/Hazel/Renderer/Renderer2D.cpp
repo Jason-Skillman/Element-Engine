@@ -87,6 +87,7 @@ namespace Hazel {
 	}
 
 	void Renderer2D::DrawQuad(const DrawProporties& properties) {
+		//Set uniforms
 		storage.textureShader->Bind();
 		storage.textureShader->SetUniformFloat4("u_Color", properties.color);
 		storage.textureShader->SetUniformFloat("u_TilingFactor", properties.tilingFactor);
@@ -104,7 +105,7 @@ namespace Hazel {
 		}
 		storage.textureShader->SetUniformMat4("u_Transform", transform);
 
-
+		//Bind objects
 		storage.vertexArray->Bind();
 
 		if(properties.texture == nullptr) {
@@ -112,7 +113,8 @@ namespace Hazel {
 		} else {
 			properties.texture->Bind();
 		}
-		
+
+		//Render
 		RenderCommand::DrawIndexed(storage.vertexArray);
 	}
 
