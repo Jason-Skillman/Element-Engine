@@ -25,6 +25,9 @@ Intended to be included by other client applications.
 //ImGui
 #include "Hazel/ImGui/ImGuiLayer.h"
 
+//Math
+#include "Hazel/Math/Random.h"
+
 //Renderer
 #include "Hazel/Renderer/Renderer.h"
 #include "Hazel/Renderer/Renderer2D.h"

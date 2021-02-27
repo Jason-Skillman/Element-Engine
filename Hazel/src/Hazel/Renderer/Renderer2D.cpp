@@ -43,7 +43,6 @@ namespace Hazel {
 		};
 
 		//Objects
-		//storage = new Renderer2DStorage();
 		storage.vertexArray = VertexArray::Create();
 		storage.textureShader = Shader::Create("assets/shaders/glsl/Texture.shader");
 		storage.colorShader = Shader::Create("assets/shaders/glsl/Color.shader");
@@ -71,8 +70,6 @@ namespace Hazel {
 	
 	void Renderer2D::Shutdown() {
 		HZ_PROFILE_FUNCTION();
-		
-		//delete storage;
 	}
 	
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {

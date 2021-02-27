@@ -8,10 +8,10 @@
 extern Hazel::Application* Hazel::CreateApplication();
 
 int main(int argc, char** argv) {
-	Hazel::Log::Init();
-	
 	HZ_PROFILE_BEGIN_SESSION("Startup", "HazelProfile-Startup.json");
-	auto app = Hazel::CreateApplication();
+	Hazel::Log::Init();
+	Hazel::Random::Init();
+	Hazel::Application* app = Hazel::CreateApplication();
 	HZ_PROFILE_END_SESSION();
 	
 	HZ_PROFILE_BEGIN_SESSION("Runtime", "HazelProfile-Runtime.json");
