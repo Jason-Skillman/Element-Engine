@@ -42,7 +42,7 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 		Hazel::Renderer2D::BeginScene(cameraController.GetCamera());
 
 		//Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f}, 0.0f, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, 0.0f, { 1.0f, 1.0f }, texture);
+		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, 0.0f, { 1.0f, 1.0f }, texture, 2.0f);
 
 		Hazel::Renderer2D::DrawQuad({ -0.5f, -0.5f, 1.0 }, 15.0f, { 0.8f, 0.5f }, { 0.2f, 0.8f, 0.3f, 1.0f });
 

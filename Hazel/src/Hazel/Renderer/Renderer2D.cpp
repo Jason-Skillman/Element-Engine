@@ -96,13 +96,14 @@ namespace Hazel {
 		RenderCommand::DrawIndexed(storage->vertexArray);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture) {
-		DrawQuad({ position.x, position.y, 0.0f }, rotation, scale, texture);
+	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture, float tilingFactor) {
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, scale, texture, tilingFactor);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture) {
+	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture, float tilingFactor) {
 		storage->shader->Bind();
 		storage->shader->SetUniformFloat4("u_Color", glm::vec4(1.0f));
+		storage->shader->SetUniformFloat("u_TilingFactor", tilingFactor);
 
 		glm::mat4 transform =
 			glm::translate(glm::mat4(1.0f), position) *

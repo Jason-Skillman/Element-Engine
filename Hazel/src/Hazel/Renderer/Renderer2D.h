@@ -16,9 +16,10 @@ namespace Hazel {
 		static void EndScene();
 		
 		//Primitives
-		static void DrawQuad(const glm::vec2& position = { 0.0f, 0.0f }, float rotation = 0.0f, const glm::vec2& scale = { 1.0f, 1.0f }, const glm::vec4& color = { 1.0f, 1.0f, 1.0f, 1.0f });
-		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const glm::vec4& color);
-		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture);
-		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture);
+		static void DrawQuad(const glm::vec2& position, float rotation = 0.0f, const glm::vec2& scale = { 1.0f, 1.0f }, const glm::vec4& color = { 1.0f, 1.0f, 1.0f, 1.0f });
+		static void DrawQuad(const glm::vec3& position, float rotation = 0.0f, const glm::vec2& scale = { 1.0f, 1.0f }, const glm::vec4& color = { 1.0f, 1.0f, 1.0f, 1.0f });
+
+		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture, float tilingFactor = 1.0f);
+		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const Ref<Texture>& texture, float tilingFactor = 1.0f);
 	};
 }
