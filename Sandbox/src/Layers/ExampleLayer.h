@@ -38,8 +38,7 @@ public:
 			0.0f, 0.5f, 0.0f,			0.0f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f
 		};
 
-		Hazel::Ref<Hazel::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Hazel::VertexBuffer::Create(vertices, sizeof(vertices)));
+		Hazel::Ref<Hazel::VertexBuffer> vertexBuffer = Hazel::VertexBuffer::Create(vertices, sizeof(vertices));
 		vertexBuffer->Bind();
 
 		
@@ -60,8 +59,7 @@ public:
 
 		unsigned int indices[3] = { 0, 1, 2 };
 		unsigned int indicesSize = sizeof(indices) / sizeof(unsigned int);
-		Hazel::Ref<Hazel::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Hazel::IndexBuffer::Create(indices, indicesSize));
+		Hazel::Ref<Hazel::IndexBuffer> indexBuffer = Hazel::IndexBuffer::Create(indices, indicesSize);
 
 		triangleVA->SetIndexBuffer(indexBuffer);
 
@@ -78,8 +76,7 @@ public:
 		squareVA = Hazel::VertexArray::Create();
 		//Hazel::Ref<VertexBuffer> squareVB = std::make_shared<VertexBuffer>(VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
 
-		Hazel::Ref<Hazel::VertexBuffer> squareVB;
-		squareVB.reset(Hazel::VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
+		Hazel::Ref<Hazel::VertexBuffer> squareVB = Hazel::VertexBuffer::Create(sqVertices, sizeof(sqVertices));
 		squareVB->SetLayout(layout);
 
 		squareVA->AddVertexBuffer(squareVB);
@@ -92,8 +89,7 @@ public:
 		};
 		unsigned int squareIndicesSize = sizeof(squareIndices) / sizeof(unsigned int);
 
-		Hazel::Ref<Hazel::IndexBuffer> squareIB;
-		squareIB.reset(Hazel::IndexBuffer::Create(squareIndices, squareIndicesSize));
+		Hazel::Ref<Hazel::IndexBuffer> squareIB = Hazel::IndexBuffer::Create(squareIndices, squareIndicesSize);
 
 		squareVA->SetIndexBuffer(squareIB);
 

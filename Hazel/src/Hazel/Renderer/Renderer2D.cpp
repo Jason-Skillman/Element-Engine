@@ -24,10 +24,10 @@ namespace Hazel {
 		
 		//Data
 		float vertices[4 * 9] = {
-			-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,
-			0.5f, -0.5f, 0.0f,		1.0f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,
-			0.5f, 0.5f, 0.0f,		1.0f, 1.0f,		0.0f, 0.0f, 1.0f, 1.0f,
-			-0.5f, 0.5f, 0.0f,		0.0f, 1.0f,		0.8f, 0.0f, 1.0f, 1.0f
+			-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, 0.0f,
+			0.5f, -0.5f, 0.0f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f, 0.0f,
+			0.5f, 0.5f, 0.0f,		1.0f, 1.0f,		0.0f, 0.0f, 0.0f, 0.0f,
+			-0.5f, 0.5f, 0.0f,		0.0f, 1.0f,		0.0f, 0.0f, 0.0f, 0.0f
 		};
 
 		unsigned int indices[6] = {
@@ -48,19 +48,16 @@ namespace Hazel {
 		storage.colorShader = Shader::Create("assets/shaders/glsl/Color.shader");
 
 		//Setup vertex buffer
-		Ref<VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		Ref<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
 		vertexBuffer->SetLayout(layout);
 		storage.vertexArray->AddVertexBuffer(vertexBuffer);
 
 		//Setup index buffer
-		Ref<IndexBuffer> indexBuffer;
-		indexBuffer.reset(IndexBuffer::Create(indices, indicesSize));
+		Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, indicesSize);
 		storage.vertexArray->SetIndexBuffer(indexBuffer);
 
 		//Set default uniforms
 		storage.textureShader->SetUniformInt("u_Texture", 1);
-		//storage->textureShader->SetUniformInt("u_Texture", 0);
 
 
 		storage.whiteTexture = Texture2D::Create(1, 1);
