@@ -5,6 +5,10 @@
 namespace Hazel {
 	//Static class
 	class Random {
+	private:
+		static std::mt19937 random;
+		static std::uniform_int_distribution<std::mt19937::result_type> distribution;
+		
 	public:
 		static void Init() {
 			random.seed(std::random_device()());
@@ -30,10 +34,5 @@ namespace Hazel {
 		static float Range(float min, float max) {
 			return (Float() * (max - min)) + min;
 		}
-		
-	private:
-		static std::mt19937 random;
-		static std::uniform_int_distribution<std::mt19937::result_type> distribution;
-		
 	};
 }

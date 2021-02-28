@@ -38,6 +38,8 @@ uniform sampler2D u_Texture;
 void main() {
 	vec4 tex = texture(u_Texture, v_TexCoord * u_TilingFactor);
 
-	o_Color = vec4(1.0);
-	o_Color *= u_Color * tex;
+	//o_Color = vec4(1.0);
+	//o_Color *= u_Color * tex;
+
+	o_Color = v_Color;
 }

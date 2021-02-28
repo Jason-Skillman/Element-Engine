@@ -1,7 +1,9 @@
 #pragma once
 
 #include "OrthographicCamera.h"
+#include "Shader.h"
 #include "Texture.h"
+#include "VertexArray.h"
 
 namespace Hazel {
 	/// <summary>
@@ -22,6 +24,31 @@ namespace Hazel {
 			Ref<Texture> texture;
 			float tilingFactor = 1.0f;
 		};
+
+	private:
+		struct QuadVertex {
+			glm::vec3 position;
+			glm::vec2 texCoord;
+			glm::vec4 color;
+		};
+		
+		struct RendererData {
+			const uint32_t maxQuads = 10000;
+			const uint32_t maxVertices = maxQuads * 4;
+			const uint32_t maxIndices = maxQuads * 6;
+			
+			Ref<VertexArray> quadVertexArray;
+			Ref<VertexBuffer> quadVertexBuffer;
+			Ref<Shader> textureShader;
+			Ref<Texture2D> whiteTexture;
+
+			uint32_t quadIndexCount = 0;
+			QuadVertex* quadVertexBufferBase = nullptr;
+			QuadVertex* quadVertexBufferPtr = nullptr;
+		};
+
+	private:
+		static RendererData data;
 		
 	public:
 		static void Init();
@@ -29,6 +56,7 @@ namespace Hazel {
 		
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
+		static void Flush();
 		
 		static void DrawQuad(const DrawProporties& properties);
 		
