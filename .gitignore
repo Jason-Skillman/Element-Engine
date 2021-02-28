@@ -355,5 +355,10 @@ MigrationBackup/
 **.vcxproj.filters
 **.vcxproj.user
 
+#Build files
+[Ii]termediate/
+[Dd]ist/
+x86_64/
+
 #Project files
 *.json
