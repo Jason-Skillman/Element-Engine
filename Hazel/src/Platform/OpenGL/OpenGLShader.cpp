@@ -30,7 +30,7 @@ namespace Hazel {
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
-		: rendererId(-1), name(name) {
+		: rendererID(-1), name(name) {
 
 		HZ_PROFILE_FUNCTION();
 		
@@ -43,13 +43,13 @@ namespace Hazel {
 	OpenGLShader::~OpenGLShader() {
 		HZ_PROFILE_FUNCTION();
 		
-		glDeleteProgram(rendererId);
+		glDeleteProgram(rendererID);
 	}
 
 	void OpenGLShader::Bind() const {
 		HZ_PROFILE_FUNCTION();
 		
-		glUseProgram(rendererId);
+		glUseProgram(rendererID);
 	}
 
 	void OpenGLShader::Unbind() const {
@@ -168,7 +168,7 @@ namespace Hazel {
 		// Get a program object.
 		unsigned int program = glCreateProgram();
 
-		//Keep track of the rendererIds
+		//Keep track of the rendererIDs
 		HZ_CORE_ASSERT(shaderSources.size() > 2, "Only 2 shaders are supported for now.")
 		std::array<GLenum, 2> glShaderIds;
 
@@ -239,14 +239,14 @@ namespace Hazel {
 		for(auto id : glShaderIds)
 			glDetachShader(program, id);
 
-		rendererId = program;
+		rendererID = program;
 	}
 
 	int OpenGLShader::GetUniformLocation(const std::string& name) const {
 		if(locationCache.find(name) != locationCache.end())
 			return locationCache[name];
 
-		int location = glGetUniformLocation(rendererId, name.c_str());
+		int location = glGetUniformLocation(rendererID, name.c_str());
 		//HZ_CORE_ASSERT(location == -1, "Uniform {0} could not be found!", name.c_str());
 
 		locationCache[name] = location;

@@ -10,7 +10,7 @@ typedef unsigned int GLenum;
 namespace Hazel {
 	class OpenGLShader : public Shader {
 	private:
-		uint32_t rendererId;
+		uint32_t rendererID;
 		std::string name;
 		mutable std::unordered_map<std::string, int> locationCache;
 

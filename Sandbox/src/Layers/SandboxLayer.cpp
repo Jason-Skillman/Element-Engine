@@ -96,7 +96,7 @@ void SandboxLayer::OnImGuiRender() {
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
 	ImGui::End();
 
-	ImGui::Begin("Profiler");
+	/*ImGui::Begin("Profiler");
 
 	for(auto& result : profileResults) {
 		char label[50];
@@ -106,7 +106,7 @@ void SandboxLayer::OnImGuiRender() {
 	}
 	profileResults.clear();
 
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void SandboxLayer::OnEvent(Hazel::Event& event) {

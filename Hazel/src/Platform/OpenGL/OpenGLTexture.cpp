@@ -16,14 +16,14 @@ namespace Hazel {
 		m_InternalFormat = GL_RGBA8;
 		m_DataFormat = GL_RGBA;
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &rendererId);
-		glTextureStorage2D(rendererId, 1, m_InternalFormat, width, height);
+		glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
+		glTextureStorage2D(rendererID, 1, m_InternalFormat, width, height);
 
-		glTextureParameteri(rendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(rendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTextureParameteri(rendererId, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTextureParameteri(rendererId, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
@@ -54,16 +54,16 @@ namespace Hazel {
 		this->width = width;
 		this->height = height;
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &rendererId);
-		glTextureStorage2D(rendererId, 1, internalFormat, this->width, this->height);
+		glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
+		glTextureStorage2D(rendererID, 1, internalFormat, this->width, this->height);
 
-		glTextureParameteri(rendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(rendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTextureParameteri(rendererId, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTextureParameteri(rendererId, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		glTextureSubImage2D(rendererId, 0, 0, 0, this->width, this->height, dataFormat, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(rendererID, 0, 0, 0, this->width, this->height, dataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
 	}
@@ -71,7 +71,7 @@ namespace Hazel {
 	OpenGLTexture2D::~OpenGLTexture2D() {
 		HZ_PROFILE_FUNCTION();
 		
-		glDeleteTextures(1, &rendererId);
+		glDeleteTextures(1, &rendererID);
 	}
 
 	void OpenGLTexture2D::SetData(void* data, uint32_t size) {
@@ -79,13 +79,13 @@ namespace Hazel {
 
 		uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
 		HZ_CORE_ASSERT(size != width * height * bpp, "Data must be the entire texture!");
-		glTextureSubImage2D(rendererId, 0, 0, 0, width, height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(rendererID, 0, 0, 0, width, height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}
 	
 	void OpenGLTexture2D::Bind(uint32_t slot) const {
 		HZ_PROFILE_FUNCTION();
 		
-		glBindTextureUnit(slot, rendererId);
+		glBindTextureUnit(slot, rendererID);
 	}
 
 	void OpenGLTexture2D::Unbind(uint32_t slot) const {

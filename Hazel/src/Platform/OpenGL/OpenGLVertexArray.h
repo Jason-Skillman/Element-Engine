@@ -4,7 +4,7 @@
 namespace Hazel {
 	class OpenGLVertexArray : public VertexArray {
 	private:
-		uint32_t rendererId;
+		uint32_t rendererID;
 		std::vector<Ref<VertexBuffer>> vertexBuffers;
 		Ref<IndexBuffer> indexBuffer;
 		

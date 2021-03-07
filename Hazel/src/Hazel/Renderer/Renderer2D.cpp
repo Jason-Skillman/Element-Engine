@@ -62,6 +62,10 @@ namespace Hazel {
 		//Set default uniforms
 		data.textureShader->Bind();
 		data.textureShader->SetUniformInt("u_Texture", 0);
+
+		//Set all texture slots to 0
+		for(uint32_t i = 0; i < data.textureSlots.size(); i++)
+			data.textureSlots[i] = 0;
 	}
 	
 	void Renderer2D::Shutdown() {
@@ -76,6 +80,8 @@ namespace Hazel {
 
 		data.quadIndexCount = 0;
 		data.quadVertexBufferPtr = data.quadVertexBufferBase;
+
+		data.textureSlotIndex = 1;
 	}
 	
 	void Renderer2D::EndScene() {
@@ -95,6 +101,14 @@ namespace Hazel {
 
 	void Renderer2D::DrawQuad(const DrawProporties& properties) {
 		HZ_PROFILE_FUNCTION();
+
+		/*constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+		float textureIndex = 0.0f;
+		if(textureIndex == 0.0f) {
+			textureIndex = static_cast<float>(data.textureSlotIndex);
+			data.textureSlots[data.textureSlotIndex] = properties.texture;
+		}*/
 
 		data.quadVertexBufferPtr->position = properties.position;
 		data.quadVertexBufferPtr->color = properties.color;

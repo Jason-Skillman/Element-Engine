@@ -36,6 +36,7 @@ namespace Hazel {
 			const uint32_t maxQuads = 10000;
 			const uint32_t maxVertices = maxQuads * 4;
 			const uint32_t maxIndices = maxQuads * 6;
+			static const uint32_t maxTextureSlots = 32; //Todo: Render caps
 			
 			Ref<VertexArray> quadVertexArray;
 			Ref<VertexBuffer> quadVertexBuffer;
@@ -45,6 +46,9 @@ namespace Hazel {
 			uint32_t quadIndexCount = 0;
 			QuadVertex* quadVertexBufferBase = nullptr;
 			QuadVertex* quadVertexBufferPtr = nullptr;
+
+			std::array<Ref<Texture2D>, maxTextureSlots> textureSlots;
+			uint32_t textureSlotIndex = 1;
 		};
 
 	private:
@@ -59,6 +63,5 @@ namespace Hazel {
 		static void Flush();
 		
 		static void DrawQuad(const DrawProporties& properties);
-		
 	};
 }

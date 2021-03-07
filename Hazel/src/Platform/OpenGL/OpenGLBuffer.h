@@ -4,7 +4,7 @@
 namespace Hazel {
 	class OpenGLVertexBuffer : public VertexBuffer {
 	private:
-		uint32_t rendererId;
+		uint32_t rendererID;
 		BufferLayout layout;
 		
 	public:
@@ -29,7 +29,7 @@ namespace Hazel {
 
 	class OpenGLIndexBuffer : public IndexBuffer {
 	private:
-		uint32_t rendererId;
+		uint32_t rendererID;
 		uint32_t count;
 
 	public:

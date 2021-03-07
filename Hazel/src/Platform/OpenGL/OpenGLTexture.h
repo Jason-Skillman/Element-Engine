@@ -7,7 +7,7 @@
 namespace Hazel {
 	class OpenGLTexture2D : public Texture2D {
 	private:
-		uint32_t rendererId;
+		uint32_t rendererID;
 		uint32_t width, height;
 		std::string path;
 		GLenum m_InternalFormat, m_DataFormat;
@@ -27,7 +27,7 @@ namespace Hazel {
 		}
 
 		inline virtual uint32_t GetRendererID() const override {
-			return rendererId;
+			return rendererID;
 		}
 
 		virtual void SetData(void* data, uint32_t size) override;
@@ -37,7 +37,7 @@ namespace Hazel {
 
 	public:
 		virtual bool operator==(const Texture& other) const override {
-			return rendererId == ((OpenGLTexture2D&)other).rendererId;
+			return rendererID == ((OpenGLTexture2D&)other).rendererID;
 		}
 
 	};
