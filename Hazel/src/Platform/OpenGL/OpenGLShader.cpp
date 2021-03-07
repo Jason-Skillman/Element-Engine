@@ -86,10 +86,6 @@ namespace Hazel {
 		UploadUniformMat4(name, matrix);
 	}
 
-	const std::string& OpenGLShader::GetName() const {
-		return name;
-	}
-
 	void OpenGLShader::UploadUniformInt(const std::string& name, int value) {
 		glUniform1i(GetUniformLocation(name), value);
 	}

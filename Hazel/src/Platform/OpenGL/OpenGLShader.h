@@ -31,7 +31,13 @@ namespace Hazel {
 		virtual void SetUniformMat3(const std::string& name, const glm::mat3& matrix) override;
 		virtual void SetUniformMat4(const std::string& name, const glm::mat4& matrix) override;
 
-		virtual const std::string& GetName() const override;
+		inline virtual const uint32_t GetRendererID() const override {
+			return rendererID;
+		}
+		
+		inline virtual const std::string& GetName() const override {
+			return name;
+		}
 
 		void UploadUniformInt(const std::string& name, int value);
 		void UploadUniformFloat(const std::string& name, float value);
