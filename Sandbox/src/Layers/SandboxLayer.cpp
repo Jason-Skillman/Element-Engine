@@ -72,12 +72,11 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 		//Red square
 		{
 			Hazel::Renderer2D::DrawProporties drawProps;
-			drawProps.position = { 0.0f, -0.5f, 0.0f };
-			drawProps.scale = { 1.0f, 1.0f };
-			drawProps.color = { 0.1f, 0.2f, 0.3f, 1.0f };
-			
+			drawProps.position = { 0.0f, 0.0f, 0.0f };
+			drawProps.scale = { 0.000000001f, 0.000000001f };
+			drawProps.color = { 0.8f, 0.2f, 0.3f, 1.0f };
 			//Hazel::Renderer2D::DrawQuad(drawProps);
-			Hazel::Renderer2D::DrawQuadColor({ 0.5f, 0.5f, 0.0f }, { 1.0, 1.0 }, { 0.8f, 0.2f, 0.3f, 1.0f });
+			Hazel::Renderer2D::DrawQuadColor(drawProps);
 		}
 
 		//Tiled background

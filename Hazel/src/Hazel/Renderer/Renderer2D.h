@@ -65,6 +65,6 @@ namespace Hazel {
 		static void Flush();
 		
 		static void DrawQuad(const DrawProporties& properties);
-		static void DrawQuadColor(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color);
+		static void DrawQuadColor(const DrawProporties& properties);
 	};
 }
