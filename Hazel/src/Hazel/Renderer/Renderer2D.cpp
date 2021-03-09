@@ -18,7 +18,8 @@ namespace Hazel {
 		const BufferLayout layout = {
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float2, "a_TexCoord" },
-			{ ShaderDataType::Float4, "a_Color" }
+			{ ShaderDataType::Float4, "a_Color" },
+			{ ShaderDataType::Float, "a_TextureIndex" }
 		};
 
 		//Objects
@@ -59,13 +60,16 @@ namespace Hazel {
 		uint32_t whiteTextureData = 0xffffffff;
 		data.whiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
-		//Set default uniforms
+		
+		int32_t samplers[data.maxTextureSlots];
+		for(uint32_t i = 0; i < data.maxTextureSlots; i++) {
+			samplers[i] = i;
+		}
 		data.textureShader->Bind();
-		data.textureShader->SetUniformInt("u_Texture", 0);
+		data.textureShader->SetUniformIntArray("u_Textures", samplers, data.maxTextureSlots);
 
-		//Set all texture slots to 0
-		for(uint32_t i = 0; i < data.textureSlots.size(); i++)
-			data.textureSlots[i] = 0;
+
+		data.textureSlots[0] = data.whiteTexture;
 	}
 	
 	void Renderer2D::Shutdown() {
@@ -87,7 +91,7 @@ namespace Hazel {
 	void Renderer2D::EndScene() {
 		HZ_PROFILE_FUNCTION();
 
-		uint32_t dataSize = reinterpret_cast<uint8_t*>(data.quadVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.quadVertexBufferBase);
+		uint32_t dataSize = (uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase;
 		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
 		
 		Flush();
@@ -96,44 +100,63 @@ namespace Hazel {
 	void Renderer2D::Flush() {
 		HZ_PROFILE_FUNCTION();
 
+		//Bind all textures to their texture slot
+		for(uint32_t i = 0; i < data.textureSlotIndex; i++) {
+			data.textureSlots[i]->Bind(i);
+		}
+		
 		RenderCommand::DrawIndexed(data.quadVertexArray, data.quadIndexCount);
 	}
 
 	void Renderer2D::DrawQuad(const DrawProporties& properties) {
 		HZ_PROFILE_FUNCTION();
 
-		/*constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		//constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 		float textureIndex = 0.0f;
+
+		for(uint32_t i = 1; i < data.textureSlotIndex; i++) {
+			//If the textures are equal
+			if(*data.textureSlots[i].get() == *properties.texture.get()) {
+				textureIndex = static_cast<float>(i);
+				break;
+			}
+		}
+		
 		if(textureIndex == 0.0f) {
 			textureIndex = static_cast<float>(data.textureSlotIndex);
-			data.textureSlots[data.textureSlotIndex] = properties.texture;
-		}*/
+			//data.textureSlots[data.textureSlotIndex] = properties.texture;
+		}
 
 		data.quadVertexBufferPtr->position = properties.position;
 		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->texCoord = { 0.0f, 0.0f, };
+		data.quadVertexBufferPtr->texCoord = { 0.0f, 0.0f };
+		data.quadVertexBufferPtr->textureIndex = textureIndex;
 		data.quadVertexBufferPtr++;
 
 		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y, 0.0f };
 		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->texCoord = { 1.0f, 0.0f, };
+		data.quadVertexBufferPtr->texCoord = { 1.0f, 0.0f };
+		data.quadVertexBufferPtr->textureIndex = textureIndex;
 		data.quadVertexBufferPtr++;
 
 		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y + properties.scale.y, 0.0f };
 		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->texCoord = { 1.0f, 1.0f, };
+		data.quadVertexBufferPtr->texCoord = { 1.0f, 1.0f };
+		data.quadVertexBufferPtr->textureIndex = textureIndex;
 		data.quadVertexBufferPtr++;
 
 		data.quadVertexBufferPtr->position = { properties.position.x, properties.position.y + properties.scale.y, 0.0f };
 		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->texCoord = { 0.0f, 1.0f, };
+		data.quadVertexBufferPtr->texCoord = { 0.0f, 1.0f };
+		data.quadVertexBufferPtr->textureIndex = textureIndex;
 		data.quadVertexBufferPtr++;
 
 		data.quadIndexCount += 6;
-		
+
+
 		//Set uniforms
-		data.textureShader->Bind();
+		/*data.textureShader->Bind();
 		data.textureShader->SetUniformFloat4("u_Color", properties.color);
 		data.textureShader->SetUniformFloat("u_TilingFactor", properties.tilingFactor);
 
@@ -148,8 +171,10 @@ namespace Hazel {
 				glm::rotate(glm::mat4(1.0f), glm::radians(properties.rotation), glm::vec3(0, 0, 1)) *
 				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
 		}
-		data.textureShader->SetUniformMat4("u_Transform", transform);
+		data.textureShader->SetUniformMat4("u_Transform", transform);*/
 
+
+		
 		//Bind objects
 		//data.vertexArray->Bind();
 
@@ -161,6 +186,62 @@ namespace Hazel {
 
 		//Render
 		//RenderCommand::DrawIndexed(data.vertexArray);
+	}
+
+	void Renderer2D::DrawQuadColor(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color) {
+		HZ_PROFILE_FUNCTION();
+
+		const float texIndex = 0.0f; // White Texture
+		const float tilingFactor = 1.0f;
+
+		data.quadVertexBufferPtr->position = position;
+		data.quadVertexBufferPtr->texCoord = { 0.0f, 0.0f };
+		data.quadVertexBufferPtr->color = color;
+		data.quadVertexBufferPtr->textureIndex = texIndex;
+		//data.quadVertexBufferPtr->til = tilingFactor;
+		data.quadVertexBufferPtr++;
+
+		data.quadVertexBufferPtr->position = { position.x + scale.x, position.y, 0.0f };
+		data.quadVertexBufferPtr->texCoord = { 1.0f, 0.0f };
+		data.quadVertexBufferPtr->color = color;
+		data.quadVertexBufferPtr->textureIndex = texIndex;
+		//data.quadVertexBufferPtr->TilingFactor = tilingFactor;
+		data.quadVertexBufferPtr++;
+
+		data.quadVertexBufferPtr->position = { position.x + scale.x, position.y + scale.y, 0.0f };
+		data.quadVertexBufferPtr->texCoord = { 1.0f, 1.0f };
+		data.quadVertexBufferPtr->color = color;
+		data.quadVertexBufferPtr->textureIndex = texIndex;
+		//data.quadVertexBufferPtr->TilingFactor = tilingFactor;
+		data.quadVertexBufferPtr++;
+
+		data.quadVertexBufferPtr->position = { position.x, position.y + scale.y, 0.0f };
+		data.quadVertexBufferPtr->texCoord = { 0.0f, 1.0f };
+		data.quadVertexBufferPtr->color = color;
+		data.quadVertexBufferPtr->textureIndex = texIndex;
+		//data.quadVertexBufferPtr->TilingFactor = tilingFactor;
+		data.quadVertexBufferPtr++;
+
+		data.quadIndexCount += 6;
+
+
+		
+		/*data.textureShader->Bind();
+		//data.textureShader->SetUniformFloat4("u_Color", color);
+		data.textureShader->SetUniformFloat("u_TilingFactor", tilingFactor);
+
+		glm::mat4 transform;
+		//if(rotation == 0) {
+			transform =
+				glm::translate(glm::mat4(1.0f), position) *
+				glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
+		//} else {
+		//	transform =
+		//		glm::translate(glm::mat4(1.0f), position) *
+		//		glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) *
+		//		glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
+		//}
+		data.textureShader->SetUniformMat4("u_Transform", transform);*/
 	}
 
 }

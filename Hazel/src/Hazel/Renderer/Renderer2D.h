@@ -30,6 +30,8 @@ namespace Hazel {
 			glm::vec3 position;
 			glm::vec2 texCoord;
 			glm::vec4 color;
+			float textureIndex;
+			float tilingFactor;
 		};
 		
 		struct RendererData {
@@ -63,5 +65,6 @@ namespace Hazel {
 		static void Flush();
 		
 		static void DrawQuad(const DrawProporties& properties);
+		static void DrawQuadColor(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color);
 	};
 }
