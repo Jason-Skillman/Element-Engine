@@ -73,7 +73,7 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 		{
 			Hazel::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 0.0f, 0.0f, 0.0f };
-			drawProps.scale = { 0.000000001f, 0.000000001f };
+			drawProps.scale = { 0.7f, 0.7f };
 			drawProps.color = { 0.8f, 0.2f, 0.3f, 1.0f };
 			//Hazel::Renderer2D::DrawQuad(drawProps);
 			Hazel::Renderer2D::DrawQuadColor(drawProps);

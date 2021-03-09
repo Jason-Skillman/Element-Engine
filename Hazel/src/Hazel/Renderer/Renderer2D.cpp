@@ -19,7 +19,8 @@ namespace Hazel {
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float2, "a_TexCoord" },
 			{ ShaderDataType::Float4, "a_Color" },
-			{ ShaderDataType::Float, "a_TextureIndex" }
+			{ ShaderDataType::Float, "a_TextureIndex" },
+			{ ShaderDataType::Float, "a_Tiling" }
 		};
 
 		//Objects
@@ -192,34 +193,34 @@ namespace Hazel {
 		HZ_PROFILE_FUNCTION();
 
 		const float texIndex = 0.0f; // White Texture
-		const float tilingFactor = 1.0f;
+		const float tiling = 1.0f;
 
 		data.quadVertexBufferPtr->position = properties.position;
 		data.quadVertexBufferPtr->texCoord = { 0.0f, 0.0f };
 		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = texIndex;
-		//data.quadVertexBufferPtr->til = tilingFactor;
+		data.quadVertexBufferPtr->tiling = tiling;
 		data.quadVertexBufferPtr++;
 
 		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y, 0.0f };
 		data.quadVertexBufferPtr->texCoord = { 1.0f, 0.0f };
 		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = texIndex;
-		//data.quadVertexBufferPtr->TilingFactor = tilingFactor;
+		data.quadVertexBufferPtr->tiling = tiling;
 		data.quadVertexBufferPtr++;
 
 		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y + properties.scale.y, 0.0f };
 		data.quadVertexBufferPtr->texCoord = { 1.0f, 1.0f };
 		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = texIndex;
-		//data.quadVertexBufferPtr->TilingFactor = tilingFactor;
+		data.quadVertexBufferPtr->tiling = tiling;
 		data.quadVertexBufferPtr++;
 
 		data.quadVertexBufferPtr->position = { properties.position.x, properties.position.y + properties.scale.y, 0.0f };
 		data.quadVertexBufferPtr->texCoord = { 0.0f, 1.0f };
 		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = texIndex;
-		//data.quadVertexBufferPtr->TilingFactor = tilingFactor;
+		data.quadVertexBufferPtr->tiling = tiling;
 		data.quadVertexBufferPtr++;
 
 		data.quadIndexCount += 6;

@@ -31,7 +31,7 @@ namespace Hazel {
 			glm::vec2 texCoord;
 			glm::vec4 color;
 			float textureIndex;
-			float tilingFactor;
+			float tiling;
 		};
 		
 		struct RendererData {
