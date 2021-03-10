@@ -75,8 +75,9 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 			drawProps.position = { 0.0f, 0.0f, 0.0f };
 			drawProps.scale = { 0.7f, 0.7f };
 			drawProps.color = { 0.8f, 0.2f, 0.3f, 1.0f };
-			//Hazel::Renderer2D::DrawQuad(drawProps);
-			Hazel::Renderer2D::DrawQuadColor(drawProps);
+			drawProps.texture = texture;
+			Hazel::Renderer2D::DrawQuad(drawProps);
+			//Hazel::Renderer2D::DrawQuadColor(drawProps);
 		}
 
 		//Tiled background

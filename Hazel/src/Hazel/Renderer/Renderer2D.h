@@ -21,8 +21,8 @@ namespace Hazel {
 
 			glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 			
-			Ref<Texture> texture;
-			float tilingFactor = 1.0f;
+			Ref<Texture2D> texture;
+			float tiling = 1.0f;
 		};
 
 	private:

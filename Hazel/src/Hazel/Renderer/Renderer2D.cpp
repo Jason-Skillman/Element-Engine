@@ -115,7 +115,6 @@ namespace Hazel {
 		//constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 		float textureIndex = 0.0f;
-
 		for(uint32_t i = 1; i < data.textureSlotIndex; i++) {
 			//If the textures are equal
 			if(*data.textureSlots[i].get() == *properties.texture.get()) {
@@ -123,43 +122,47 @@ namespace Hazel {
 				break;
 			}
 		}
-		
 		if(textureIndex == 0.0f) {
 			textureIndex = static_cast<float>(data.textureSlotIndex);
-			//data.textureSlots[data.textureSlotIndex] = properties.texture;
+			data.textureSlots[data.textureSlotIndex] = properties.texture;
+			data.textureSlotIndex++;
 		}
 
 		data.quadVertexBufferPtr->position = properties.position;
-		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->texCoord = { 0.0f, 0.0f };
+		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = textureIndex;
+		data.quadVertexBufferPtr->tiling = properties.tiling;
 		data.quadVertexBufferPtr++;
 
 		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y, 0.0f };
-		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->texCoord = { 1.0f, 0.0f };
+		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = textureIndex;
+		data.quadVertexBufferPtr->tiling = properties.tiling;
 		data.quadVertexBufferPtr++;
 
 		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y + properties.scale.y, 0.0f };
-		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->texCoord = { 1.0f, 1.0f };
+		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = textureIndex;
+		data.quadVertexBufferPtr->tiling = properties.tiling;
 		data.quadVertexBufferPtr++;
 
 		data.quadVertexBufferPtr->position = { properties.position.x, properties.position.y + properties.scale.y, 0.0f };
-		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->texCoord = { 0.0f, 1.0f };
+		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = textureIndex;
+		data.quadVertexBufferPtr->tiling = properties.tiling;
 		data.quadVertexBufferPtr++;
 
 		data.quadIndexCount += 6;
 
 
 		//Set uniforms
-		/*data.textureShader->Bind();
-		data.textureShader->SetUniformFloat4("u_Color", properties.color);
-		data.textureShader->SetUniformFloat("u_TilingFactor", properties.tilingFactor);
+		data.textureShader->Bind();
+		//data.textureShader->SetUniformFloat4("u_Color", properties.color);
+		//data.textureShader->SetUniformFloat("u_Tiling", properties.tilingFactor);
 
 		glm::mat4 transform;
 		if(properties.rotation == 0) {
@@ -172,7 +175,7 @@ namespace Hazel {
 				glm::rotate(glm::mat4(1.0f), glm::radians(properties.rotation), glm::vec3(0, 0, 1)) *
 				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
 		}
-		data.textureShader->SetUniformMat4("u_Transform", transform);*/
+		data.textureShader->SetUniformMat4("u_Transform", transform);
 
 
 		
@@ -229,19 +232,19 @@ namespace Hazel {
 		
 		data.textureShader->Bind();
 		//data.textureShader->SetUniformFloat4("u_Color", color);
-		//data.textureShader->SetUniformFloat("u_TilingFactor", tilingFactor);
+		//data.textureShader->SetUniformFloat("u_Tiling", tilingFactor);
 
 		glm::mat4 transform;
-		//if(rotation == 0) {
+		if(properties.rotation == 0) {
 			transform =
 				glm::translate(glm::mat4(1.0f), properties.position) *
 				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
-		//} else {
-		//	transform =
-		//		glm::translate(glm::mat4(1.0f), position) *
-		//		glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) *
-		//		glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
-		//}
+		} else {
+			transform =
+				glm::translate(glm::mat4(1.0f), properties.position) *
+				glm::rotate(glm::mat4(1.0f), glm::radians(properties.rotation), glm::vec3(0, 0, 1)) *
+				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
+		}
 		data.textureShader->SetUniformMat4("u_Transform", transform);
 	}
 
