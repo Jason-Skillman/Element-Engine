@@ -71,6 +71,9 @@ namespace Hazel {
 
 
 		data.textureSlots[0] = data.whiteTexture;
+		/*for (auto&& textureSlot : data.textureSlots) {
+			textureSlot = data.whiteTexture;
+		}*/
 	}
 	
 	void Renderer2D::Shutdown() {
@@ -115,17 +118,19 @@ namespace Hazel {
 		//constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 		float textureIndex = 0.0f;
-		for(uint32_t i = 1; i < data.textureSlotIndex; i++) {
-			//If the textures are equal
-			if(*data.textureSlots[i].get() == *properties.texture.get()) {
-				textureIndex = static_cast<float>(i);
-				break;
+		if(properties.texture != nullptr) {
+			for(uint32_t i = 1; i < data.textureSlotIndex; i++) {
+				//If the textures are equal
+				if(*data.textureSlots[i].get() == *properties.texture.get()) {
+					textureIndex = static_cast<float>(i);
+					break;
+				}
 			}
-		}
-		if(textureIndex == 0.0f) {
-			textureIndex = static_cast<float>(data.textureSlotIndex);
-			data.textureSlots[data.textureSlotIndex] = properties.texture;
-			data.textureSlotIndex++;
+			if(textureIndex == 0.0f) {
+				textureIndex = static_cast<float>(data.textureSlotIndex);
+				data.textureSlots[data.textureSlotIndex] = properties.texture;
+				data.textureSlotIndex++;
+			}
 		}
 
 		data.quadVertexBufferPtr->position = properties.position;
@@ -160,9 +165,8 @@ namespace Hazel {
 
 
 		//Set uniforms
-		data.textureShader->Bind();
+		/*data.textureShader->Bind();
 		//data.textureShader->SetUniformFloat4("u_Color", properties.color);
-		//data.textureShader->SetUniformFloat("u_Tiling", properties.tilingFactor);
 
 		glm::mat4 transform;
 		if(properties.rotation == 0) {
@@ -175,7 +179,7 @@ namespace Hazel {
 				glm::rotate(glm::mat4(1.0f), glm::radians(properties.rotation), glm::vec3(0, 0, 1)) *
 				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
 		}
-		data.textureShader->SetUniformMat4("u_Transform", transform);
+		data.textureShader->SetUniformMat4("u_Transform", transform);*/
 
 
 		
@@ -192,6 +196,7 @@ namespace Hazel {
 		//RenderCommand::DrawIndexed(data.vertexArray);
 	}
 
+	//Todo: Remove
 	void Renderer2D::DrawQuadColor(const DrawProporties& properties) {
 		HZ_PROFILE_FUNCTION();
 

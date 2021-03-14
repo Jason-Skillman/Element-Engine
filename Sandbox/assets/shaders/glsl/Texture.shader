@@ -17,7 +17,8 @@ out float v_TextureIndex;
 out float v_Tiling;
 
 void main() {
-	gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+	//gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 
 	v_Position = a_Position;
 	v_TexCoord = a_TexCoord;
@@ -39,19 +40,11 @@ in vec4 v_Color;
 in float v_TextureIndex;
 in float v_Tiling;
 
-//uniform vec4 u_Color = vec4(1);
-//uniform float u_Tiling = 1;
+uniform vec4 u_Color = vec4(1);
 uniform sampler2D u_Textures[32];
 
 void main() {
-	//vec4 tex = texture(u_Textures[int(v_TextureIndex)], v_TexCoord * u_Tiling);
-	vec4 tex = texture(u_Textures[int(v_TextureIndex)], v_TexCoord);
+	vec4 tex = texture(u_Textures[int(v_TextureIndex)], v_TexCoord * v_Tiling);
 
-	//o_Color = tex * v_Color;
-	o_Color = tex;
-	//o_Color = vec4(v_TexCoord, 0, 1);
-	//o_Color = vec4(v_Tiling, v_Tiling, v_Tiling, 1);
-	//o_Color = vec4(v_TextureIndex / 2, v_TextureIndex / 2, v_TextureIndex / 2, 1);
-	//o_Color = v_Color;
-	//o_Color = vec4(1, 1, 1, 1);
+	o_Color = tex * v_Color * u_Color;
 }

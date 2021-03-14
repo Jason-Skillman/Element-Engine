@@ -41,53 +41,55 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 
 		Hazel::Renderer2D::BeginScene(cameraController.GetCamera());
 
-		//Blue square
-		/*{
-			Hazel::Renderer2D::DrawProporties drawProps;
-			drawProps.position = { 1.0f, 0.0f, 0.0f };
-			drawProps.rotation = 45;
-			drawProps.scale = { 0.5f, 0.5f };
-			drawProps.color = { 0.2f, 0.3f, 0.8f, 1.0f };
-			Hazel::Renderer2D::DrawQuad(drawProps);
-		}*/
-
-		//Green square
-		/*{
-			Hazel::Renderer2D::DrawProporties drawProps;
-			drawProps.position = { 0.0f, 0.0f, 0.0f };
-			drawProps.rotation = 25;
-			drawProps.scale = { 0.5f, 0.5f };
-			drawProps.color = { 0.3f, 0.8f, 0.2f, 1.0f };
-			Hazel::Renderer2D::DrawQuad(drawProps);
-		}*/
-
-		/*{
-			Hazel::Renderer2D::DrawProporties drawProps;
-			drawProps.position = { 1.0f, 0.0f, 0.0f };
-			drawProps.scale = { 0.5f, 0.5f };
-			drawProps.color = { 0.8f, 0.2f, 0.3f, 1.0f };
-			Hazel::Renderer2D::DrawQuad(drawProps);
-		}*/
-
 		//Red square
 		{
 			Hazel::Renderer2D::DrawProporties drawProps;
-			drawProps.position = { 0.0f, 0.0f, 0.0f };
-			drawProps.scale = { 0.7f, 0.7f };
+			drawProps.position = { 0.0f, 0.0f, 0.1f };
+			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.8f, 0.2f, 0.3f, 1.0f };
+			Hazel::Renderer2D::DrawQuad(drawProps);
+		}
+
+		//Green square
+		{
+			Hazel::Renderer2D::DrawProporties drawProps;
+			drawProps.position = { 0.6f, 0.0f, 0.2f };
+			//drawProps.rotation = 25;
+			drawProps.scale = { 0.4f, 0.4f };
+			drawProps.color = { 0.3f, 0.8f, 0.2f, 1.0f };
+			Hazel::Renderer2D::DrawQuad(drawProps);
+		}
+
+		//Blue square
+		{
+			Hazel::Renderer2D::DrawProporties drawProps;
+			drawProps.position = { 1.2f, 0.0f, 0.3f };
+			//drawProps.rotation = 45;
+			drawProps.scale = { 0.4f, 0.4f };
+			drawProps.color = { 0.2f, 0.3f, 0.8f, 1.0f };
+			Hazel::Renderer2D::DrawQuad(drawProps);
+		}
+
+		//Texture
+		/*{
+			Hazel::Renderer2D::DrawProporties drawProps;
+			drawProps.position = { -0.25f, -0.25f, 0.0f };
+			drawProps.scale = { 1.0f, 1.0f };
 			drawProps.texture = texture;
+			drawProps.tiling = 2.0f;
+			Hazel::Renderer2D::DrawQuad(drawProps);
+		}*/
+
+		//Tiled background
+		{
+			Hazel::Renderer2D::DrawProporties drawProps;
+			drawProps.position = { -5.0f, -5.0f, 0.0f };
+			drawProps.scale = { 10.0f, 10.0f };
+			drawProps.texture = texture;
+			drawProps.tiling = 20.0f;
 			Hazel::Renderer2D::DrawQuad(drawProps);
 			//Hazel::Renderer2D::DrawQuadColor(drawProps);
 		}
-
-		//Tiled background
-		/*{
-			Hazel::Renderer2D::DrawProporties drawProps;
-			drawProps.scale = { 10.0f, 10.0f };
-			drawProps.texture = texture;
-			drawProps.tilingFactor = 10.0f;
-			Hazel::Renderer2D::DrawQuad(drawProps);
-		}*/
 		
 		Hazel::Renderer2D::EndScene();
 	}
