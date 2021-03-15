@@ -51,6 +51,8 @@ namespace Hazel {
 
 			std::array<Ref<Texture2D>, maxTextureSlots> textureSlots;
 			uint32_t textureSlotIndex = 1;
+
+			glm::vec4 quadVertexPositions[4];
 		};
 
 	private:

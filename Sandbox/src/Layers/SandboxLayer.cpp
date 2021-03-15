@@ -4,15 +4,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
-#include "Timer.h"
-
 #define PROFILE_SCOPE(name) Timer timer##__LINE__(name, [&](ProfileResult profileResult) { profileResults.push_back(profileResult); })
 
 SandboxLayer::SandboxLayer()
 	: Layer("Sandbox"), cameraController(1280.0f / 720.0f) { }
 
 void SandboxLayer::OnAttach() {
-	texture = Hazel::Texture2D::Create("assets/textures/cherno_checkerboard.png");
+	textureCheckerboard = Hazel::Texture2D::Create("assets/textures/checkerboard.png");
+	textureArrow = Hazel::Texture2D::Create("assets/textures/arrow_head.png");
 }
 
 void SandboxLayer::OnDetach() {}
@@ -71,24 +70,22 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 		}
 
 		//Texture
-		/*{
-			Hazel::Renderer2D::DrawProporties drawProps;
-			drawProps.position = { -0.25f, -0.25f, 0.0f };
-			drawProps.scale = { 1.0f, 1.0f };
-			drawProps.texture = texture;
-			drawProps.tiling = 2.0f;
-			Hazel::Renderer2D::DrawQuad(drawProps);
-		}*/
-
-		//Tiled background
 		{
 			Hazel::Renderer2D::DrawProporties drawProps;
-			drawProps.position = { -5.0f, -5.0f, 0.0f };
+			drawProps.position = { 0.0f, 0.0f, 0.4f };
+			drawProps.scale = { 0.3f, 0.3f };
+			drawProps.texture = textureArrow;
+			Hazel::Renderer2D::DrawQuad(drawProps);
+		}
+
+		//Background
+		{
+			Hazel::Renderer2D::DrawProporties drawProps;
+			drawProps.position = { 0.0f, 0.0f, 0.0f };
 			drawProps.scale = { 10.0f, 10.0f };
-			drawProps.texture = texture;
+			drawProps.texture = textureCheckerboard;
 			drawProps.tiling = 20.0f;
 			Hazel::Renderer2D::DrawQuad(drawProps);
-			//Hazel::Renderer2D::DrawQuadColor(drawProps);
 		}
 		
 		Hazel::Renderer2D::EndScene();

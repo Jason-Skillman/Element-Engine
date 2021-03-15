@@ -71,9 +71,11 @@ namespace Hazel {
 
 
 		data.textureSlots[0] = data.whiteTexture;
-		/*for (auto&& textureSlot : data.textureSlots) {
-			textureSlot = data.whiteTexture;
-		}*/
+
+		data.quadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+		data.quadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
+		data.quadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
+		data.quadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
 	}
 	
 	void Renderer2D::Shutdown() {
@@ -115,8 +117,7 @@ namespace Hazel {
 	void Renderer2D::DrawQuad(const DrawProporties& properties) {
 		HZ_PROFILE_FUNCTION();
 
-		//constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-
+		//Texture batching
 		float textureIndex = 0.0f;
 		if(properties.texture != nullptr) {
 			for(uint32_t i = 1; i < data.textureSlotIndex; i++) {
@@ -133,28 +134,42 @@ namespace Hazel {
 			}
 		}
 
-		data.quadVertexBufferPtr->position = properties.position;
+		//Create the transform matrix
+		glm::mat4 transform;
+		if(properties.rotation == 0) {
+			transform =
+				glm::translate(glm::mat4(1.0f), properties.position) *
+				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
+		} else {
+			transform =
+				glm::translate(glm::mat4(1.0f), properties.position) *
+				glm::rotate(glm::mat4(1.0f), glm::radians(properties.rotation), { 0.0f, 0.0f, 1.0f }) *
+				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
+		}
+		
+
+		data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[0];
 		data.quadVertexBufferPtr->texCoord = { 0.0f, 0.0f };
 		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = textureIndex;
 		data.quadVertexBufferPtr->tiling = properties.tiling;
 		data.quadVertexBufferPtr++;
 
-		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y, 0.0f };
+		data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[1];
 		data.quadVertexBufferPtr->texCoord = { 1.0f, 0.0f };
 		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = textureIndex;
 		data.quadVertexBufferPtr->tiling = properties.tiling;
 		data.quadVertexBufferPtr++;
 
-		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y + properties.scale.y, 0.0f };
+		data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[2];
 		data.quadVertexBufferPtr->texCoord = { 1.0f, 1.0f };
 		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = textureIndex;
 		data.quadVertexBufferPtr->tiling = properties.tiling;
 		data.quadVertexBufferPtr++;
 
-		data.quadVertexBufferPtr->position = { properties.position.x, properties.position.y + properties.scale.y, 0.0f };
+		data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[3];
 		data.quadVertexBufferPtr->texCoord = { 0.0f, 1.0f };
 		data.quadVertexBufferPtr->color = properties.color;
 		data.quadVertexBufferPtr->textureIndex = textureIndex;
@@ -194,63 +209,6 @@ namespace Hazel {
 
 		//Render
 		//RenderCommand::DrawIndexed(data.vertexArray);
-	}
-
-	//Todo: Remove
-	void Renderer2D::DrawQuadColor(const DrawProporties& properties) {
-		HZ_PROFILE_FUNCTION();
-
-		const float texIndex = 0.0f; // White Texture
-		const float tiling = 1.0f;
-
-		data.quadVertexBufferPtr->position = properties.position;
-		data.quadVertexBufferPtr->texCoord = { 0.0f, 0.0f };
-		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->textureIndex = texIndex;
-		data.quadVertexBufferPtr->tiling = tiling;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y, 0.0f };
-		data.quadVertexBufferPtr->texCoord = { 1.0f, 0.0f };
-		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->textureIndex = texIndex;
-		data.quadVertexBufferPtr->tiling = tiling;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->position = { properties.position.x + properties.scale.x, properties.position.y + properties.scale.y, 0.0f };
-		data.quadVertexBufferPtr->texCoord = { 1.0f, 1.0f };
-		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->textureIndex = texIndex;
-		data.quadVertexBufferPtr->tiling = tiling;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->position = { properties.position.x, properties.position.y + properties.scale.y, 0.0f };
-		data.quadVertexBufferPtr->texCoord = { 0.0f, 1.0f };
-		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->textureIndex = texIndex;
-		data.quadVertexBufferPtr->tiling = tiling;
-		data.quadVertexBufferPtr++;
-
-		data.quadIndexCount += 6;
-
-
-		
-		data.textureShader->Bind();
-		//data.textureShader->SetUniformFloat4("u_Color", color);
-		//data.textureShader->SetUniformFloat("u_Tiling", tilingFactor);
-
-		glm::mat4 transform;
-		if(properties.rotation == 0) {
-			transform =
-				glm::translate(glm::mat4(1.0f), properties.position) *
-				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
-		} else {
-			transform =
-				glm::translate(glm::mat4(1.0f), properties.position) *
-				glm::rotate(glm::mat4(1.0f), glm::radians(properties.rotation), glm::vec3(0, 0, 1)) *
-				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
-		}
-		data.textureShader->SetUniformMat4("u_Transform", transform);
 	}
 
 }

@@ -8,7 +8,7 @@ layout(location = 3) in float a_TextureIndex;
 layout(location = 4) in float a_Tiling;
 
 uniform mat4 u_ViewProjection;
-uniform mat4 u_Transform;
+//uniform mat4 u_Transform;
 
 out vec3 v_Position;
 out vec2 v_TexCoord;
