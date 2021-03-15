@@ -51,9 +51,12 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 
 		//Green square
 		{
+			static float rotation = 0.0f;
+			rotation += ts * 20.0f;
+			
 			Hazel::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 0.6f, 0.0f, 0.2f };
-			//drawProps.rotation = 25;
+			drawProps.rotation = rotation;
 			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.3f, 0.8f, 0.2f, 1.0f };
 			Hazel::Renderer2D::DrawQuad(drawProps);
@@ -61,9 +64,12 @@ void SandboxLayer::OnUpdate(Hazel::Timestep ts) {
 
 		//Blue square
 		{
+			static float rotation = 0.0f;
+			rotation += ts * 45.0f;
+			
 			Hazel::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 1.2f, 0.0f, 0.3f };
-			//drawProps.rotation = 45;
+			drawProps.rotation = rotation;
 			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.2f, 0.3f, 0.8f, 1.0f };
 			Hazel::Renderer2D::DrawQuad(drawProps);

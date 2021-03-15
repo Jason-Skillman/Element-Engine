@@ -42,7 +42,7 @@ namespace Hazel {
 			
 			Ref<VertexArray> quadVertexArray;
 			Ref<VertexBuffer> quadVertexBuffer;
-			Ref<Shader> textureShader;
+			Ref<Shader> standardShader;
 			Ref<Texture2D> whiteTexture;
 
 			uint32_t quadIndexCount = 0;

@@ -25,7 +25,7 @@ namespace Hazel {
 
 		//Objects
 		data.quadVertexArray = VertexArray::Create();
-		data.textureShader = Shader::Create("assets/shaders/glsl/Texture.shader");
+		data.standardShader = Shader::Create("assets/shaders/glsl/Standard.shader");
 
 		//Setup vertex buffer
 		data.quadVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(QuadVertex));
@@ -66,8 +66,8 @@ namespace Hazel {
 		for(uint32_t i = 0; i < data.maxTextureSlots; i++) {
 			samplers[i] = i;
 		}
-		data.textureShader->Bind();
-		data.textureShader->SetUniformIntArray("u_Textures", samplers, data.maxTextureSlots);
+		data.standardShader->Bind();
+		data.standardShader->SetUniformIntArray("u_Textures", samplers, data.maxTextureSlots);
 
 
 		data.textureSlots[0] = data.whiteTexture;
@@ -85,8 +85,8 @@ namespace Hazel {
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
 		HZ_PROFILE_FUNCTION();
 		
-		data.textureShader->Bind();
-		data.textureShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		data.standardShader->Bind();
+		data.standardShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
 		data.quadIndexCount = 0;
 		data.quadVertexBufferPtr = data.quadVertexBufferBase;
@@ -97,7 +97,7 @@ namespace Hazel {
 	void Renderer2D::EndScene() {
 		HZ_PROFILE_FUNCTION();
 
-		uint32_t dataSize = (uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase;
+		uint32_t dataSize = reinterpret_cast<uint8_t*>(data.quadVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.quadVertexBufferBase);
 		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
 		
 		Flush();
@@ -147,7 +147,7 @@ namespace Hazel {
 				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
 		}
 		
-
+		//Setup the vertex buffer
 		data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[0];
 		data.quadVertexBufferPtr->texCoord = { 0.0f, 0.0f };
 		data.quadVertexBufferPtr->color = properties.color;
@@ -177,38 +177,6 @@ namespace Hazel {
 		data.quadVertexBufferPtr++;
 
 		data.quadIndexCount += 6;
-
-
-		//Set uniforms
-		/*data.textureShader->Bind();
-		//data.textureShader->SetUniformFloat4("u_Color", properties.color);
-
-		glm::mat4 transform;
-		if(properties.rotation == 0) {
-			transform =
-				glm::translate(glm::mat4(1.0f), properties.position) *
-				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
-		} else {
-			transform =
-				glm::translate(glm::mat4(1.0f), properties.position) *
-				glm::rotate(glm::mat4(1.0f), glm::radians(properties.rotation), glm::vec3(0, 0, 1)) *
-				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
-		}
-		data.textureShader->SetUniformMat4("u_Transform", transform);*/
-
-
-		
-		//Bind objects
-		//data.vertexArray->Bind();
-
-		/*if(properties.texture == nullptr) {
-			data.whiteTexture->Bind();
-		} else {
-			properties.texture->Bind();
-		}*/
-
-		//Render
-		//RenderCommand::DrawIndexed(data.vertexArray);
 	}
 
 }
