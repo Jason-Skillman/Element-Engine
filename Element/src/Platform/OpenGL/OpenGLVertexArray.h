@@ -1,7 +1,7 @@
 #pragma once
-#include "Hazel/Renderer/VertexArray.h"
+#include "Element/Renderer/VertexArray.h"
 
-namespace Hazel {
+namespace Element {
 	class OpenGLVertexArray : public VertexArray {
 	private:
 		uint32_t rendererID;

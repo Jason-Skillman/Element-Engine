@@ -1,9 +1,9 @@
 #pragma once
-#include "Hazel/Renderer/GraphicsContext.h"
+#include "Element/Renderer/GraphicsContext.h"
 
 struct GLFWwindow;
 
-namespace Hazel {
+namespace Element {
 	class OpenGLContext : public GraphicsContext {
 	public:
 		OpenGLContext(GLFWwindow* window);

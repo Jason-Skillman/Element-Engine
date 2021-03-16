@@ -2,9 +2,9 @@
 
 #include <glad/glad.h>
 
-#include "Hazel/Renderer/Texture.h"
+#include "Element/Renderer/Texture.h"
 
-namespace Hazel {
+namespace Element {
 	class OpenGLTexture2D : public Texture2D {
 	private:
 		uint32_t rendererID;

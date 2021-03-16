@@ -15,9 +15,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
-//Hazel
-#include "Hazel/Core/Log.h"
-#include "Hazel/Debug/Instrumentor.h"
+//Element
+#include "Element/Core/Log.h"
+#include "Element/Debug/Instrumentor.h"
 
 //Windows
 #ifdef HZ_PLATFORM_WINDOWS

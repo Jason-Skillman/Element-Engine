@@ -3,7 +3,7 @@
 
 #include <glad/glad.h>
 
-namespace Hazel {
+namespace Element {
 
 	//Todo: Move OpenGL content
 	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {

@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Hazel {
+namespace Element {
 
 	static GLenum ShaderTypeFromString(const std::string& type) {
 		if(type == "vertex") return GL_VERTEX_SHADER;
@@ -122,7 +122,7 @@ namespace Hazel {
 		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	std::string Hazel::OpenGLShader::ReadFile(const std::string& filepath) {
+	std::string Element::OpenGLShader::ReadFile(const std::string& filepath) {
 		HZ_PROFILE_FUNCTION();
 		
 		std::string result;
@@ -134,13 +134,13 @@ namespace Hazel {
 			in.read(&result[0], result.size());
 			in.close();
 		} else {
-			HZ_CORE_ERROR("Could not open file \"{0}\"", filepath);
+			LOG_CORE_ERROR("Could not open file \"{0}\"", filepath);
 		}
 
 		return result;
 	}
 
-	std::unordered_map<GLenum, std::string> Hazel::OpenGLShader::PreProcess(const std::string& source) {
+	std::unordered_map<GLenum, std::string> Element::OpenGLShader::PreProcess(const std::string& source) {
 		HZ_PROFILE_FUNCTION();
 		
 		std::unordered_map<GLenum, std::string> shaderSources;

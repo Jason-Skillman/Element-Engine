@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Hazel.h>
+#include <Element.h>
 
 #include "Timer.h"
 
@@ -9,13 +9,13 @@ struct ProfileResult {
 	float time;
 };
 
-class SandboxLayer : public Hazel::Layer {
+class SandboxLayer : public Element::Layer {
 private:
-	Hazel::OrthographicCameraController cameraController;
+	Element::OrthographicCameraController cameraController;
 
 	//Todo: Temp
-	Hazel::Ref<Hazel::VertexArray> squareVA;
-	Hazel::Ref<Hazel::Texture2D> textureCheckerboard, textureArrow;
+	Element::Ref<Element::VertexArray> squareVA;
+	Element::Ref<Element::Texture2D> textureCheckerboard, textureArrow;
 	
 	glm::vec4 squareColor = { 0.2f, 0.2f, 0.8f, 1.0f };
 
@@ -28,7 +28,7 @@ public:
 public:
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
-	virtual void OnUpdate(Hazel::Timestep ts) override;
+	virtual void OnUpdate(Element::Timestep ts) override;
 	virtual void OnImGuiRender() override;
-	virtual void OnEvent(Hazel::Event& event) override;
+	virtual void OnEvent(Element::Event& event) override;
 };

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Hazel/Core/Core.h"
+#include "Element/Core/Core.h"
 
-#include "Hazel/Renderer/RendererAPI.h"
+#include "Element/Renderer/RendererAPI.h"
 
-namespace Hazel {
+namespace Element {
 	class OpenGLRendererAPI : public RendererAPI {
 	public:
 		virtual void Init() override;

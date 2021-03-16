@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Hazel/Core/Input.h"
+#include "Element/Core/Input.h"
 
-namespace Hazel {
+namespace Element {
 	class WindowsInput : public Input {
 	protected:
 		//virtual ~WindowsInput();

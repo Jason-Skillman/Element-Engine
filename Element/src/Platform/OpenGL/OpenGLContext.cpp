@@ -4,9 +4,9 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-#include "Hazel/Core/Core.h"
+#include "Element/Core/Core.h"
 
-namespace Hazel {
+namespace Element {
 
 	OpenGLContext::OpenGLContext(GLFWwindow* window)
 		: windowHandle(window) {
@@ -21,10 +21,10 @@ namespace Hazel {
 		HZ_CORE_ASSERT(!status, "Failed to initalized Glad!");
 
 		//Print graphics info
-		HZ_CORE_INFO("OpenGL Renderer");
-		HZ_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
-		HZ_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
-		HZ_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
+		LOG_CORE_INFO("OpenGL Renderer");
+		LOG_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
+		LOG_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
+		LOG_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
 	}
 	
 	void OpenGLContext::SwapBuffers() {

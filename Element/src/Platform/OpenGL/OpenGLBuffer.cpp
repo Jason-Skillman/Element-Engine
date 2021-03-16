@@ -3,7 +3,7 @@
 
 #include <glad/glad.h>
 
-namespace Hazel {
+namespace Element {
 
 	//----- Vertex Buffer -----
 	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)

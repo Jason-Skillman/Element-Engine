@@ -2,12 +2,12 @@
 
 #include <glm/glm.hpp>
 
-#include "Hazel/Renderer/Shader.h"
+#include "Element/Renderer/Shader.h"
 
 //Todo: Remove
 typedef unsigned int GLenum;
 
-namespace Hazel {
+namespace Element {
 	class OpenGLShader : public Shader {
 	private:
 		uint32_t rendererID;

@@ -3,7 +3,7 @@
 
 #include <glad/glad.h>
 
-namespace Hazel {
+namespace Element {
 
 	void OpenGLRendererAPI::Init() {
 		//Enable OpenGL blending

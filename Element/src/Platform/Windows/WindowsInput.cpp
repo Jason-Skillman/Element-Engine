@@ -3,10 +3,10 @@
 
 #include <GLFW/glfw3.h>
 
-#include "Hazel/Core/Application.h"
-#include "Hazel/Core/Window.h"
+#include "Element/Core/Application.h"
+#include "Element/Core/Window.h"
 
-namespace Hazel {
+namespace Element {
 	
 	//Todo: Fix mem leak
 	Input* Input::instance = new WindowsInput();

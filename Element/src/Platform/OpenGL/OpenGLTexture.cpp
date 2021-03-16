@@ -4,9 +4,9 @@
 #include <glad/glad.h>
 #include <stb_image.h>
 
-#include "Hazel/Core/Core.h"
+#include "Element/Core/Core.h"
 
-namespace Hazel {
+namespace Element {
 
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 		: width(width), height(height) {

@@ -1,10 +1,10 @@
-#include <Hazel.h>
-#include <Hazel/Core/EntryPoint.h>
+#include <Element.h>
+#include <Element/Core/EntryPoint.h>
 
 #include "Layers/ExampleLayer.h"
 #include "Layers/SandboxLayer.h"
 
-class Sandbox : public Hazel::Application {
+class Sandbox : public Element::Application {
 public:
 	Sandbox() {
 		//PushLayer(new ExampleLayer());
@@ -13,6 +13,6 @@ public:
 	~Sandbox() = default;
 };
 
-Hazel::Application* Hazel::CreateApplication() {
+Element::Application* Element::CreateApplication() {
 	return new Sandbox();
 }

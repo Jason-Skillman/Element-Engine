@@ -4,20 +4,20 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Hazel/Core/Log.h"
+#include "Element/Core/Log.h"
 
-#include "Hazel/Events/ApplicationEvent.h"
-#include "Hazel/Events/MouseEvent.h"
-#include "Hazel/Events/KeyEvent.h"
+#include "Element/Events/ApplicationEvent.h"
+#include "Element/Events/MouseEvent.h"
+#include "Element/Events/KeyEvent.h"
 
 #include "Platform/OpenGL/OpenGLContext.h"
 
-namespace Hazel {
+namespace Element {
 
 	static bool glfwInitialized = false;
 
 	static void GLFWErrorCallback(int error, const char* description) {
-		HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description)
+		LOG_CORE_ERROR("GLFW Error ({0}): {1}", error, description)
 	}
 
 	Scope<Window> Window::Create(const WindowProps& props) {
@@ -72,7 +72,7 @@ namespace Hazel {
 		data.width = props.width;
 		data.height = props.height;
 
-		HZ_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
+		LOG_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
 
 		if(!glfwInitialized) {
 			//Todo: glfwTerminate

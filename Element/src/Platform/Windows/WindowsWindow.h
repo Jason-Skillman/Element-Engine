@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Hazel/Core/Window.h"
+#include "Element/Core/Window.h"
 
-#include "Hazel/Renderer/GraphicsContext.h"
+#include "Element/Renderer/GraphicsContext.h"
 
 struct GLFWwindow;
 
-namespace Hazel {
+namespace Element {
 	class WindowsWindow : public Window {
 	private:
 		struct WindowData {

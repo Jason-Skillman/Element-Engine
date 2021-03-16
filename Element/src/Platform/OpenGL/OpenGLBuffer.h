@@ -1,7 +1,7 @@
 #pragma once
-#include "Hazel/Renderer/Buffer.h"
+#include "Element/Renderer/Buffer.h"
 
-namespace Hazel {
+namespace Element {
 	class OpenGLVertexBuffer : public VertexBuffer {
 	private:
 		uint32_t rendererID;
