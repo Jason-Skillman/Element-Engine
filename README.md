@@ -1,5 +1,5 @@
 # Element-Engine
-C++ Application: An OpenGL game engine written in C++.
+An OpenGL game engine written in C++ for games.
 
 ## 3rd party libraries
 - `spdlog` https://github.com/gabime/spdlog
