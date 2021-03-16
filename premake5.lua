@@ -1,5 +1,5 @@
 -- premake5.lua
-workspace "Hazel-Engine"
+workspace "Element-Engine"
 	architecture "x64"
 
 	configurations { 
@@ -15,23 +15,23 @@ outputdir = "%{cfg.system}/%{cfg.buildcfg}/%{cfg.architecture}"
 
 -- Include dir relative to root folder path (solution dir)
 IncludeDir = {}
-IncludeDir["HazelSrc"] = "Hazel/src"
-IncludeDir["spdlog"] = "Hazel/vendor/spdlog/include"
-IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
-IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
-IncludeDir["ImGui"] = "Hazel/vendor/ImGui"
-IncludeDir["glm"] = "Hazel/vendor/glm"
-IncludeDir["stb"] = "Hazel/vendor/stb"
+IncludeDir["ElementSrc"] = "Element/src"
+IncludeDir["spdlog"] = "Element/vendor/spdlog/include"
+IncludeDir["GLFW"] = "Element/vendor/GLFW/include"
+IncludeDir["Glad"] = "Element/vendor/Glad/include"
+IncludeDir["ImGui"] = "Element/vendor/ImGui"
+IncludeDir["glm"] = "Element/vendor/glm"
+IncludeDir["stb"] = "Element/vendor/stb"
 
 -- Includes other project premake files
 group "Dependencies"
-	include "Hazel/vendor/GLFW"
-	include "Hazel/vendor/Glad"
-	include "Hazel/vendor/ImGui"
+	include "Element/vendor/GLFW"
+	include "Element/vendor/Glad"
+	include "Element/vendor/ImGui"
 group ""
 
-project "Hazel"
-	location "Hazel"
+project "Element"
+	location "Element"
    	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
@@ -41,7 +41,7 @@ project "Hazel"
 	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "pch.h"
-	pchsource "Hazel/src/pch.cpp"
+	pchsource "Element/src/pch.cpp"
 
    	files { 
 		"%{prj.name}/src/**.h", 
@@ -56,7 +56,7 @@ project "Hazel"
 	}
 
 	includedirs {
-		"%{IncludeDir.HazelSrc}",
+		"%{IncludeDir.ElementSrc}",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
@@ -127,14 +127,14 @@ project "Sandbox"
 
 	includedirs {
 		"Sandbox/src",
-		"%{IncludeDir.HazelSrc}",
+		"%{IncludeDir.ElementSrc}",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}"
 	}
 
 	links {
-		"Hazel"
+		"Element"
 	}
 
 	filter "system:windows"
