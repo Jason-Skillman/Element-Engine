@@ -355,10 +355,15 @@ MigrationBackup/
 **.vcxproj.filters
 **.vcxproj.user
 
-#Build files
+
+
+# Build files
 [Ii]termediate/
 [Dd]ist/
 x86_64/
 
-#Project files
+# Project files
 *.json
+
+# Include
+!Element/src/Element/Debug/
