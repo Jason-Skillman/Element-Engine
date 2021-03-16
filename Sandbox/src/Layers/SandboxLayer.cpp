@@ -4,7 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
-#define PROFILE_SCOPE(name) Timer timer##__LINE__(name, [&](ProfileResult profileResult) { profileResults.push_back(profileResult); })
+#include "Element/Debug/Instrumentor.h"
 
 SandboxLayer::SandboxLayer()
 	: Layer("Sandbox"), cameraController(1280.0f / 720.0f) { }

@@ -2,8 +2,6 @@
 
 #include <Element.h>
 
-#include "Timer.h"
-
 struct ProfileResult {
 	const char* name;
 	float time;
