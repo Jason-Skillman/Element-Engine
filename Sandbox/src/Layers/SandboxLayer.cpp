@@ -17,7 +17,7 @@ void SandboxLayer::OnAttach() {
 void SandboxLayer::OnDetach() {}
 
 void SandboxLayer::OnUpdate(Element::Timestep ts) {
-	HZ_PROFILE_FUNCTION();
+	PROFILE_FUNCTION();
 	
 	//Update
 	{

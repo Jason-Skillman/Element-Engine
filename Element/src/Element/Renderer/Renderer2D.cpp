@@ -12,7 +12,7 @@ namespace Element {
 	Renderer2D::RendererData Renderer2D::data;
 
 	void Renderer2D::Init() {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		//Data
 		const BufferLayout layout = {
@@ -79,11 +79,11 @@ namespace Element {
 	}
 	
 	void Renderer2D::Shutdown() {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 	}
 	
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		data.standardShader->Bind();
 		data.standardShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
@@ -95,7 +95,7 @@ namespace Element {
 	}
 	
 	void Renderer2D::EndScene() {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 
 		uint32_t dataSize = reinterpret_cast<uint8_t*>(data.quadVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.quadVertexBufferBase);
 		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
@@ -104,7 +104,7 @@ namespace Element {
 	}
 
 	void Renderer2D::Flush() {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 
 		//Bind all textures to their texture slot
 		for(uint32_t i = 0; i < data.textureSlotIndex; i++) {
@@ -115,7 +115,7 @@ namespace Element {
 	}
 
 	void Renderer2D::DrawQuad(const DrawProporties& properties) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 
 		//Texture batching
 		float textureIndex = 0.0f;

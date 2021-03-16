@@ -20,6 +20,6 @@
 #include "Element/Debug/Instrumentor.h"
 
 //Windows
-#ifdef HZ_PLATFORM_WINDOWS
+#ifdef PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

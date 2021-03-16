@@ -25,7 +25,7 @@ namespace Element {
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props) : window(nullptr) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		Init(props);
 	}
@@ -35,7 +35,7 @@ namespace Element {
 	}
 	
 	void WindowsWindow::OnUpdate() {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glfwPollEvents();
 
@@ -66,7 +66,7 @@ namespace Element {
 	}
 
 	void WindowsWindow::Init(const WindowProps& props) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		data.title = props.title;
 		data.width = props.width;
@@ -77,7 +77,7 @@ namespace Element {
 		if(!glfwInitialized) {
 			//Todo: glfwTerminate
 			int success = glfwInit();
-			HZ_CORE_ASSERT(!success, "Could not initalize GLFW!");
+			CORE_ASSERT(!success, "Could not initalize GLFW!");
 
 			glfwSetErrorCallback(GLFWErrorCallback);
 
@@ -179,7 +179,7 @@ namespace Element {
 	}
 
 	void WindowsWindow::Shutdown() {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glfwDestroyWindow(window);
 	}

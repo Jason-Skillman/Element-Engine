@@ -31,7 +31,7 @@ namespace Element {
 			case ShaderDataType::Bool:
 				return GL_BOOL;
 			default:
-				HZ_CORE_ASSERT(true, "Unknown ShaderDataType: {0}", type);
+				CORE_ASSERT(true, "Unknown ShaderDataType: {0}", type);
 				return 0;
 		}
 	}
@@ -39,33 +39,33 @@ namespace Element {
 	OpenGLVertexArray::OpenGLVertexArray()
 		: rendererID(0) {
 
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glCreateVertexArrays(1, &rendererID);
 	}
 	
 	OpenGLVertexArray::~OpenGLVertexArray() {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glDeleteVertexArrays(1, &rendererID);
 	}
 	
 	void OpenGLVertexArray::Bind() const {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glBindVertexArray(rendererID);
 	}
 	
 	void OpenGLVertexArray::Unbind() const {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glBindVertexArray(0);
 	}
 	
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
-		HZ_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().empty(), "Vertex buffer has no layout!");
+		CORE_ASSERT(vertexBuffer->GetLayout().GetElements().empty(), "Vertex buffer has no layout!");
 		
 		glBindVertexArray(rendererID);
 		vertexBuffer->Bind();
@@ -83,7 +83,7 @@ namespace Element {
 	}
 	
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glBindVertexArray(rendererID);
 		indexBuffer->Bind();

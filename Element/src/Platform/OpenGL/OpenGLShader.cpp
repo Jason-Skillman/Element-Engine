@@ -10,12 +10,12 @@ namespace Element {
 		if(type == "vertex") return GL_VERTEX_SHADER;
 		if(type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
 
-		HZ_CORE_ASSERT(true, "Unknown shader type: {0}", type);
+		CORE_ASSERT(true, "Unknown shader type: {0}", type);
 		return -1;
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filepath) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
@@ -32,7 +32,7 @@ namespace Element {
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: rendererID(-1), name(name) {
 
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
@@ -41,19 +41,19 @@ namespace Element {
 	}
 
 	OpenGLShader::~OpenGLShader() {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glDeleteProgram(rendererID);
 	}
 
 	void OpenGLShader::Bind() const {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glUseProgram(rendererID);
 	}
 
 	void OpenGLShader::Unbind() const {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		glUseProgram(0);
 	}
@@ -123,7 +123,7 @@ namespace Element {
 	}
 
 	std::string Element::OpenGLShader::ReadFile(const std::string& filepath) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		std::string result;
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
@@ -141,7 +141,7 @@ namespace Element {
 	}
 
 	std::unordered_map<GLenum, std::string> Element::OpenGLShader::PreProcess(const std::string& source) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		std::unordered_map<GLenum, std::string> shaderSources;
 
@@ -152,11 +152,11 @@ namespace Element {
 		//Loop through every type token found
 		while(pos != std::string::npos) {
 			size_t eol = source.find_first_of("\r\n", pos);
-			HZ_CORE_ASSERT(eol == std::string::npos, "Syntax error!");
+			CORE_ASSERT(eol == std::string::npos, "Syntax error!");
 
 			size_t begin = pos + typeTokenLength + 1;
 			std::string type = source.substr(begin, eol - begin);
-			HZ_CORE_ASSERT(type != "vertex" && type != "fragment" && type != "pixel", "Invalid shader type specified: {0}", type);
+			CORE_ASSERT(type != "vertex" && type != "fragment" && type != "pixel", "Invalid shader type specified: {0}", type);
 
 			size_t nextLinePos = source.find_first_not_of("\r\n", eol);
 			pos = source.find(typeToken, nextLinePos);
@@ -167,13 +167,13 @@ namespace Element {
 	}
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
-		HZ_PROFILE_FUNCTION();
+		PROFILE_FUNCTION();
 		
 		// Get a program object.
 		unsigned int program = glCreateProgram();
 
 		//Keep track of the rendererIDs
-		HZ_CORE_ASSERT(shaderSources.size() > 2, "Only 2 shaders are supported for now.")
+		CORE_ASSERT(shaderSources.size() > 2, "Only 2 shaders are supported for now.")
 		std::array<GLenum, 2> glShaderIds;
 
 		int index = 0;
@@ -204,7 +204,7 @@ namespace Element {
 				glDeleteShader(shader);
 
 				// Use the infoLog as you see fit.
-				HZ_CORE_ASSERT(true, "{0} shader failed to compile: {1}", type, infoLog.data());
+				CORE_ASSERT(true, "{0} shader failed to compile: {1}", type, infoLog.data());
 				return;;
 			}
 
@@ -235,7 +235,7 @@ namespace Element {
 				glDeleteShader(id);
 
 			// Use the infoLog as you see fit.
-			HZ_CORE_ASSERT(true, "Shader failed to link: {0}", infoLog.data());
+			CORE_ASSERT(true, "Shader failed to link: {0}", infoLog.data());
 			return;
 		}
 
@@ -251,7 +251,7 @@ namespace Element {
 			return locationCache[name];
 
 		int location = glGetUniformLocation(rendererID, name.c_str());
-		//HZ_CORE_ASSERT(location == -1, "Uniform {0} could not be found!", name.c_str());
+		//CORE_ASSERT(location == -1, "Uniform {0} could not be found!", name.c_str());
 
 		locationCache[name] = location;
 

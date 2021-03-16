@@ -52,7 +52,7 @@ project "Element"
 
 	defines {
 		"_CRT_SECURE_NO_WARNINGS",
-		"HZ_PROFILE"
+		"PROFILE"
 	}
 
 	includedirs {
@@ -76,8 +76,8 @@ project "Element"
 		systemversion "latest"
 
 		defines {
-			"HZ_PLATFORM_WINDOWS",
-			"HZ_BUILD_DLL",
+			"PLATFORM_WINDOWS",
+			"BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
 
@@ -86,7 +86,7 @@ project "Element"
 		symbols "on"
 
 		defines { 
-			"HZ_DEBUG"
+			"DEBUG"
 		}
 
 	filter "configurations:Release"
@@ -94,7 +94,7 @@ project "Element"
 		optimize "on"
 
 		defines { 
-			"HZ_RELEASE" 
+			"RELEASE" 
 		}
 
 	filter "configurations:Dist"
@@ -102,7 +102,7 @@ project "Element"
 		optimize "on"
 
 		defines { 
-			"HZ_DIST" 
+			"DIST" 
 		}
 
 project "Sandbox"
@@ -122,7 +122,7 @@ project "Sandbox"
 	}
 
 	defines {
-		"HZ_PROFILE"
+		"PROFILE"
 	}
 
 	includedirs {
@@ -141,7 +141,7 @@ project "Sandbox"
 		systemversion "latest"
 
 		defines {
-			"HZ_PLATFORM_WINDOWS"
+			"PLATFORM_WINDOWS"
 		}
 
 	filter "configurations:Debug"
@@ -149,7 +149,7 @@ project "Sandbox"
 		symbols "on"
 
 		defines { 
-			"HZ_DEBUG" 
+			"DEBUG" 
 		}
 
 	filter "configurations:Release"
@@ -157,7 +157,7 @@ project "Sandbox"
 		optimize "on"
 
 		defines { 
-			"HZ_RELEASE" 
+			"RELEASE" 
 		}
 
 	filter "configurations:Dist"
@@ -165,5 +165,5 @@ project "Sandbox"
 		optimize "on"
 
 		defines { 
-			"HZ_DIST" 
+			"DIST" 
 		}
