@@ -1,12 +1,12 @@
-[submodule "Hazel/vendor/spdlog"]
-	path = Hazel/vendor/spdlog
-	url = https://github.com/gabime/spdlog.git
-[submodule "Hazel/vendor/GLFW"]
-	path = Hazel/vendor/GLFW
+[submodule "Element/vendor/GLFW"]
+	path = Element/vendor/GLFW
 	url = https://github.com/TheCherno/glfw.git
-[submodule "Hazel/vendor/ImGui"]
-	path = Hazel/vendor/ImGui
+[submodule "Element/vendor/ImGui"]
+	path = Element/vendor/ImGui
 	url = https://github.com/TheCherno/imgui.git
-[submodule "Hazel/vendor/glm"]
-	path = Hazel/vendor/glm
+[submodule "Element/vendor/glm"]
+	path = Element/vendor/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "Element/vendor/spdlog"]
+	path = Element/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git
