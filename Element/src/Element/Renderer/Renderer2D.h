@@ -26,6 +26,19 @@ namespace Element {
 		};
 
 	private:
+		struct Statistics {
+			uint32_t drawCalls;
+			uint32_t quadCount;
+
+			uint32_t GetTotalVertexCount() {
+				return quadCount * 4;
+			}
+
+			uint32_t GetTotalIndexCount() {
+				return quadCount * 6;
+			}
+		};
+		
 		struct QuadVertex {
 			glm::vec3 position;
 			glm::vec2 texCoord;
@@ -35,7 +48,7 @@ namespace Element {
 		};
 		
 		struct RendererData {
-			const uint32_t maxQuads = 10000;
+			const uint32_t maxQuads = 1000;
 			const uint32_t maxVertices = maxQuads * 4;
 			const uint32_t maxIndices = maxQuads * 6;
 			static const uint32_t maxTextureSlots = 32; //Todo: Render caps
@@ -53,6 +66,8 @@ namespace Element {
 			uint32_t textureSlotIndex = 1;
 
 			glm::vec4 quadVertexPositions[4];
+
+			Statistics stats;
 		};
 
 	private:
@@ -68,5 +83,11 @@ namespace Element {
 		
 		static void DrawQuad(const DrawProporties& properties);
 		static void DrawQuadColor(const DrawProporties& properties);
+
+		static void ResetStats();
+		static Statistics GetStats();
+
+	private:
+		static void FlushAndReset();
 	};
 }

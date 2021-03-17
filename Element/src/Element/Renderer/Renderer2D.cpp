@@ -84,6 +84,8 @@ namespace Element {
 	
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
 		PROFILE_FUNCTION();
+
+		ResetStats();
 		
 		data.standardShader->Bind();
 		data.standardShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
@@ -112,10 +114,14 @@ namespace Element {
 		}
 		
 		RenderCommand::DrawIndexed(data.quadVertexArray, data.quadIndexCount);
+		data.stats.drawCalls++;
 	}
 
 	void Renderer2D::DrawQuad(const DrawProporties& properties) {
 		PROFILE_FUNCTION();
+
+		if(data.quadIndexCount >= data.maxIndices)
+			FlushAndReset();
 
 		//Texture batching
 		float textureIndex = 0.0f;
@@ -177,6 +183,25 @@ namespace Element {
 		data.quadVertexBufferPtr++;
 
 		data.quadIndexCount += 6;
+
+		data.stats.quadCount++;
+	}
+
+	void Renderer2D::ResetStats() {
+		memset(&data.stats, 0, sizeof(Statistics));
+	}
+
+	Renderer2D::Statistics Renderer2D::GetStats() {
+		return data.stats;
+	}
+
+	void Renderer2D::FlushAndReset() {
+		EndScene();
+
+		data.quadIndexCount = 0;
+		data.quadVertexBufferPtr = data.quadVertexBufferBase;
+
+		data.textureSlotIndex = 1;
 	}
 
 }

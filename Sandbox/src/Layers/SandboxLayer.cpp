@@ -99,9 +99,9 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 }
 
 void SandboxLayer::OnImGuiRender() {
-	ImGui::Begin("Color Picker");
+	/*ImGui::Begin("Color Picker");
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-	ImGui::End();
+	ImGui::End();*/
 
 	/*ImGui::Begin("Profiler");
 
@@ -114,6 +114,16 @@ void SandboxLayer::OnImGuiRender() {
 	profileResults.clear();
 
 	ImGui::End();*/
+
+	ImGui::Begin("Renderer 2D Stats");
+
+	auto stats = Element::Renderer2D::GetStats();
+	ImGui::Text("Draw calls: %d", stats.drawCalls);
+	ImGui::Text("Quads: %d", stats.quadCount);
+	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+
+	ImGui::End();
 }
 
 void SandboxLayer::OnEvent(Element::Event& event) {
