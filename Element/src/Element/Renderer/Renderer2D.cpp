@@ -149,7 +149,7 @@ namespace Element {
 		} else {
 			transform =
 				glm::translate(glm::mat4(1.0f), properties.position) *
-				glm::rotate(glm::mat4(1.0f), glm::radians(properties.rotation), { 0.0f, 0.0f, 1.0f }) *
+				glm::rotate(glm::mat4(1.0f), properties.rotation, { 0.0f, 0.0f, 1.0f }) *
 				glm::scale(glm::mat4(1.0f), { properties.scale.x, properties.scale.y, 1.0f });
 		}
 		

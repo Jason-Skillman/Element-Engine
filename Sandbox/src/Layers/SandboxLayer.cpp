@@ -56,7 +56,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			
 			Element::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 0.6f, 0.0f, 0.2f };
-			drawProps.rotation = rotation;
+			drawProps.rotation = glm::radians(rotation);
 			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.3f, 0.8f, 0.2f, 1.0f };
 			Element::Renderer2D::DrawQuad(drawProps);
@@ -69,7 +69,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			
 			Element::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 1.2f, 0.0f, 0.3f };
-			drawProps.rotation = rotation;
+			drawProps.rotation = glm::radians(rotation);
 			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.2f, 0.3f, 0.8f, 1.0f };
 			Element::Renderer2D::DrawQuad(drawProps);

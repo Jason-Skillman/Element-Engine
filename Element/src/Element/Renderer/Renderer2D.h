@@ -14,7 +14,7 @@ namespace Element {
 		struct DrawProporties {
 			glm::vec3 position = { 0.0f, 0.0f, 0.0f };
 			/// <summary>
-			/// The amount to rotate in degrees.
+			/// The amount to rotate in radians.
 			/// </summary>
 			float rotation = 0.0f;
 			glm::vec2 scale = { 1.0f, 1.0f };
