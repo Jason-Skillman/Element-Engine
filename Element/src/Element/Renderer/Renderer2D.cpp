@@ -84,8 +84,6 @@ namespace Element {
 	
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
 		PROFILE_FUNCTION();
-
-		ResetStats();
 		
 		data.standardShader->Bind();
 		data.standardShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());

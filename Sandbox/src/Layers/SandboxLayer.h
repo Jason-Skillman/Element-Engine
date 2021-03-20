@@ -2,6 +2,8 @@
 
 #include <Element.h>
 
+#include "ParticleSystem.h"
+
 struct ProfileResult {
 	const char* name;
 	float time;
@@ -18,6 +20,9 @@ private:
 	glm::vec4 squareColor = { 0.2f, 0.2f, 0.8f, 1.0f };
 
 	std::vector<ProfileResult> profileResults;
+
+	ParticleSystem particleSystem;
+	ParticleProps particleProps;
 	
 public:
 	SandboxLayer();

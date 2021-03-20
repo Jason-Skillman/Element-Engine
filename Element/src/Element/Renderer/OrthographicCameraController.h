@@ -8,10 +8,19 @@
 #include "Element/Renderer/OrthographicCamera.h"
 
 namespace Element {
+	struct OrthographicCameraBounds {
+		float Left, Right;
+		float Bottom, Top;
+
+		float GetWidth() { return Right - Left; }
+		float GetHeight() { return Top - Bottom; }
+	};
+	
 	class OrthographicCameraController {
 	private:
-		float aspectRatio;
 		float zoomLevel = 1.0f;
+		float aspectRatio;
+		OrthographicCameraBounds bounds;
 		OrthographicCamera camera;
 
 		glm::vec3 cameraPosition;
@@ -38,6 +47,10 @@ namespace Element {
 		}
 		inline const OrthographicCamera& GetCamera() const {
 			return camera;
+		}
+
+		inline const OrthographicCameraBounds& GetBounds() const {
+			return bounds;
 		}
 
 	private:
