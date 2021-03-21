@@ -118,6 +118,20 @@ namespace Element {
 	void Renderer2D::DrawQuad(const DrawProporties& properties) {
 		PROFILE_FUNCTION();
 
+		size_t quadVertexCount = 4;
+
+
+		float x = 2, y = 3;
+		float maxWidth = properties.texture->GetWidth(), maxHeight = properties.texture->GetHeight();
+		float spriteWidth = 128.0f, spriteHeight = 128.0f;
+		glm::vec2 texCoords[] = {
+			{ (x * spriteWidth) / maxWidth, (y * spriteHeight) / maxHeight },
+			{ ((x + 1) * spriteWidth) / maxWidth, (y * spriteHeight) / maxHeight },
+			{ ((x + 1) * spriteWidth) / maxWidth, ((y + 1) * spriteHeight) / maxHeight },
+			{ (x * spriteWidth) / maxWidth, ((y + 1) * spriteHeight) / maxHeight }
+		};
+		
+
 		if(data.quadIndexCount >= data.maxIndices)
 			FlushAndReset();
 
@@ -152,34 +166,14 @@ namespace Element {
 		}
 		
 		//Setup the vertex buffer
-		data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[0];
-		data.quadVertexBufferPtr->texCoord = { 0.0f, 0.0f };
-		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->textureIndex = textureIndex;
-		data.quadVertexBufferPtr->tiling = properties.tiling;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[1];
-		data.quadVertexBufferPtr->texCoord = { 1.0f, 0.0f };
-		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->textureIndex = textureIndex;
-		data.quadVertexBufferPtr->tiling = properties.tiling;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[2];
-		data.quadVertexBufferPtr->texCoord = { 1.0f, 1.0f };
-		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->textureIndex = textureIndex;
-		data.quadVertexBufferPtr->tiling = properties.tiling;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[3];
-		data.quadVertexBufferPtr->texCoord = { 0.0f, 1.0f };
-		data.quadVertexBufferPtr->color = properties.color;
-		data.quadVertexBufferPtr->textureIndex = textureIndex;
-		data.quadVertexBufferPtr->tiling = properties.tiling;
-		data.quadVertexBufferPtr++;
-
+		for(uint32_t i = 0; i < quadVertexCount; i++) {
+			data.quadVertexBufferPtr->position = transform * data.quadVertexPositions[i];
+			data.quadVertexBufferPtr->texCoord = texCoords[i];
+			data.quadVertexBufferPtr->color = properties.color;
+			data.quadVertexBufferPtr->textureIndex = textureIndex;
+			data.quadVertexBufferPtr->tiling = properties.tiling;
+			data.quadVertexBufferPtr++;
+		}
 		data.quadIndexCount += 6;
 
 		data.stats.quadCount++;

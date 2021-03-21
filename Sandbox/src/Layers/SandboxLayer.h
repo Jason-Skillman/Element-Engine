@@ -15,7 +15,7 @@ private:
 
 	//Todo: Temp
 	Element::Ref<Element::VertexArray> squareVA;
-	Element::Ref<Element::Texture2D> textureCheckerboard, textureArrow;
+	Element::Ref<Element::Texture2D> textureCheckerboard, textureArrow, textureRPGSpriteSheet;
 	
 	glm::vec4 squareColor = { 0.2f, 0.2f, 0.8f, 1.0f };
 

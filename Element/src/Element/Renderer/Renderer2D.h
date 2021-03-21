@@ -12,6 +12,30 @@ namespace Element {
 	class Renderer2D {
 	public:
 		struct DrawProporties {
+			/*struct TexCoord {
+				uint32_t x, y, spriteWidth, spriteHeight, maxWidth, maxHeight;
+
+				TexCoord(uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t maxWidth, uint32_t maxHeight)
+					: x(x), y(y), spriteWidth(width), spriteHeight(height), maxWidth(maxWidth), maxHeight(maxHeight) {}
+
+				glm::vec2* GetTexCoords() {
+					glm::vec2 newVec[] = {
+						{ (x * spriteWidth) / maxWidth, (y * spriteHeight) / maxHeight },
+						{ ((x + 1) * spriteWidth) / maxWidth, (y * spriteHeight) / maxHeight },
+						{ ((x + 1) * spriteWidth) / maxWidth, ((y + 1) * spriteHeight) / maxHeight },
+						{ (x * spriteWidth) / maxWidth, ((y + 1) * spriteHeight) / maxHeight }
+					};
+					return newVec;
+				}
+
+				glm::vec2 texCoords[4] = {
+					{ 0.0f, 0.0f },
+					{ 1.0f, 0.0f },
+					{ 1.0f, 1.0f },
+					{ 0.0f, 1.0f }
+				};
+			};*/
+			
 			glm::vec3 position = { 0.0f, 0.0f, 0.0f };
 			/// <summary>
 			/// The amount to rotate in radians.
@@ -21,8 +45,16 @@ namespace Element {
 
 			glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 			
-			Ref<Texture2D> texture;
+			
 			float tiling = 1.0f;
+			//TexCoord texCoords;
+
+			Ref<Texture2D> texture;
+
+			/*void SetTexture(Ref<Texture2D>& texture) {
+				this->texture = texture;
+				//texCoords = TexCoord(0, 0, texture->GetWidth(), texture->GetHeight(), texture->GetWidth(), texture->GetHeight());
+			}*/
 		};
 
 	private:
