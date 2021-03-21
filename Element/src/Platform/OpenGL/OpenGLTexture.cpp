@@ -49,13 +49,15 @@ namespace Element {
 			internalFormat = GL_RGB8;
 			dataFormat = GL_RGB;
 		}
+		m_InternalFormat = internalFormat;
+		m_DataFormat = dataFormat;
 		//CORE_ASSERT(internalFormat & dataFormat, "Image format not supported! path: {0}, channels: {1}", path, channels);
 		
 		this->width = width;
 		this->height = height;
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
-		glTextureStorage2D(rendererID, 1, internalFormat, this->width, this->height);
+		glTextureStorage2D(rendererID, 1, m_InternalFormat, this->width, this->height);
 
 		glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -63,7 +65,7 @@ namespace Element {
 		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		glTextureSubImage2D(rendererID, 0, 0, 0, this->width, this->height, dataFormat, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(rendererID, 0, 0, 0, this->width, this->height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
 	}
