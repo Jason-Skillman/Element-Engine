@@ -1,18 +1,36 @@
 #pragma once
 
 #include <Element.h>
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 struct ParticleProps {
-	glm::vec2 Position;
-	glm::vec2 Velocity, VelocityVariation;
-	glm::vec4 ColorBegin, ColorEnd;
-	float SizeBegin, SizeEnd, SizeVariation;
-	float LifeTime = 1.0f;
+	glm::vec2 position;
+	glm::vec2 velocity, velocityVariation;
+	glm::vec4 colorBegin, colorEnd;
+	float sizeBegin, sizeEnd, sizeVariation;
+	float lifeTime = 1.0f;
 };
 
 class ParticleSystem {
+private:
+	struct Particle {
+		glm::vec2 position;
+		glm::vec2 velocity;
+		glm::vec4 colorBegin, colorEnd;
+		float rotation = 0.0f;
+		float sizeBegin, sizeEnd;
+
+		float lifeTime = 1.0f;
+		float lifeRemaining = 0.0f;
+
+		bool active = false;
+	};
+	
+	std::vector<Particle> particlePool;
+	uint32_t poolIndex;
+	
 public:
 	ParticleSystem(uint32_t maxParticles = 1000);
 
@@ -20,19 +38,4 @@ public:
 	void OnRender(Element::OrthographicCamera& camera);
 
 	void Emit(const ParticleProps& particleProps);
-private:
-	struct Particle {
-		glm::vec2 Position;
-		glm::vec2 Velocity;
-		glm::vec4 ColorBegin, ColorEnd;
-		float Rotation = 0.0f;
-		float SizeBegin, SizeEnd;
-
-		float LifeTime = 1.0f;
-		float LifeRemaining = 0.0f;
-
-		bool Active = false;
-	};
-	std::vector<Particle> m_ParticlePool;
-	uint32_t m_PoolIndex;
 };

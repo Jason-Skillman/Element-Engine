@@ -1,51 +1,51 @@
 #include "ParticleSystem.h"
 
-#include "Element.h"
+#include <Element.h>
 
 #include <glm/gtc/constants.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/compatibility.hpp>
 
 ParticleSystem::ParticleSystem(uint32_t maxParticles)
-	: m_PoolIndex(maxParticles - 1) {
+	: poolIndex(maxParticles - 1) {
 	
-	m_ParticlePool.resize(maxParticles);
+	particlePool.resize(maxParticles);
 }
 
 void ParticleSystem::OnUpdate(Element::Timestep ts) {
-	for(auto& particle : m_ParticlePool) {
-		if(!particle.Active)
+	for(auto& particle : particlePool) {
+		if(!particle.active)
 			continue;
 
-		if(particle.LifeRemaining <= 0.0f) {
-			particle.Active = false;
+		if(particle.lifeRemaining <= 0.0f) {
+			particle.active = false;
 			continue;
 		}
 
-		particle.LifeRemaining -= ts;
-		particle.Position += particle.Velocity * (float)ts;
-		particle.Rotation += 0.01f * ts;
+		particle.lifeRemaining -= ts;
+		particle.position += particle.velocity * (float)ts;
+		particle.rotation += 0.01f * ts;
 	}
 }
 
 void ParticleSystem::OnRender(Element::OrthographicCamera& camera) {
 	Element::Renderer2D::BeginScene(camera);
-	for(auto& particle : m_ParticlePool) {
-		if(!particle.Active)
+	for(auto& particle : particlePool) {
+		if(!particle.active)
 			continue;
 
 		// Fade away particles
-		float life = particle.LifeRemaining / particle.LifeTime;
-		glm::vec4 color = glm::lerp(particle.ColorEnd, particle.ColorBegin, life);
+		float life = particle.lifeRemaining / particle.lifeTime;
+		glm::vec4 color = glm::lerp(particle.colorEnd, particle.colorBegin, life);
 		//color.a = color.a * life;
 
-		float size = glm::lerp(particle.SizeEnd, particle.SizeBegin, life);
+		float size = glm::lerp(particle.sizeEnd, particle.sizeBegin, life);
 		//glm::vec3 position = particle.Position
 
 
 		Element::Renderer2D::DrawProporties drawProps;
-		drawProps.position = { particle.Position, 0 };
-		drawProps.rotation = glm::radians(particle.Rotation);
+		drawProps.position = { particle.position, 0 };
+		drawProps.rotation = glm::radians(particle.rotation);
 		drawProps.scale = { size, size };
 		drawProps.color = color;
 		Element::Renderer2D::DrawQuad(drawProps);
@@ -54,24 +54,24 @@ void ParticleSystem::OnRender(Element::OrthographicCamera& camera) {
 }
 
 void ParticleSystem::Emit(const ParticleProps& particleProps) {
-	Particle& particle = m_ParticlePool[m_PoolIndex];
-	particle.Active = true;
-	particle.Position = particleProps.Position;
-	particle.Rotation = Element::Random::Float() * 2.0f * glm::pi<float>();
+	Particle& particle = particlePool[poolIndex];
+	particle.active = true;
+	particle.position = particleProps.position;
+	particle.rotation = Element::Random::Float() * 2.0f * glm::pi<float>();
 
 	// Velocity
-	particle.Velocity = particleProps.Velocity;
-	particle.Velocity.x += particleProps.VelocityVariation.x * (Element::Random::Float() - 0.5f);
-	particle.Velocity.y += particleProps.VelocityVariation.y * (Element::Random::Float() - 0.5f);
+	particle.velocity = particleProps.velocity;
+	particle.velocity.x += particleProps.velocityVariation.x * (Element::Random::Float() - 0.5f);
+	particle.velocity.y += particleProps.velocityVariation.y * (Element::Random::Float() - 0.5f);
 
 	// Color
-	particle.ColorBegin = particleProps.ColorBegin;
-	particle.ColorEnd = particleProps.ColorEnd;
+	particle.colorBegin = particleProps.colorBegin;
+	particle.colorEnd = particleProps.colorEnd;
 
-	particle.LifeTime = particleProps.LifeTime;
-	particle.LifeRemaining = particleProps.LifeTime;
-	particle.SizeBegin = particleProps.SizeBegin + particleProps.SizeVariation * (Element::Random::Float() - 0.5f);
-	particle.SizeEnd = particleProps.SizeEnd;
+	particle.lifeTime = particleProps.lifeTime;
+	particle.lifeRemaining = particleProps.lifeTime;
+	particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * (Element::Random::Float() - 0.5f);
+	particle.sizeEnd = particleProps.sizeEnd;
 
-	m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
+	poolIndex = --poolIndex % particlePool.size();
 }

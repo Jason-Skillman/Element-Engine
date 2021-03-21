@@ -15,13 +15,13 @@ void SandboxLayer::OnAttach() {
 	textureCheckerboard = Element::Texture2D::Create("assets/textures/checkerboard.png");
 	textureArrow = Element::Texture2D::Create("assets/textures/arrow_head.png");
 
-	particleProps.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
-	particleProps.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
-	particleProps.SizeBegin = 0.5f, particleProps.SizeVariation = 0.3f, particleProps.SizeEnd = 0.0f;
-	particleProps.LifeTime = 1.0f;
-	particleProps.Velocity = { 0.0f, 0.0f };
-	particleProps.VelocityVariation = { 3.0f, 1.0f };
-	particleProps.Position = { 0.0f, 0.0f };
+	particleProps.colorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
+	particleProps.colorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
+	particleProps.sizeBegin = 0.5f, particleProps.sizeVariation = 0.3f, particleProps.sizeEnd = 0.0f;
+	particleProps.lifeTime = 1.0f;
+	particleProps.velocity = { 0.0f, 0.0f };
+	particleProps.velocityVariation = { 3.0f, 1.0f };
+	particleProps.position = { 0.0f, 0.0f };
 }
 
 void SandboxLayer::OnDetach() {}
@@ -107,7 +107,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 		
 		Element::Renderer2D::EndScene();
 
-
+		//Particles
 		if(Element::Input::IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 			auto [x, y] = Element::Input::GetMousePosition();
 			auto width = Element::Application::GetInstance().GetWindow().GetWidth();
@@ -117,7 +117,8 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			auto pos = cameraController.GetCamera().GetPosition();
 			x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
 			y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
-			particleProps.Position = { x + pos.x, y + pos.y };
+			particleProps.position = { x + pos.x, y + pos.y };
+			particleProps.sizeBegin = 0.1f;
 			for(int i = 0; i < 5; i++)
 				particleSystem.Emit(particleProps);
 		}

@@ -22,7 +22,7 @@ namespace Element {
 		
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);
-		//OrthographicCamera(float scalar, AspectRatio ratio = AspectRatio::Ratio1x1);
+		OrthographicCamera(float scalar, AspectRatio ratio = AspectRatio::Ratio1x1);
 
 	public:
 		void SetProjection(float left, float right, float bottom, float top);

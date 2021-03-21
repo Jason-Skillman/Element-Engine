@@ -7,9 +7,6 @@
 
 namespace Element {
 
-	/*OrthographicCameraController::OrthographicCameraController(float aspectRatio)
-		: aspectRatio(aspectRatio), camera(-aspectRatio * zoomLevel, aspectRatio* zoomLevel, -zoomLevel, zoomLevel), cameraPosition(0), cameraRotation(0) {}*/
-	
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio)
 		: aspectRatio(aspectRatio),
 	bounds({ -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel }),
@@ -38,17 +35,17 @@ namespace Element {
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& event) {
 		zoomLevel -= event.GetYOffset() * 0.25f;
 		zoomLevel = std::max(zoomLevel, 0.25f);
+		
 		bounds = { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
 		camera.SetProjection(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top);
-		//camera.SetProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
 		return false;
 	}
 	
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event) {
 		aspectRatio = static_cast<float>(event.GetWidth()) / static_cast<float>(event.GetHeight());
+		
 		bounds = { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
 		camera.SetProjection(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top);
-		//camera.SetProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
 		return false;
 	}
 }
