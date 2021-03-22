@@ -149,6 +149,8 @@ namespace Element {
 				textureIndex = static_cast<float>(data.textureSlotIndex);
 				data.textureSlots[data.textureSlotIndex] = properties.texture;
 				data.textureSlotIndex++;
+
+				data.stats.texturesLoaded++;
 			}
 		}
 

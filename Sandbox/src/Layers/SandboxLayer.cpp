@@ -104,14 +104,14 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 		}*/
 
 		//Background
-		{
+		/*{
 			Element::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 0.0f, 0.0f, -0.1f };
 			drawProps.scale = { 10.0f, 10.0f };
 			drawProps.texture = textureCheckerboard;
 			drawProps.tiling = 20.0f;
 			Element::Renderer2D::DrawQuad(drawProps);
-		}
+		}*/
 		
 		Element::Renderer2D::EndScene();
 
@@ -160,6 +160,7 @@ void SandboxLayer::OnImGuiRender() {
 	ImGui::Text("Quads: %d", stats.quadCount);
 	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+	ImGui::Text("Textures loaded: %d", stats.texturesLoaded);
 
 	ImGui::End();
 }
