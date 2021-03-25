@@ -16,6 +16,9 @@ void SandboxLayer::OnAttach() {
 	textureArrow = Element::Texture2D::Create("assets/textures/arrow_head.png");
 	textureRPGSpriteSheet = Element::Texture2D::Create("assets/textures/rpg_pack_sprite_sheet.png");
 
+	textureStairsLeft = Element::SubTexture2D::CreateFromCoords(textureRPGSpriteSheet, { 7, 6 }, { 128, 128 });
+	textureBarrel = Element::SubTexture2D::CreateFromCoords(textureRPGSpriteSheet, { 8, 2 }, { 128, 128 });
+
 	particleProps.colorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
 	particleProps.colorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
 	particleProps.sizeBegin = 0.5f, particleProps.sizeVariation = 0.3f, particleProps.sizeEnd = 0.0f;
@@ -52,11 +55,19 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 		Element::Renderer2D::ResetStats();
 		Element::Renderer2D::BeginScene(cameraController.GetCamera());
 
+		
 		{
 			Element::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 0.0f, 0.0f, 0.0f };
-			drawProps.texture = textureRPGSpriteSheet;
-			Element::Renderer2D::DrawQuad(drawProps);
+			drawProps.scale = { 0.4f, 0.4f };
+			Element::Renderer2D::DrawQuad(drawProps, textureStairsLeft);
+		}
+
+		{
+			Element::Renderer2D::DrawProporties drawProps;
+			drawProps.position = { 0.4f, 0.0f, 0.0f };
+			drawProps.scale = { 0.4f, 0.4f };
+			Element::Renderer2D::DrawQuad(drawProps, textureBarrel);
 		}
 
 		//Red square

@@ -115,21 +115,20 @@ namespace Element {
 		data.stats.drawCalls++;
 	}
 
-	void Renderer2D::DrawQuad(const DrawProporties& properties) {
+	void Renderer2D::DrawQuad(const DrawProporties& properties, const Ref<Texture2D>& texture, const glm::vec2* texCoords) {
 		PROFILE_FUNCTION();
 
 		size_t quadVertexCount = 4;
 
-
-		float x = 2, y = 3;
-		float maxWidth = properties.texture->GetWidth(), maxHeight = properties.texture->GetHeight();
-		float spriteWidth = 128.0f, spriteHeight = 128.0f;
-		glm::vec2 texCoords[] = {
-			{ (x * spriteWidth) / maxWidth, (y * spriteHeight) / maxHeight },
-			{ ((x + 1) * spriteWidth) / maxWidth, (y * spriteHeight) / maxHeight },
-			{ ((x + 1) * spriteWidth) / maxWidth, ((y + 1) * spriteHeight) / maxHeight },
-			{ (x * spriteWidth) / maxWidth, ((y + 1) * spriteHeight) / maxHeight }
+		glm::vec2 texCoordsOne[] = {
+			{ 0.0f, 0.0f },
+			{ 1.0f, 0.0f },
+			{ 1.0f, 1.0f },
+			{ 0.0f, 1.0f }
 		};
+		if(!texCoords) {
+			texCoords = texCoordsOne;
+		}
 		
 
 		if(data.quadIndexCount >= data.maxIndices)
@@ -137,17 +136,17 @@ namespace Element {
 
 		//Texture batching
 		float textureIndex = 0.0f;
-		if(properties.texture != nullptr) {
+		if(texture != nullptr) {
 			for(uint32_t i = 1; i < data.textureSlotIndex; i++) {
 				//If the textures are equal
-				if(*data.textureSlots[i].get() == *properties.texture.get()) {
+				if(*data.textureSlots[i].get() == *texture.get()) {
 					textureIndex = static_cast<float>(i);
 					break;
 				}
 			}
 			if(textureIndex == 0.0f) {
 				textureIndex = static_cast<float>(data.textureSlotIndex);
-				data.textureSlots[data.textureSlotIndex] = properties.texture;
+				data.textureSlots[data.textureSlotIndex] = texture;
 				data.textureSlotIndex++;
 
 				data.stats.texturesLoaded++;
@@ -179,6 +178,10 @@ namespace Element {
 		data.quadIndexCount += 6;
 
 		data.stats.quadCount++;
+	}
+
+	void Renderer2D::DrawQuad(const DrawProporties& properties, const Ref<SubTexture2D>& subtexture) {
+		DrawQuad(properties, subtexture->GetTexture(), subtexture->GetTexCoords());
 	}
 
 	void Renderer2D::ResetStats() {
