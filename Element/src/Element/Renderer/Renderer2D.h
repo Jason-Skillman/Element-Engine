@@ -84,7 +84,7 @@ namespace Element {
 		static void Flush();
 		
 		static void DrawQuad(const DrawProporties& properties, const Ref<Texture2D>& texture = nullptr, const glm::vec2* texCoords = nullptr);
-		static void DrawQuad(const DrawProporties& properties, const Ref<SubTexture2D>& subtexture);
+		static void DrawQuad(const DrawProporties& properties, const Ref<SubTexture2D>& subTexture);
 
 		static void ResetStats();
 		static Statistics GetStats();

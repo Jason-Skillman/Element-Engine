@@ -180,8 +180,8 @@ namespace Element {
 		data.stats.quadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const DrawProporties& properties, const Ref<SubTexture2D>& subtexture) {
-		DrawQuad(properties, subtexture->GetTexture(), subtexture->GetTexCoords());
+	void Renderer2D::DrawQuad(const DrawProporties& properties, const Ref<SubTexture2D>& subTexture) {
+		DrawQuad(properties, subTexture->GetTexture(), subTexture->GetTexCoords());
 	}
 
 	void Renderer2D::ResetStats() {

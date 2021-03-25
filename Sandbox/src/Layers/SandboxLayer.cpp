@@ -4,7 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
-#include "../../../Element/vendor/GLFW/include/GLFW/glfw3.h"
+//#include "../../../Element/vendor/GLFW/include/GLFW/glfw3.h"
 
 #include "Element/Debug/Instrumentor.h"
 
@@ -16,8 +16,9 @@ void SandboxLayer::OnAttach() {
 	textureArrow = Element::Texture2D::Create("assets/textures/arrow_head.png");
 	textureRPGSpriteSheet = Element::Texture2D::Create("assets/textures/rpg_pack_sprite_sheet.png");
 
-	textureStairsLeft = Element::SubTexture2D::CreateFromCoords(textureRPGSpriteSheet, { 7, 6 }, { 128, 128 });
-	textureBarrel = Element::SubTexture2D::CreateFromCoords(textureRPGSpriteSheet, { 8, 2 }, { 128, 128 });
+	texStairsLeft = Element::SubTexture2D::CreateFromCoords(textureRPGSpriteSheet, { 7, 6 }, { 128, 128 });
+	texBarrel = Element::SubTexture2D::CreateFromCoords(textureRPGSpriteSheet, { 8, 2 }, { 128, 128 });
+	texTreeOrange = Element::SubTexture2D::CreateFromCoords(textureRPGSpriteSheet, { 2, 1 }, { 128, 128 }, { 1, 2 });
 
 	particleProps.colorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
 	particleProps.colorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
@@ -60,14 +61,21 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			Element::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 0.0f, 0.0f, 0.0f };
 			drawProps.scale = { 0.4f, 0.4f };
-			Element::Renderer2D::DrawQuad(drawProps, textureStairsLeft);
+			Element::Renderer2D::DrawQuad(drawProps, texStairsLeft);
 		}
 
 		{
 			Element::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 0.4f, 0.0f, 0.0f };
 			drawProps.scale = { 0.4f, 0.4f };
-			Element::Renderer2D::DrawQuad(drawProps, textureBarrel);
+			Element::Renderer2D::DrawQuad(drawProps, texBarrel);
+		}
+
+		{
+			Element::Renderer2D::DrawProporties drawProps;
+			drawProps.position = { -0.4f, 0.2f, 0.0f };
+			drawProps.scale = { 0.4f, 0.4f * 2 };
+			Element::Renderer2D::DrawQuad(drawProps, texTreeOrange);
 		}
 
 		//Red square
