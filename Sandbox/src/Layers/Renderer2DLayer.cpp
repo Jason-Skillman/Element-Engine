@@ -1,16 +1,16 @@
-#include "SandboxLayer.h"
+#include "Renderer2DLayer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
-SandboxLayer::SandboxLayer()
-	: Layer("Sandbox"), cameraController(16.0f / 9.0f) {}
+Renderer2DLayer::Renderer2DLayer()
+	: Layer("Renderer2D"), cameraController(16.0f / 9.0f) {}
 
-void SandboxLayer::OnAttach() {
+void Renderer2DLayer::OnAttach() {
 	textureCheckerboard = Element::Texture2D::Create("assets/textures/checkerboard.png");
 	textureArrow = Element::Texture2D::Create("assets/textures/arrow_head.png");
-	
+
 	particleProps.colorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
 	particleProps.colorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
 	particleProps.sizeBegin = 0.5f, particleProps.sizeVariation = 0.3f, particleProps.sizeEnd = 0.0f;
@@ -20,22 +20,22 @@ void SandboxLayer::OnAttach() {
 	particleProps.position = { 0.0f, 0.0f };
 }
 
-void SandboxLayer::OnDetach() {}
+void Renderer2DLayer::OnDetach() {}
 
-void SandboxLayer::OnUpdate(Element::Timestep ts) {
+void Renderer2DLayer::OnUpdate(Element::Timestep ts) {
 	EL_PROFILE_FUNCTION();
-	
+
 	//Update
 	{
 		EL_PROFILE_SCOPE("Update");
-		
+
 		cameraController.OnUpdate(ts);
 	}
 
 	//Pre-render
 	{
 		EL_PROFILE_SCOPE("Pre-render");
-		
+
 		Element::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Element::RenderCommand::Clear();
 	}
@@ -60,7 +60,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 		{
 			static float rotation = 0.0f;
 			rotation += ts * 20.0f;
-			
+
 			Element::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 0.6f, 0.0f, 0.2f };
 			drawProps.rotation = glm::radians(rotation);
@@ -73,7 +73,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 		{
 			static float rotation = 0.0f;
 			rotation += ts * 45.0f;
-			
+
 			Element::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 1.2f, 0.0f, 0.3f };
 			drawProps.rotation = glm::radians(rotation);
@@ -98,7 +98,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			drawProps.tiling = 20.0f;
 			Element::Renderer2D::DrawQuad(drawProps, textureCheckerboard);
 		}
-		
+
 		Element::Renderer2D::EndScene();
 
 		//Particles
@@ -122,7 +122,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 	}
 }
 
-void SandboxLayer::OnImGuiRender() {
+void Renderer2DLayer::OnImGuiRender() {
 	ImGui::Begin("Renderer 2D Stats");
 
 	auto stats = Element::Renderer2D::GetStats();
@@ -135,6 +135,6 @@ void SandboxLayer::OnImGuiRender() {
 	ImGui::End();
 }
 
-void SandboxLayer::OnEvent(Element::Event& event) {
+void Renderer2DLayer::OnEvent(Element::Event& event) {
 	cameraController.OnEvent(event);
 }

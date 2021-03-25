@@ -4,18 +4,19 @@
 
 #include "ParticleSystem.h"
 
-class SandboxLayer : public Element::Layer {
+class SpriteSheetLayer : public Element::Layer {
 private:
 	Element::OrthographicCameraController cameraController;
 
-	Element::Ref<Element::Texture2D> textureCheckerboard, textureArrow;
-	
-	ParticleSystem particleSystem;
-	ParticleProps particleProps;
-	
+	Element::Ref<Element::Texture2D> textureRPGSpriteSheet;
+	Element::Ref<Element::SubTexture2D> texStairsLeft, texBarrel, texTreeOrange;
+
+	uint32_t mapWidth = 24, mapHeight = 14;
+	std::unordered_map<char, Element::Ref<Element::SubTexture2D>> textureMap;
+
 public:
-	SandboxLayer();
-	virtual ~SandboxLayer() = default;
+	SpriteSheetLayer();
+	virtual ~SpriteSheetLayer() = default;
 
 public:
 	virtual void OnAttach() override;

@@ -16,6 +16,9 @@ Intended to be included by other client applications.
 #include "Element/Core/Input.h"
 #include "Element/Core/Timestep.h"
 
+//Debug
+#include "Element/Debug/Instrumentor.h"
+
 //Events
 #include "Element/Events/Event.h"
 #include "Element/Events/ApplicationEvent.h"

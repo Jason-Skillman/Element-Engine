@@ -4,18 +4,18 @@
 
 #include "ParticleSystem.h"
 
-class SandboxLayer : public Element::Layer {
+class Renderer2DLayer : public Element::Layer {
 private:
 	Element::OrthographicCameraController cameraController;
 
 	Element::Ref<Element::Texture2D> textureCheckerboard, textureArrow;
-	
+
 	ParticleSystem particleSystem;
 	ParticleProps particleProps;
-	
+
 public:
-	SandboxLayer();
-	virtual ~SandboxLayer() = default;
+	Renderer2DLayer();
+	virtual ~Renderer2DLayer() = default;
 
 public:
 	virtual void OnAttach() override;
