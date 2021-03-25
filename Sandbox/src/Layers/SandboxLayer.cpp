@@ -85,10 +85,10 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.8f, 0.2f, 0.3f, 1.0f };
 			Element::Renderer2D::DrawQuad(drawProps);
-		}
+		}*/
 
 		//Green square
-		{
+		/*{
 			static float rotation = 0.0f;
 			rotation += ts * 20.0f;
 			
@@ -98,10 +98,10 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.3f, 0.8f, 0.2f, 1.0f };
 			Element::Renderer2D::DrawQuad(drawProps);
-		}
+		}*/
 
 		//Blue square
-		{
+		/*{
 			static float rotation = 0.0f;
 			rotation += ts * 45.0f;
 			
@@ -111,15 +111,14 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.2f, 0.3f, 0.8f, 1.0f };
 			Element::Renderer2D::DrawQuad(drawProps);
-		}
+		}*/
 
 		//Texture
-		{
+		/*{
 			Element::Renderer2D::DrawProporties drawProps;
 			drawProps.position = { 0.0f, 0.0f, 0.4f };
 			drawProps.scale = { 0.3f, 0.3f };
-			drawProps.texture = textureArrow;
-			Element::Renderer2D::DrawQuad(drawProps);
+			Element::Renderer2D::DrawQuad(drawProps, textureArrow);
 		}*/
 
 		//Background

@@ -120,16 +120,15 @@ namespace Element {
 
 		size_t quadVertexCount = 4;
 
-		glm::vec2 texCoordsOne[] = {
-			{ 0.0f, 0.0f },
-			{ 1.0f, 0.0f },
-			{ 1.0f, 1.0f },
-			{ 0.0f, 1.0f }
-		};
 		if(!texCoords) {
+			glm::vec2 texCoordsOne[] = {
+				{ 0.0f, 0.0f },
+				{ 1.0f, 0.0f },
+				{ 1.0f, 1.0f },
+				{ 0.0f, 1.0f }
+			};
 			texCoords = texCoordsOne;
 		}
-		
 
 		if(data.quadIndexCount >= data.maxIndices)
 			FlushAndReset();
