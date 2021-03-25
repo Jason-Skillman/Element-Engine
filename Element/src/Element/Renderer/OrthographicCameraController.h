@@ -37,6 +37,7 @@ namespace Element {
 
 		inline void SetZoomLevel(float zoomLevel) {
 			this->zoomLevel = zoomLevel;
+			CalculateView();
 		}
 		inline float GetZoomLevel() const {
 			return zoomLevel;
@@ -56,5 +57,7 @@ namespace Element {
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& event);
 		bool OnWindowResized(WindowResizeEvent& event);
+
+		void CalculateView();
 	};
 }

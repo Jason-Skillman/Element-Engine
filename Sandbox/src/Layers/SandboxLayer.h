@@ -24,6 +24,9 @@ private:
 
 	ParticleSystem particleSystem;
 	ParticleProps particleProps;
+
+	uint32_t mapWidth = 24, mapHeight = 14;
+	std::unordered_map<char, Element::Ref<Element::SubTexture2D>> textureMap;
 	
 public:
 	SandboxLayer();

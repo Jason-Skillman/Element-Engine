@@ -36,16 +36,19 @@ namespace Element {
 		zoomLevel -= event.GetYOffset() * 0.25f;
 		zoomLevel = std::max(zoomLevel, 0.25f);
 		
-		bounds = { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
-		camera.SetProjection(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top);
+		CalculateView();
 		return false;
 	}
 	
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event) {
 		aspectRatio = static_cast<float>(event.GetWidth()) / static_cast<float>(event.GetHeight());
 		
+		CalculateView();
+		return false;
+	}
+
+	void OrthographicCameraController::CalculateView() {
 		bounds = { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
 		camera.SetProjection(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top);
-		return false;
 	}
 }
