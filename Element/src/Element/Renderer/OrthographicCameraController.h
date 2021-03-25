@@ -26,7 +26,7 @@ namespace Element {
 		glm::vec3 cameraPosition;
 		float cameraRotation;
 
-		float cameraSpeed = 0.5f, cameraRotSpeed = 20.0f;
+		float moveSpeed = 1.0f, rotationSpeed = 30.0f;
 
 	public:
 		OrthographicCameraController(float aspectRatio);
@@ -41,6 +41,20 @@ namespace Element {
 		}
 		inline float GetZoomLevel() const {
 			return zoomLevel;
+		}
+
+		inline void SetMoveSpeed(float speed) {
+			moveSpeed = speed;
+		}
+		inline float GetMoveSpeed() const {
+			return moveSpeed;
+		}
+
+		inline void SetRotationSpeed(float rotation) {
+			rotationSpeed = rotation;
+		}
+		inline float GetRotationSpeed() const {
+			return rotationSpeed;
 		}
 
 		inline OrthographicCamera& GetCamera() {
