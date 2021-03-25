@@ -109,6 +109,10 @@ namespace Element {
 		layer->OnAttach();
 	}
 
+	void Application::Close() {
+		isRunning = false;
+	}
+
 	bool Application::OnWindowClose(WindowCloseEvent& event) {
 		isRunning = false;
 		return true;

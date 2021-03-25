@@ -35,6 +35,11 @@ namespace Element {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
+		/// <summary>
+		/// Shuts down the application.
+		/// </summary>
+		void Close();
+
 		inline Window& GetWindow() const {
 			return *window;
 		}
