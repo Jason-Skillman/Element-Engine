@@ -27,11 +27,11 @@
 #endif
 
 #if ENABLE_ASSERTS
-	#define ASSERT(x, ...) { if(x) { LOG_ERROR(__VA_ARGS__); __debugbreak(); } }
-	#define CORE_ASSERT(x, ...) { if(x) { LOG_CORE_ERROR(__VA_ARGS__); __debugbreak(); } }
+	#define EL_CORE_ASSERT(x, ...) { if(x) { EL_LOG_CORE_ERROR(__VA_ARGS__); __debugbreak(); } }
+	#define EL_ASSERT(x, ...) { if(x) { EL_LOG_ERROR(__VA_ARGS__); __debugbreak(); } }
 #else
-	#define ASSERT(x, ...)
-	#define CORE_ASSERT(x, ...)
+	#define EL_CORE_ASSERT(x, ...)
+	#define EL_ASSERT(x, ...)
 #endif
 
 

@@ -124,13 +124,13 @@ namespace Element {
 }
 
 #if PROFILE
-	#define PROFILE_BEGIN_SESSION(name, filepath) ::Element::Instrumentor::Get().BeginSession(name, filepath);
-	#define PROFILE_END_SESSION() ::Element::Instrumentor::Get().EndSession();
-	#define PROFILE_SCOPE(name) ::Element::InstrumentationTimer timer##__LINE__(name);
-	#define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCSIG__);
+	#define EL_PROFILE_BEGIN_SESSION(name, filepath) ::Element::Instrumentor::Get().BeginSession(name, filepath);
+	#define EL_PROFILE_END_SESSION() ::Element::Instrumentor::Get().EndSession();
+	#define EL_PROFILE_SCOPE(name) ::Element::InstrumentationTimer timer##__LINE__(name);
+	#define EL_PROFILE_FUNCTION() EL_PROFILE_SCOPE(__FUNCSIG__);
 #else
-	#define PROFILE_BEGIN_SESSION(name, filepath)
-	#define PROFILE_END_SESSION()
-	#define PROFILE_SCOPE(name)
-	#define PROFILE_FUNCTION()
+	#define EL_PROFILE_BEGIN_SESSION(name, filepath)
+	#define EL_PROFILE_END_SESSION()
+	#define EL_PROFILE_SCOPE(name)
+	#define EL_PROFILE_FUNCTION()
 #endif

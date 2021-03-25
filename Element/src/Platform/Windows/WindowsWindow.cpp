@@ -17,7 +17,7 @@ namespace Element {
 	static bool glfwInitialized = false;
 
 	static void GLFWErrorCallback(int error, const char* description) {
-		LOG_CORE_ERROR("GLFW Error ({0}): {1}", error, description)
+		EL_LOG_CORE_ERROR("GLFW Error ({0}): {1}", error, description)
 	}
 
 	Scope<Window> Window::Create(const WindowProps& props) {
@@ -25,7 +25,7 @@ namespace Element {
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props) : window(nullptr) {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		Init(props);
 	}
@@ -35,7 +35,7 @@ namespace Element {
 	}
 	
 	void WindowsWindow::OnUpdate() {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		glfwPollEvents();
 
@@ -66,18 +66,18 @@ namespace Element {
 	}
 
 	void WindowsWindow::Init(const WindowProps& props) {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		data.title = props.title;
 		data.width = props.width;
 		data.height = props.height;
 
-		LOG_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
+		EL_LOG_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
 
 		if(!glfwInitialized) {
 			//Todo: glfwTerminate
 			int success = glfwInit();
-			CORE_ASSERT(!success, "Could not initalize GLFW!");
+			EL_CORE_ASSERT(!success, "Could not initalize GLFW!");
 
 			glfwSetErrorCallback(GLFWErrorCallback);
 
@@ -179,7 +179,7 @@ namespace Element {
 	}
 
 	void WindowsWindow::Shutdown() {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		glfwDestroyWindow(window);
 	}

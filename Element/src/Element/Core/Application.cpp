@@ -41,7 +41,7 @@ namespace Element {
 			case ShaderDataType::Bool:
 				return GL_BOOL;
 			default:
-				CORE_ASSERT(true, "Unknown ShaderDataType: {0}", type);
+				EL_CORE_ASSERT(true, "Unknown ShaderDataType: {0}", type);
 				return 0;
 		}
 	}

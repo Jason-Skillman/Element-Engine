@@ -11,7 +11,7 @@ namespace Element {
 			case RendererAPI::API::OpenGL:
 				return std::make_shared<OpenGLShader>(filepath);
 			default:
-				CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}
@@ -21,19 +21,19 @@ namespace Element {
 			case RendererAPI::API::OpenGL:
 				return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
 			default:
-				CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}
 
 	void ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader) {
-		CORE_ASSERT(Exists(name), "Shader \"{0}\" already exists in shader library!", name);
+		EL_CORE_ASSERT(Exists(name), "Shader \"{0}\" already exists in shader library!", name);
 		shaders[name] = shader;
 	}
 
 	void ShaderLibrary::Add(const Ref<Shader>& shader) {
 		const std::string& name = shader->GetName();
-		CORE_ASSERT(Exists(name), "Shader \"{0}\" already exists in shader library!", name);
+		EL_CORE_ASSERT(Exists(name), "Shader \"{0}\" already exists in shader library!", name);
 		Add(name, shader);
 	}
 
@@ -50,7 +50,7 @@ namespace Element {
 	}
 	
 	Ref<Shader> ShaderLibrary::Get(const std::string& name) const {
-		CORE_ASSERT(!Exists(name), "Shader \"{0}\" not found!", name);
+		EL_CORE_ASSERT(!Exists(name), "Shader \"{0}\" not found!", name);
 		//return shaders[name];
 		return shaders.at(name);
 	}

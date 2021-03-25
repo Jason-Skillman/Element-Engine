@@ -9,7 +9,7 @@ namespace Element {
 	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
 		: rendererID(0) {
 
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &rendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, rendererID);
@@ -19,7 +19,7 @@ namespace Element {
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
 		: rendererID(0) {
 
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &rendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, rendererID);
@@ -27,19 +27,19 @@ namespace Element {
 	}
 	
 	OpenGLVertexBuffer::~OpenGLVertexBuffer() {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		glDeleteBuffers(1, &rendererID);
 	}
 	
 	void OpenGLVertexBuffer::Bind() const {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		glBindBuffer(GL_ARRAY_BUFFER, rendererID);
 	}
 	
 	void OpenGLVertexBuffer::Unbind() const {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
@@ -54,7 +54,7 @@ namespace Element {
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
 		: rendererID(0), count(count) {
 
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &rendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererID);
@@ -62,19 +62,19 @@ namespace Element {
 	}
 	
 	OpenGLIndexBuffer::~OpenGLIndexBuffer() {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		glDeleteBuffers(1, &rendererID);
 	}
 	
 	void OpenGLIndexBuffer::Bind() const {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererID);
 	}
 	
 	void OpenGLIndexBuffer::Unbind() const {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}

@@ -11,7 +11,7 @@ namespace Element {
 			case RendererAPI::API::OpenGL:
 				return std::make_shared<OpenGLVertexArray>();
 			default:
-				CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}

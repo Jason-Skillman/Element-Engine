@@ -11,7 +11,7 @@ namespace Element {
 			case RendererAPI::API::OpenGL:
 				return CreateRef<OpenGLVertexBuffer>(size);
 			default:
-				CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}
@@ -21,7 +21,7 @@ namespace Element {
 			case RendererAPI::API::OpenGL:
 				return CreateRef<OpenGLVertexBuffer>(vertices, size);
 			default:
-				CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}
@@ -31,7 +31,7 @@ namespace Element {
 			case RendererAPI::API::OpenGL:
 				return CreateRef<OpenGLIndexBuffer>(indices, count);
 			default:
-				CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}

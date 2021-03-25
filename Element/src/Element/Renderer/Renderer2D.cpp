@@ -12,7 +12,7 @@ namespace Element {
 	Renderer2D::RendererData Renderer2D::data;
 
 	void Renderer2D::Init() {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		//Data
 		const BufferLayout layout = {
@@ -79,11 +79,11 @@ namespace Element {
 	}
 	
 	void Renderer2D::Shutdown() {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 	}
 	
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 		
 		data.standardShader->Bind();
 		data.standardShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
@@ -95,7 +95,7 @@ namespace Element {
 	}
 	
 	void Renderer2D::EndScene() {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 
 		uint32_t dataSize = reinterpret_cast<uint8_t*>(data.quadVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.quadVertexBufferBase);
 		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
@@ -104,7 +104,7 @@ namespace Element {
 	}
 
 	void Renderer2D::Flush() {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 
 		//Bind all textures to their texture slot
 		for(uint32_t i = 0; i < data.textureSlotIndex; i++) {
@@ -116,7 +116,7 @@ namespace Element {
 	}
 
 	void Renderer2D::DrawQuad(const DrawProporties& properties, const Ref<Texture2D>& texture, const glm::vec2* texCoords) {
-		PROFILE_FUNCTION();
+		EL_PROFILE_FUNCTION();
 
 		size_t quadVertexCount = 4;
 
