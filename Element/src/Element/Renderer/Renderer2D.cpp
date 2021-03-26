@@ -115,7 +115,7 @@ namespace Element {
 		data.stats.drawCalls++;
 	}
 
-	void Renderer2D::DrawQuad(const DrawProporties& properties, const Ref<Texture2D>& texture, const glm::vec2* texCoords) {
+	void Renderer2D::DrawQuad(const DrawProperties& properties, const Ref<Texture2D>& texture, const glm::vec2* texCoords) {
 		EL_PROFILE_FUNCTION();
 
 		size_t quadVertexCount = 4;
@@ -179,7 +179,7 @@ namespace Element {
 		data.stats.quadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const DrawProporties& properties, const Ref<SubTexture2D>& subTexture) {
+	void Renderer2D::DrawQuad(const DrawProperties& properties, const Ref<SubTexture2D>& subTexture) {
 		DrawQuad(properties, subTexture->GetTexture(), subTexture->GetTexCoords());
 	}
 

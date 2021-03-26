@@ -43,7 +43,7 @@ void ParticleSystem::OnRender(Element::OrthographicCamera& camera) {
 		//glm::vec3 position = particle.Position
 
 
-		Element::Renderer2D::DrawProporties drawProps;
+		Element::Renderer2D::DrawProperties drawProps;
 		drawProps.position = { particle.position, 0 };
 		drawProps.rotation = glm::radians(particle.rotation);
 		drawProps.scale = { size, size };

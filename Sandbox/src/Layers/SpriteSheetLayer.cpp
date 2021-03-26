@@ -66,19 +66,19 @@ void SpriteSheetLayer::OnUpdate(Element::Timestep ts) {
 		Element::Renderer2D::BeginScene(cameraController.GetCamera());
 
 		{
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 0.0f, 0.0f, 0.0f };
 			Element::Renderer2D::DrawQuad(drawProps, texStairsLeft);
 		}
 
 		{
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 1.0f, 0.0f, 0.0f };
 			Element::Renderer2D::DrawQuad(drawProps, texBarrel);
 		}
 
 		{
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { -1.0f, 0.5f, 0.0f };
 			drawProps.scale = { 1.0f, 1.0f * 2 };
 			Element::Renderer2D::DrawQuad(drawProps, texTreeOrange);
@@ -88,7 +88,7 @@ void SpriteSheetLayer::OnUpdate(Element::Timestep ts) {
 		{
 			for(uint32_t y = 0; y < mapHeight; y++) {
 				for(uint32_t x = 0; x < mapWidth; x++) {
-					Element::Renderer2D::DrawProporties drawProps;
+					Element::Renderer2D::DrawProperties drawProps;
 					drawProps.position = { x, mapHeight - y, 0.0f };
 
 					char tileType = tiles[x + y * mapWidth];

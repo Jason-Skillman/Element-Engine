@@ -10,6 +10,11 @@ SandboxLayer::SandboxLayer()
 void SandboxLayer::OnAttach() {
 	textureCheckerboard = Element::Texture2D::Create("assets/textures/checkerboard.png");
 	textureArrow = Element::Texture2D::Create("assets/textures/arrow_head.png");
+
+	Element::FrameBufferProperties fbProps;
+	fbProps.width = 1280;
+	fbProps.height = 720;
+	frameBuffer = Element::FrameBuffer::Create(fbProps);
 	
 	particleProps.colorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
 	particleProps.colorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
@@ -35,7 +40,8 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 	//Pre-render
 	{
 		EL_PROFILE_SCOPE("Pre-render");
-		
+
+		frameBuffer->Bind();
 		Element::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Element::RenderCommand::Clear();
 	}
@@ -49,7 +55,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 
 		//Red square
 		{
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 0.0f, 0.0f, 0.1f };
 			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.8f, 0.2f, 0.3f, 1.0f };
@@ -61,7 +67,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			static float rotation = 0.0f;
 			rotation += ts * 20.0f;
 			
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 0.6f, 0.0f, 0.2f };
 			drawProps.rotation = glm::radians(rotation);
 			drawProps.scale = { 0.4f, 0.4f };
@@ -74,7 +80,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 			static float rotation = 0.0f;
 			rotation += ts * 45.0f;
 			
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 1.2f, 0.0f, 0.3f };
 			drawProps.rotation = glm::radians(rotation);
 			drawProps.scale = { 0.4f, 0.4f };
@@ -84,7 +90,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 
 		//Arrow texture
 		{
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 0.0f, 0.0f, 0.4f };
 			drawProps.scale = { 0.3f, 0.3f };
 			Element::Renderer2D::DrawQuad(drawProps, textureArrow);
@@ -92,7 +98,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 
 		//Background
 		{
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 0.0f, 0.0f, -0.1f };
 			drawProps.scale = { 10.0f, 10.0f };
 			drawProps.tiling = 20.0f;
@@ -100,6 +106,8 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 		}
 		
 		Element::Renderer2D::EndScene();
+
+		frameBuffer->Unbind();
 
 		//Particles
 		if(Element::Input::IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
@@ -195,8 +203,8 @@ void SandboxLayer::OnImGuiRender() {
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 		ImGui::Text("Textures loaded: %d", stats.texturesLoaded);
 
-		uint32_t textureID = textureCheckerboard->GetRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ 64.0f, 64.0f });
+		uint32_t textureID = frameBuffer->GetColorAttachmentRendererID();
+		ImGui::Image((void*)textureID, ImVec2{ 320.0f, 180.0f });
 
 		ImGui::End();
 	}

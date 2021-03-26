@@ -49,7 +49,7 @@ void Renderer2DLayer::OnUpdate(Element::Timestep ts) {
 
 		//Red square
 		{
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 0.0f, 0.0f, 0.1f };
 			drawProps.scale = { 0.4f, 0.4f };
 			drawProps.color = { 0.8f, 0.2f, 0.3f, 1.0f };
@@ -61,7 +61,7 @@ void Renderer2DLayer::OnUpdate(Element::Timestep ts) {
 			static float rotation = 0.0f;
 			rotation += ts * 20.0f;
 
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 0.6f, 0.0f, 0.2f };
 			drawProps.rotation = glm::radians(rotation);
 			drawProps.scale = { 0.4f, 0.4f };
@@ -74,7 +74,7 @@ void Renderer2DLayer::OnUpdate(Element::Timestep ts) {
 			static float rotation = 0.0f;
 			rotation += ts * 45.0f;
 
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 1.2f, 0.0f, 0.3f };
 			drawProps.rotation = glm::radians(rotation);
 			drawProps.scale = { 0.4f, 0.4f };
@@ -84,7 +84,7 @@ void Renderer2DLayer::OnUpdate(Element::Timestep ts) {
 
 		//Arrow texture
 		{
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 0.0f, 0.0f, 0.4f };
 			drawProps.scale = { 0.3f, 0.3f };
 			Element::Renderer2D::DrawQuad(drawProps, textureArrow);
@@ -92,7 +92,7 @@ void Renderer2DLayer::OnUpdate(Element::Timestep ts) {
 
 		//Background
 		{
-			Element::Renderer2D::DrawProporties drawProps;
+			Element::Renderer2D::DrawProperties drawProps;
 			drawProps.position = { 0.0f, 0.0f, -0.1f };
 			drawProps.scale = { 10.0f, 10.0f };
 			drawProps.tiling = 20.0f;

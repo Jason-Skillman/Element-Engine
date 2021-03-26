@@ -41,3 +41,4 @@ Intended to be included by other client applications.
 #include "Element/Renderer/VertexArray.h"
 #include "Element/Renderer/Shader.h"
 #include "Element/Renderer/Texture.h"
+#include "Element/Renderer/FrameBuffer.h"

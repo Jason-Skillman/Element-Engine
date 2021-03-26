@@ -12,7 +12,7 @@ namespace Element {
 	/// </summary>
 	class Renderer2D {
 	public:
-		struct DrawProporties {
+		struct DrawProperties {
 			glm::vec3 position = { 0.0f, 0.0f, 0.0f };
 			/// <summary>
 			/// The amount to rotate in radians.
@@ -83,8 +83,8 @@ namespace Element {
 		static void EndScene();
 		static void Flush();
 		
-		static void DrawQuad(const DrawProporties& properties, const Ref<Texture2D>& texture = nullptr, const glm::vec2* texCoords = nullptr);
-		static void DrawQuad(const DrawProporties& properties, const Ref<SubTexture2D>& subTexture);
+		static void DrawQuad(const DrawProperties& properties, const Ref<Texture2D>& texture = nullptr, const glm::vec2* texCoords = nullptr);
+		static void DrawQuad(const DrawProperties& properties, const Ref<SubTexture2D>& subTexture);
 
 		static void ResetStats();
 		static Statistics GetStats();
