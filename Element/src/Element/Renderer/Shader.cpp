@@ -9,7 +9,7 @@ namespace Element {
 	Ref<Shader> Shader::Create(const std::string& filepath) {
 		switch(Renderer::GetAPI()) {
 			case RendererAPI::API::OpenGL:
-				return std::make_shared<OpenGLShader>(filepath);
+				return CreateRef<OpenGLShader>(filepath);
 			default:
 				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
@@ -19,7 +19,7 @@ namespace Element {
 	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) {
 		switch(Renderer::GetAPI()) {
 			case RendererAPI::API::OpenGL:
-				return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+				return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
 			default:
 				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
@@ -51,7 +51,6 @@ namespace Element {
 	
 	Ref<Shader> ShaderLibrary::Get(const std::string& name) const {
 		EL_CORE_ASSERT(!Exists(name), "Shader \"{0}\" not found!", name);
-		//return shaders[name];
 		return shaders.at(name);
 	}
 

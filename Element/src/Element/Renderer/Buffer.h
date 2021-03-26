@@ -25,7 +25,6 @@ namespace Element {
 
 	public:
 		BufferLayout() = default;
-		
 		BufferLayout(const std::initializer_list<BufferElement>& elements)
 			: elements(elements), stride(0) {
 
@@ -77,7 +76,6 @@ namespace Element {
 		static Ref<VertexBuffer> Create(uint32_t size);
 		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
 
-	public:
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 

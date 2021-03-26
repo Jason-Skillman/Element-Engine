@@ -6,7 +6,7 @@
 
 namespace Element {
 	/// <summary>
-	/// Abstract class
+	/// Abstract
 	/// </summary>
 	class Shader {
 	public:
