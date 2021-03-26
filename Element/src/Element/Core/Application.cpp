@@ -48,10 +48,10 @@ namespace Element {
 
 	Application* Application::instance = nullptr;
 	
-	Application::Application() {
+	Application::Application(const std::string& name) {
 		if(!instance) instance = this;
 		
-		window = Window::Create();
+		window = Window::Create(WindowProps("Element Engine"));
 		window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
 
 		Renderer::Init();

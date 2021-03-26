@@ -3,15 +3,17 @@
 #include "Layers/EditorLayer.h"
 
 namespace Element {
-	class ElementEditorApp : public Application {
+	class ElementEditor : public Application {
 	public:
-		ElementEditorApp() {
+		ElementEditor()
+			: Application("Element Editor") {
+			
 			PushLayer(new EditorLayer());
 		}
-		~ElementEditorApp() = default;
+		~ElementEditor() = default;
 	};
 
 	Application* Element::CreateApplication() {
-		return new ElementEditorApp();
+		return new ElementEditor();
 	}
 }

@@ -9,7 +9,6 @@ private:
 	Element::OrthographicCameraController cameraController;
 
 	Element::Ref<Element::Texture2D> textureCheckerboard, textureArrow;
-	Element::Ref<Element::FrameBuffer> frameBuffer;
 	
 	ParticleSystem particleSystem;
 	ParticleProps particleProps;

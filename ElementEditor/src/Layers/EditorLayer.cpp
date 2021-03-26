@@ -184,7 +184,7 @@ namespace Element {
 			ImGui::Text("Textures loaded: %d", stats.texturesLoaded);
 
 			uint32_t textureID = frameBuffer->GetColorAttachmentRendererID();
-			ImGui::Image((void*)textureID, ImVec2{ 320.0f, 180.0f });
+			ImGui::Image((void*)textureID, ImVec2{ 1280.0f, 720.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 			ImGui::End();
 		}

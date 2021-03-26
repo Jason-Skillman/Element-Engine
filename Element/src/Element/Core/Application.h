@@ -21,7 +21,7 @@ namespace Element {
 		float lastFrameTime = 0.0f;
 		
 	public:
-		Application();
+		Application(const std::string& name = std::string());
 		virtual ~Application();
 
 	public:
