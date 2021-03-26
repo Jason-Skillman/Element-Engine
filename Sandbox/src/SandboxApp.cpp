@@ -6,17 +6,17 @@
 #include "Layers/Renderer2DLayer.h"
 #include "Layers/SandboxLayer.h"
 
-class Sandbox : public Element::Application {
+class ElementEditorApp : public Element::Application {
 public:
-	Sandbox() {
+	ElementEditorApp() {
 		//PushLayer(new ExampleLayer());
 		//PushLayer(new SpriteSheetLayer());
 		//PushLayer(new Renderer2DLayer());
 		PushLayer(new SandboxLayer());
 	}
-	~Sandbox() = default;
+	~ElementEditorApp() = default;
 };
 
 Element::Application* Element::CreateApplication() {
-	return new Sandbox();
+	return new ElementEditorApp();
 }

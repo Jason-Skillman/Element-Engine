@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "Log.h"
+#include "Element/Math/Random.h"
 
 #ifdef PLATFORM_WINDOWS
 

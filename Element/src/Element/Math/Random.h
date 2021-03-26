@@ -3,7 +3,7 @@
 #include <random>
 
 namespace Element {
-	//Static class
+	//Static
 	class Random {
 	private:
 		static std::mt19937 random;

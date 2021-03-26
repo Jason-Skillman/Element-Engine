@@ -105,6 +105,65 @@ project "Element"
 			"DIST" 
 		}
 
+project "ElementEditor"
+		location "ElementEditor"
+		kind "ConsoleApp"
+		language "C++"
+		cppdialect "C++17"
+		staticruntime "on"
+		
+		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+		 objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
+	
+		files { 
+			"%{prj.name}/src/**.h", 
+			"%{prj.name}/src/**.cpp",
+			"%{prj.name}/assets/**"
+		}
+		
+		includedirs {
+			"ElementEditor/src",
+			"%{IncludeDir.ElementSrc}",
+			"%{IncludeDir.spdlog}",
+			"%{IncludeDir.glm}",
+			"%{IncludeDir.ImGui}"
+		}
+	
+		links {
+			"Element"
+		}
+	
+		filter "system:windows"
+			systemversion "latest"
+	
+			defines {
+				"PLATFORM_WINDOWS"
+			}
+	
+		filter "configurations:Debug"
+			runtime "Debug"
+			symbols "on"
+	
+			defines { 
+				"DEBUG" 
+			}
+	
+		filter "configurations:Release"
+			runtime "Release"
+			optimize "on"
+	
+			defines { 
+				"RELEASE" 
+			}
+	
+		filter "configurations:Dist"
+			runtime "Release"
+			optimize "on"
+	
+			defines { 
+				"DIST" 
+			}
+
 project "Sandbox"
 	location "Sandbox"
    	kind "ConsoleApp"
