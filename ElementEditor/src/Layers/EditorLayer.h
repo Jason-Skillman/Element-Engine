@@ -11,7 +11,9 @@ namespace Element {
 		OrthographicCameraController cameraController;
 
 		Ref<Texture2D> textureCheckerboard, textureArrow;
+
 		Ref<FrameBuffer> frameBuffer;
+		glm::vec2 veiwportSize;
 
 	public:
 		EditorLayer();

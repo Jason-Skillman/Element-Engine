@@ -8,7 +8,7 @@ workspace "Element-Engine"
 		"Dist"
 	}
 
-	startproject "Sandbox"
+	startproject "ElementEditor"
 
 -- bin/Windows/Debug/x64
 outputdir = "%{cfg.system}/%{cfg.buildcfg}/%{cfg.architecture}"

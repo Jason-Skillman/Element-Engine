@@ -15,6 +15,11 @@ namespace Element {
 		virtual ~OpenGLFrameBuffer();
 
 	public:
+		virtual void Bind() override;
+		virtual void Unbind() override;
+
+		virtual void Resize(uint32_t width, uint32_t height) override;
+
 		inline virtual const FrameBufferProperties& GetProperties() const override {
 			return properties;
 		}
@@ -26,11 +31,7 @@ namespace Element {
 		inline virtual uint32_t GetColorAttachmentRendererID() override {
 			return colorAttachment;
 		}
-		
-		virtual void Bind() override;
-		virtual void Unbind() override;
 
 		void Invalidate();
-		
 	};
 }

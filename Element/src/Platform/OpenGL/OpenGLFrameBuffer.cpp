@@ -6,16 +6,38 @@
 namespace Element {
 
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferProperties& properties)
-		: properties(properties) {
+		: rendererID(0), properties(properties) {
 
 		Invalidate();
 	}
 
 	OpenGLFrameBuffer::~OpenGLFrameBuffer() {
 		glDeleteFramebuffers(1, &rendererID);
+		glDeleteTextures(1, &colorAttachment);
+		glDeleteTextures(1, &depthAttachment);
+	}
+
+	void OpenGLFrameBuffer::Bind() {
+		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
+	}
+
+	void OpenGLFrameBuffer::Unbind() {
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height) {
+		properties.width = width;
+		properties.height = height;
+		Invalidate();
 	}
 
 	void OpenGLFrameBuffer::Invalidate() {
+		if(rendererID) {
+			glDeleteFramebuffers(1, &rendererID);
+			glDeleteTextures(1, &colorAttachment);
+			glDeleteTextures(1, &depthAttachment);
+		}
+		
 		glCreateFramebuffers(1, &rendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
 
@@ -39,14 +61,6 @@ namespace Element {
 
 		EL_CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE, "Frame buffer is incomplete!");
 		
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
-
-	void OpenGLFrameBuffer::Bind() {
-		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
-	}
-
-	void OpenGLFrameBuffer::Unbind() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 }

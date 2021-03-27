@@ -183,8 +183,24 @@ namespace Element {
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 			ImGui::Text("Textures loaded: %d", stats.texturesLoaded);
 
+			ImGui::End();
+		}
+
+		{
+			ImGui::Begin("Viewport");
+
+			//Set the viewport size
+			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+			
+			if(veiwportSize != *(glm::vec2*)&viewportPanelSize) {
+				veiwportSize = { viewportPanelSize.x, viewportPanelSize.y };
+				frameBuffer->Resize(veiwportSize.x, veiwportSize.y);
+			}
+				
+
+			//Draw the frame buffer
 			uint32_t textureID = frameBuffer->GetColorAttachmentRendererID();
-			ImGui::Image((void*)textureID, ImVec2{ 1280.0f, 720.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ veiwportSize.x, veiwportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 			ImGui::End();
 		}
