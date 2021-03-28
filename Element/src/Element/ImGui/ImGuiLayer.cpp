@@ -17,6 +17,8 @@ namespace Element {
     ImGuiLayer::~ImGuiLayer() = default;
 	
 	void ImGuiLayer::OnAttach() {
+		EL_PROFILE_FUNCTION();
+		
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -51,18 +53,28 @@ namespace Element {
 	}
 	
 	void ImGuiLayer::OnDetach() {
+		EL_PROFILE_FUNCTION();
+		
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
 
+	void ImGuiLayer::OnEvent(Event& event) {
+		EL_PROFILE_FUNCTION();
+	}
+
 	void ImGuiLayer::Begin() {
+		EL_PROFILE_FUNCTION();
+		
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 	
 	void ImGuiLayer::End() {
+		EL_PROFILE_FUNCTION();
+		
 		ImGuiIO& io = ImGui::GetIO();
 		
 		Application& app = Application::GetInstance();

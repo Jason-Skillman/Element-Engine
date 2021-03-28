@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Element/Core/Timestep.h"
-
 #include "Element/Events/Event.h"
 
 namespace Element {

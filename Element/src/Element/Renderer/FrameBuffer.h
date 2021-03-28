@@ -12,8 +12,12 @@ namespace Element {
 
 		bool swapChainTarget;
 	};
-	
+
+	//Abstract
 	class FrameBuffer {
+	public:
+		virtual ~FrameBuffer() = default;
+		
 	public:
 		static Ref<FrameBuffer> Create(const FrameBufferProperties& properties);
 

@@ -12,8 +12,8 @@ namespace Element {
 		float Left, Right;
 		float Bottom, Top;
 
-		float GetWidth() { return Right - Left; }
-		float GetHeight() { return Top - Bottom; }
+		inline float GetWidth() const { return Right - Left; }
+		inline float GetHeight() const { return Top - Bottom; }
 	};
 	
 	class OrthographicCameraController {

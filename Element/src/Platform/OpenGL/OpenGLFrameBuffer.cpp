@@ -18,11 +18,15 @@ namespace Element {
 	}
 
 	void OpenGLFrameBuffer::Bind() {
+		EL_PROFILE_FUNCTION();
+		
 		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
 		glViewport(0, 0, properties.width, properties.height);
 	}
 
 	void OpenGLFrameBuffer::Unbind() {
+		EL_PROFILE_FUNCTION();
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
@@ -33,6 +37,8 @@ namespace Element {
 	}
 
 	void OpenGLFrameBuffer::Invalidate() {
+		EL_PROFILE_FUNCTION();
+
 		if(rendererID) {
 			glDeleteFramebuffers(1, &rendererID);
 			glDeleteTextures(1, &colorAttachment);

@@ -4,9 +4,6 @@
 
 namespace Element {
 	class ImGuiLayer : public Layer {
-	private:
-		float deltaTime = 0.0f;
-		
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();
@@ -14,6 +11,7 @@ namespace Element {
 	public:
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
+		virtual void OnEvent(Event& event) override;
 
 		void Begin();
 		void End();
