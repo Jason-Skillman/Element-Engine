@@ -17,6 +17,7 @@
 
 //Element
 #include "Element/Core/Log.h"
+
 #include "Element/Debug/Instrumentor.h"
 
 //Windows

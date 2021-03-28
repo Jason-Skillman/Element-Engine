@@ -5,6 +5,8 @@
 
 namespace Element {
 
+	static const uint32_t maxFrameBufferSize = 8192;
+
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferProperties& properties)
 		: rendererID(0), properties(properties) {
 
@@ -31,6 +33,11 @@ namespace Element {
 	}
 
 	void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height) {
+		if(width == 0 || height == 0 || width > maxFrameBufferSize || height > maxFrameBufferSize) {
+			EL_LOG_CORE_ERROR("Invalid frame buffer size x: {0}, y: {1}", width, height);
+			return;
+		}
+
 		properties.width = width;
 		properties.height = height;
 		Invalidate();

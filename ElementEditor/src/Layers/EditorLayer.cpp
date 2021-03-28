@@ -199,7 +199,7 @@ namespace Element {
 			//Set the viewport size
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			
-			if(viewportSize != *reinterpret_cast<glm::vec2*>(&viewportPanelSize)) {
+			if(viewportSize != *reinterpret_cast<glm::vec2*>(&viewportPanelSize) && viewportPanelSize.x > 0 && viewportPanelSize.y > 0) {
 				viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 				frameBuffer->Resize(viewportSize.x, viewportSize.y);
 
