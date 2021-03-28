@@ -40,7 +40,7 @@ namespace Element {
 	class Event {
 		friend class EventDispatcher;
 
-	protected:
+	public:
 		bool handled = false;
 
 	public:
@@ -51,15 +51,15 @@ namespace Element {
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
 		
-		virtual std::string ToString() const {
+		inline virtual std::string ToString() const {
 			return GetName();
 		}
 
-		bool IsInCategory(EventCategory category) {
+		inline bool IsInCategory(EventCategory category) {
 			return GetCategoryFlags() & category;
 		}
 
-		bool IsHandled() const {
+		inline bool IsHandled() const {
 			return handled;
 		}
 	};

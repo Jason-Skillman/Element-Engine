@@ -40,6 +40,10 @@ namespace Element {
 		/// </summary>
 		void Close();
 
+		ImGuiLayer* GetImGuiLayer() {
+			return imGuiLayer;
+		}
+
 		inline Window& GetWindow() const {
 			return *window;
 		}

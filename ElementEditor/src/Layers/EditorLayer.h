@@ -14,6 +14,7 @@ namespace Element {
 
 		Ref<FrameBuffer> frameBuffer;
 		glm::vec2 viewportSize = { 0, 0 };
+		bool viewportFocused = false, viewportHovered = false;
 
 	public:
 		EditorLayer();

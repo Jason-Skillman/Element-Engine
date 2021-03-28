@@ -4,6 +4,9 @@
 
 namespace Element {
 	class ImGuiLayer : public Layer {
+	private:
+		bool blockEvents = true;
+		
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();
@@ -15,5 +18,9 @@ namespace Element {
 
 		void Begin();
 		void End();
+
+		inline void SetBlockEvents(bool value) {
+			blockEvents = value;
+		}
 	};
 }

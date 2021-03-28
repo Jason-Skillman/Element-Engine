@@ -62,6 +62,12 @@ namespace Element {
 
 	void ImGuiLayer::OnEvent(Event& event) {
 		EL_PROFILE_FUNCTION();
+
+		if(blockEvents) {
+			ImGuiIO& io = ImGui::GetIO();
+			event.handled |= event.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+			event.handled |= event.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+		}
 	}
 
 	void ImGuiLayer::Begin() {
