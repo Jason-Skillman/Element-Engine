@@ -44,6 +44,9 @@ namespace Element {
 		bool handled = false;
 
 	public:
+		virtual ~Event() = default;
+
+	public:
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;

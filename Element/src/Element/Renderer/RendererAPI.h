@@ -14,6 +14,9 @@ namespace Element {
 
 	private:
 		static API api;
+
+	public:
+		virtual ~RendererAPI() = default;
 		
 	public:
 		virtual void Init() = 0;

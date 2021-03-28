@@ -5,6 +5,9 @@ namespace Element {
 	private:
 		//Todo: Fix mem leak
 		static Input* instance;
+
+	public:
+		virtual ~Input() = default;
 		
 	public:
 		static bool IsKeyPressed(int keycode) {
