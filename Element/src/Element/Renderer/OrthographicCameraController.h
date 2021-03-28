@@ -35,6 +35,8 @@ namespace Element {
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& event);
 
+		void OnResize(float width, float height);
+
 		inline void SetZoomLevel(float zoomLevel) {
 			this->zoomLevel = zoomLevel;
 			CalculateView();

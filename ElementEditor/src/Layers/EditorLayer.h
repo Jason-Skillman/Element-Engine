@@ -13,7 +13,7 @@ namespace Element {
 		Ref<Texture2D> textureCheckerboard, textureArrow;
 
 		Ref<FrameBuffer> frameBuffer;
-		glm::vec2 veiwportSize;
+		glm::vec2 viewportSize = { 0, 0 };
 
 	public:
 		EditorLayer();

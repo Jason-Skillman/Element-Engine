@@ -19,6 +19,7 @@ namespace Element {
 
 	void OpenGLFrameBuffer::Bind() {
 		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
+		glViewport(0, 0, properties.width, properties.height);
 	}
 
 	void OpenGLFrameBuffer::Unbind() {

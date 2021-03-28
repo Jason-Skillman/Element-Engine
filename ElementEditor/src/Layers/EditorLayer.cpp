@@ -187,22 +187,25 @@ namespace Element {
 		}
 
 		{
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 			ImGui::Begin("Viewport");
 
 			//Set the viewport size
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			
-			if(veiwportSize != *(glm::vec2*)&viewportPanelSize) {
-				veiwportSize = { viewportPanelSize.x, viewportPanelSize.y };
-				frameBuffer->Resize(veiwportSize.x, veiwportSize.y);
+			if(viewportSize != *reinterpret_cast<glm::vec2*>(&viewportPanelSize)) {
+				viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+				frameBuffer->Resize(viewportSize.x, viewportSize.y);
+
+				cameraController.OnResize(viewportSize.x, viewportSize.y);
 			}
-				
 
 			//Draw the frame buffer
 			uint32_t textureID = frameBuffer->GetColorAttachmentRendererID();
-			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ veiwportSize.x, veiwportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 			ImGui::End();
+			ImGui::PopStyleVar();
 		}
 
 		ImGui::End();

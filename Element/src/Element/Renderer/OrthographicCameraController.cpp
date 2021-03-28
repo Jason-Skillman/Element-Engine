@@ -31,7 +31,12 @@ namespace Element {
 		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_FUNC(OrthographicCameraController::OnMouseScrolled));
 		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNC(OrthographicCameraController::OnWindowResized));
 	}
-	
+
+	void OrthographicCameraController::OnResize(float width, float height) {
+		aspectRatio = width / height;
+		CalculateView();
+	}
+
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& event) {
 		zoomLevel -= event.GetYOffset() * 0.25f;
 		zoomLevel = std::max(zoomLevel, 0.25f);
@@ -41,9 +46,7 @@ namespace Element {
 	}
 	
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event) {
-		aspectRatio = static_cast<float>(event.GetWidth()) / static_cast<float>(event.GetHeight());
-		
-		CalculateView();
+		OnResize(static_cast<float>(event.GetWidth()), static_cast<float>(event.GetHeight()));
 		return false;
 	}
 
