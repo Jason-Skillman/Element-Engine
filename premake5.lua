@@ -22,6 +22,7 @@ IncludeDir["Glad"] = "Element/vendor/Glad/include"
 IncludeDir["ImGui"] = "Element/vendor/ImGui"
 IncludeDir["glm"] = "Element/vendor/glm"
 IncludeDir["stb"] = "Element/vendor/stb"
+IncludeDir["entt"] = "Element/vendor/entt/include"
 
 -- Includes other project premake files
 group "Dependencies"
@@ -62,7 +63,8 @@ project "Element"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb}"
+		"%{IncludeDir.stb}",
+		"%{IncludeDir.entt}"
 	}
 
 	links {
@@ -126,7 +128,8 @@ project "ElementEditor"
 			"%{IncludeDir.ElementSrc}",
 			"%{IncludeDir.spdlog}",
 			"%{IncludeDir.glm}",
-			"%{IncludeDir.ImGui}"
+			"%{IncludeDir.ImGui}",
+			"%{IncludeDir.entt}"
 		}
 	
 		links {

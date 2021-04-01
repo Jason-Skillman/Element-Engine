@@ -9,6 +9,7 @@ An OpenGL game engine written in C++ for games.
 - `ImGui` https://github.com/ocornut/imgui, https://github.com/TheCherno/imgui
 - `glm` https://github.com/g-truc/glm
 - `stb` https://github.com/nothings/stb
+- `entt` https://github.com/skypjack/entt
 
 ## Original link
 This project was originaly based off of `The Cherno`'s Game Engine series.
