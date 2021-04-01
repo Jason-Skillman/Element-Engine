@@ -4,6 +4,7 @@
 #include "Element/Renderer/FrameBuffer.h"
 #include "Element/Renderer/OrthographicCameraController.h"
 #include "Element/Renderer/Texture.h"
+#include "Element/Scene/Scene.h"
 
 namespace Element {
 	class EditorLayer : public Layer {
@@ -11,6 +12,8 @@ namespace Element {
 		OrthographicCameraController cameraController;
 
 		Ref<Texture2D> textureCheckerboard, textureArrow;
+
+		Ref<Scene> activeScene;
 
 		Ref<FrameBuffer> frameBuffer;
 		glm::vec2 viewportSize = { 0, 0 };

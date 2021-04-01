@@ -183,6 +183,61 @@ namespace Element {
 		DrawQuad(properties, subTexture->GetTexture(), subTexture->GetTexCoords());
 	}
 
+	void Renderer2D::DrawQuad(const DrawPropertiesMat4& properties, const Ref<Texture2D>& texture, const glm::vec2* texCoords) {
+		EL_PROFILE_FUNCTION();
+
+		size_t quadVertexCount = 4;
+
+		if(!texCoords) {
+			glm::vec2 texCoordsOne[] = {
+				{ 0.0f, 0.0f },
+				{ 1.0f, 0.0f },
+				{ 1.0f, 1.0f },
+				{ 0.0f, 1.0f }
+			};
+			texCoords = texCoordsOne;
+		}
+
+		if(data.quadIndexCount >= data.maxIndices)
+			FlushAndReset();
+
+		//Texture batching
+		float textureIndex = 0.0f;
+		if(texture != nullptr) {
+			for(uint32_t i = 1; i < data.textureSlotIndex; i++) {
+				//If the textures are equal
+				if(*data.textureSlots[i].get() == *texture.get()) {
+					textureIndex = static_cast<float>(i);
+					break;
+				}
+			}
+			if(textureIndex == 0.0f) {
+				textureIndex = static_cast<float>(data.textureSlotIndex);
+				data.textureSlots[data.textureSlotIndex] = texture;
+				data.textureSlotIndex++;
+
+				data.stats.texturesLoaded++;
+			}
+		}
+
+		//Setup the vertex buffer
+		for(uint32_t i = 0; i < quadVertexCount; i++) {
+			data.quadVertexBufferPtr->position = properties.transform * data.quadVertexPositions[i];
+			data.quadVertexBufferPtr->texCoord = texCoords[i];
+			data.quadVertexBufferPtr->color = properties.color;
+			data.quadVertexBufferPtr->textureIndex = textureIndex;
+			data.quadVertexBufferPtr->tiling = properties.tiling;
+			data.quadVertexBufferPtr++;
+		}
+		data.quadIndexCount += 6;
+
+		data.stats.quadCount++;
+	}
+
+	void Renderer2D::DrawQuad(const DrawPropertiesMat4& properties, const Ref<SubTexture2D>& subTexture) {
+		DrawQuad(properties, subTexture->GetTexture(), subTexture->GetTexCoords());
+	}
+
 	void Renderer2D::ResetStats() {
 		memset(&data.stats, 0, sizeof(Statistics));
 	}

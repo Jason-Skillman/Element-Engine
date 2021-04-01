@@ -22,6 +22,13 @@ namespace Element {
 
 			glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 			
+			float tiling = 1.0f;
+		};
+
+		struct DrawPropertiesMat4 {
+			glm::mat4 transform = glm::mat4(1.0f);
+
+			glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 			
 			float tiling = 1.0f;
 		};
@@ -85,6 +92,9 @@ namespace Element {
 		
 		static void DrawQuad(const DrawProperties& properties, const Ref<Texture2D>& texture = nullptr, const glm::vec2* texCoords = nullptr);
 		static void DrawQuad(const DrawProperties& properties, const Ref<SubTexture2D>& subTexture);
+
+		static void DrawQuad(const DrawPropertiesMat4& properties, const Ref<Texture2D>& texture = nullptr, const glm::vec2* texCoords = nullptr);
+		static void DrawQuad(const DrawPropertiesMat4& properties, const Ref<SubTexture2D>& subTexture);
 
 		static void ResetStats();
 		static Statistics GetStats();

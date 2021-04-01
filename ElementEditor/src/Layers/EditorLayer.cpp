@@ -9,6 +9,7 @@
 #include "Element/Debug/Instrumentor.h"
 #include "Element/Renderer/RenderCommand.h"
 #include "Element/Renderer/Renderer2D.h"
+#include "Element/Scene/Components.h"
 
 namespace Element {
 	EditorLayer::EditorLayer()
@@ -22,6 +23,12 @@ namespace Element {
 		fbProps.width = 1280;
 		fbProps.height = 720;
 		frameBuffer = FrameBuffer::Create(fbProps);
+
+		activeScene = CreateRef<Scene>();
+		auto square = activeScene->CreateEntity();
+		activeScene->Reg().emplace<TransformComponent>(square);
+		activeScene->Reg().emplace<SpriteRendererComponent>(square, glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
+		
 	}
 
 	void EditorLayer::OnDetach() {}
@@ -54,58 +61,8 @@ namespace Element {
 			Renderer2D::ResetStats();
 			Renderer2D::BeginScene(cameraController.GetCamera());
 
-			//Red square
-			{
-				Renderer2D::DrawProperties drawProps;
-				drawProps.position = { 0.0f, 0.0f, 0.1f };
-				drawProps.scale = { 0.4f, 0.4f };
-				drawProps.color = { 0.8f, 0.2f, 0.3f, 1.0f };
-				Renderer2D::DrawQuad(drawProps);
-			}
-
-			//Green square
-			{
-				static float rotation = 0.0f;
-				rotation += ts * 20.0f;
-
-				Renderer2D::DrawProperties drawProps;
-				drawProps.position = { 0.6f, 0.0f, 0.2f };
-				drawProps.rotation = glm::radians(rotation);
-				drawProps.scale = { 0.4f, 0.4f };
-				drawProps.color = { 0.3f, 0.8f, 0.2f, 1.0f };
-				Renderer2D::DrawQuad(drawProps);
-			}
-
-			//Blue square
-			{
-				static float rotation = 0.0f;
-				rotation += ts * 45.0f;
-
-				Renderer2D::DrawProperties drawProps;
-				drawProps.position = { 1.2f, 0.0f, 0.3f };
-				drawProps.rotation = glm::radians(rotation);
-				drawProps.scale = { 0.4f, 0.4f };
-				drawProps.color = { 0.2f, 0.3f, 0.8f, 1.0f };
-				Renderer2D::DrawQuad(drawProps);
-			}
-
-			//Arrow texture
-			{
-				Renderer2D::DrawProperties drawProps;
-				drawProps.position = { 0.0f, 0.0f, 0.4f };
-				drawProps.scale = { 0.3f, 0.3f };
-				Renderer2D::DrawQuad(drawProps, textureArrow);
-			}
-
-			//Background
-			{
-				Renderer2D::DrawProperties drawProps;
-				drawProps.position = { 0.0f, 0.0f, -0.1f };
-				drawProps.scale = { 10.0f, 10.0f };
-				drawProps.tiling = 20.0f;
-				Renderer2D::DrawQuad(drawProps, textureCheckerboard);
-			}
-
+			activeScene->OnUpdate(ts);
+			
 			Renderer2D::EndScene();
 
 			frameBuffer->Unbind();
