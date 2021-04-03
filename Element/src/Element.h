@@ -46,3 +46,4 @@ Intended to be included by other client applications.
 //Scene
 #include "Element/Scene/Scene.h"
 #include "Element/Scene/Components.h"
+#include "Element/Scene/Entity.h"

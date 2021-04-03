@@ -5,9 +5,14 @@
 #include "Element/Core/Timestep.h"
 
 namespace Element {
+	
+	class Entity;
+
 	class Scene {
 	private:
 		entt::registry registry;
+
+		friend class Entity;
 		
 	public:
 		Scene();
@@ -16,11 +21,6 @@ namespace Element {
 	public:
 		void OnUpdate(Timestep ts);
 
-		entt::entity CreateEntity();
-
-		//Todo: Temp
-		entt::registry& Reg() {
-			return registry;
-		}
+		Entity CreateEntity(const std::string& name = std::string());
 	};
 }

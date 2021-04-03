@@ -10,6 +10,7 @@
 #include "Element/Renderer/RenderCommand.h"
 #include "Element/Renderer/Renderer2D.h"
 #include "Element/Scene/Components.h"
+#include "Element/Scene/Entity.h"
 
 namespace Element {
 	EditorLayer::EditorLayer()
@@ -24,11 +25,12 @@ namespace Element {
 		fbProps.height = 720;
 		frameBuffer = FrameBuffer::Create(fbProps);
 
+
+		//ECS
 		activeScene = CreateRef<Scene>();
-		auto square = activeScene->CreateEntity();
-		activeScene->Reg().emplace<TransformComponent>(square);
-		activeScene->Reg().emplace<SpriteRendererComponent>(square, glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
 		
+		entitySquare = activeScene->CreateEntity();
+		entitySquare.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
 	}
 
 	void EditorLayer::OnDetach() {}
@@ -141,6 +143,11 @@ namespace Element {
 			ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 			ImGui::Text("Textures loaded: %d", stats.texturesLoaded);
+			ImGui::Separator();
+
+			if(entitySquare) {
+				ImGui::Text("%s", entitySquare.GetComponent<TagComponent>().tag.c_str());
+			}
 
 			ImGui::End();
 		}

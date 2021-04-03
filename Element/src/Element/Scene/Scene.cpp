@@ -5,20 +5,14 @@
 #include <glm/ext/matrix_transform.inl>
 
 #include "Components.h"
+#include "Entity.h"
 #include "Element/Renderer/Renderer2D.h"
 
 namespace Element {
 
-	Scene::Scene() {
-		
-		entt::entity entity = registry.create();
-
-		registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
-	}
+	Scene::Scene() {}
 	
-	Scene::~Scene() {
-		
-	}
+	Scene::~Scene() {}
 
 	void Scene::OnUpdate(Timestep ts) {
 		auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
@@ -32,7 +26,13 @@ namespace Element {
 		}
 	}
 
-	entt::entity Scene::CreateEntity() {
-		return registry.create();
+	Entity Scene::CreateEntity(const std::string& name) {
+		Entity entity = { registry.create(), this };
+		entity.AddComponent<TransformComponent>();
+		
+		auto& tag = entity.AddComponent<TagComponent>();
+		tag = !name.empty() ? name : std::string("Entity");
+		
+		return entity;
 	}
 }

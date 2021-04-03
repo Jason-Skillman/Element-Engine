@@ -28,4 +28,20 @@ namespace Element {
 		SpriteRendererComponent(const glm::vec4& color)
 			: color(color) {}
 	};
+
+	struct TagComponent {
+		std::string tag;
+
+		TagComponent() = default;
+		TagComponent(const TagComponent&) = default;
+		TagComponent(const std::string& tag)
+			: tag(tag) {}
+
+		operator std::string& () {
+			return tag;
+		}
+		operator const std::string& () const {
+			return tag;
+		}
+	};
 }
