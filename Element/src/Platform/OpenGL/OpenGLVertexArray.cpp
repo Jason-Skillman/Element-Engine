@@ -37,23 +37,23 @@ namespace Element {
 	}
 
 	OpenGLVertexArray::OpenGLVertexArray()
-		: rendererID(0) {
+		: rendererId(0) {
 
 		EL_PROFILE_FUNCTION();
 		
-		glCreateVertexArrays(1, &rendererID);
+		glCreateVertexArrays(1, &rendererId);
 	}
 	
 	OpenGLVertexArray::~OpenGLVertexArray() {
 		EL_PROFILE_FUNCTION();
 		
-		glDeleteVertexArrays(1, &rendererID);
+		glDeleteVertexArrays(1, &rendererId);
 	}
 	
 	void OpenGLVertexArray::Bind() const {
 		EL_PROFILE_FUNCTION();
 		
-		glBindVertexArray(rendererID);
+		glBindVertexArray(rendererId);
 	}
 	
 	void OpenGLVertexArray::Unbind() const {
@@ -67,7 +67,7 @@ namespace Element {
 		
 		EL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().empty(), "Vertex buffer has no layout!");
 		
-		glBindVertexArray(rendererID);
+		glBindVertexArray(rendererId);
 		vertexBuffer->Bind();
 
 		uint32_t index = 0;
@@ -85,7 +85,7 @@ namespace Element {
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) {
 		EL_PROFILE_FUNCTION();
 		
-		glBindVertexArray(rendererID);
+		glBindVertexArray(rendererId);
 		indexBuffer->Bind();
 
 		this->indexBuffer = indexBuffer;

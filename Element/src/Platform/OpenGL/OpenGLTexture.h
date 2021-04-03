@@ -7,7 +7,7 @@
 namespace Element {
 	class OpenGLTexture2D : public Texture2D {
 	private:
-		uint32_t rendererID;
+		uint32_t rendererId;
 		uint32_t width, height;
 		std::string path;
 		GLenum m_InternalFormat, m_DataFormat;
@@ -26,8 +26,8 @@ namespace Element {
 			return height;
 		}
 
-		inline virtual uint32_t GetRendererID() const override {
-			return rendererID;
+		inline virtual uint32_t GetRendererId() const override {
+			return rendererId;
 		}
 
 		virtual void SetData(void* data, uint32_t size) override;
@@ -37,7 +37,7 @@ namespace Element {
 
 	public:
 		virtual bool operator==(const Texture& other) const override {
-			return rendererID == ((OpenGLTexture2D&)other).rendererID;
+			return rendererId == ((OpenGLTexture2D&)other).rendererId;
 		}
 
 	};

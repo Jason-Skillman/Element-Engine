@@ -5,7 +5,7 @@
 namespace Element {
 	class OpenGLFrameBuffer : public FrameBuffer {
 	private:
-		uint32_t rendererID;
+		uint32_t rendererId;
 		uint32_t colorAttachment;
 		uint32_t depthAttachment;
 		FrameBufferProperties properties;
@@ -24,11 +24,11 @@ namespace Element {
 			return properties;
 		}
 
-		inline virtual const uint32_t GetRendererID() const override {
-			return rendererID;
+		inline virtual const uint32_t GetRendererId() const override {
+			return rendererId;
 		}
 
-		inline virtual uint32_t GetColorAttachmentRendererID() override {
+		inline virtual uint32_t GetColorAttachmentRendererId() const override {
 			return colorAttachment;
 		}
 

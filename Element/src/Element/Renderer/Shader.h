@@ -29,7 +29,7 @@ namespace Element {
 		virtual void SetUniformMat3(const std::string& name, const glm::mat3& matrix) = 0;
 		virtual void SetUniformMat4(const std::string& name, const glm::mat4& matrix) = 0;
 
-		virtual const uint32_t GetRendererID() const = 0;
+		virtual const uint32_t GetRendererId() const = 0;
 		virtual const std::string& GetName() const = 0;
 	};
 
