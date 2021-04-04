@@ -81,6 +81,20 @@ namespace Element {
 	void Renderer2D::Shutdown() {
 		EL_PROFILE_FUNCTION();
 	}
+
+	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform) {
+		EL_PROFILE_FUNCTION();
+
+		glm::mat4 viewProjection = camera.GetProjecttion() * glm::inverse(transform);
+
+		data.standardShader->Bind();
+		data.standardShader->SetUniformMat4("u_ViewProjection", viewProjection);
+
+		data.quadIndexCount = 0;
+		data.quadVertexBufferPtr = data.quadVertexBufferBase;
+
+		data.textureSlotIndex = 1;
+	}
 	
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
 		EL_PROFILE_FUNCTION();
@@ -93,7 +107,7 @@ namespace Element {
 
 		data.textureSlotIndex = 1;
 	}
-	
+
 	void Renderer2D::EndScene() {
 		EL_PROFILE_FUNCTION();
 

@@ -5,13 +5,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
-#include "Element/Core/Application.h"
-#include "Element/Debug/Instrumentor.h"
-#include "Element/Renderer/RenderCommand.h"
-#include "Element/Renderer/Renderer2D.h"
-#include "Element/Scene/Components.h"
-#include "Element/Scene/Entity.h"
-
 namespace Element {
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer"), cameraController(16.0f / 9.0f) {}
@@ -28,6 +21,9 @@ namespace Element {
 
 		//ECS
 		activeScene = CreateRef<Scene>();
+
+		entityCamera = activeScene->CreateEntity("Camera");
+		entityCamera.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 		
 		entitySquare = activeScene->CreateEntity();
 		entitySquare.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
@@ -61,12 +57,8 @@ namespace Element {
 			EL_PROFILE_SCOPE("Rendering");
 
 			Renderer2D::ResetStats();
-			Renderer2D::BeginScene(cameraController.GetCamera());
-
-			activeScene->OnUpdate(ts);
 			
-			Renderer2D::EndScene();
-
+			activeScene->OnUpdate(ts);
 			frameBuffer->Unbind();
 		}
 	}

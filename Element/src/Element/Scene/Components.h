@@ -1,6 +1,8 @@
 #pragma once
 
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
+#include "Element/Renderer/Camera.h"
 
 namespace Element {
 
@@ -43,5 +45,15 @@ namespace Element {
 		operator const std::string& () const {
 			return tag;
 		}
+	};
+
+	struct CameraComponent {
+		Camera camera;
+		bool primary = true;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+		CameraComponent(const glm::mat4& projecttion)
+			: camera(projecttion) {}
 	};
 }

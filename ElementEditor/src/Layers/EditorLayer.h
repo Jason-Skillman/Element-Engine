@@ -10,6 +10,7 @@ namespace Element {
 		Ref<Texture2D> textureCheckerboard, textureArrow;
 
 		Ref<Scene> activeScene;
+		Entity entityCamera;
 		Entity entitySquare;
 
 		Ref<FrameBuffer> frameBuffer;

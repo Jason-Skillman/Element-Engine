@@ -5,11 +5,10 @@
 #include "Texture.h"
 #include "VertexArray.h"
 #include "SubTexture2D.h"
+#include "Camera.h"
 
 namespace Element {
-	/// <summary>
-	/// Static class
-	/// </summary>
+	//Static
 	class Renderer2D {
 	public:
 		struct DrawProperties {
@@ -86,6 +85,9 @@ namespace Element {
 		static void Init();
 		static void Shutdown();
 		
+		static void BeginScene(const Camera& camera, const glm::mat4& transform);
+		//Todo: Remove
+		[[deprecated("Use BeginScene(camera, mat4)")]]
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
 		static void Flush();

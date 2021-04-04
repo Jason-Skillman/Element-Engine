@@ -15,14 +15,37 @@ namespace Element {
 	Scene::~Scene() {}
 
 	void Scene::OnUpdate(Timestep ts) {
-		auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for(auto& entity : group) {
-			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-			Renderer2D::DrawPropertiesMat4 drawProps;
-			drawProps.transform = transform;
-			drawProps.color = sprite.color;
-			Renderer2D::DrawQuad(drawProps);
+		Camera* mainCamera = nullptr;
+		glm::mat4* mainCameraTransform = nullptr;
+		{
+			auto group = registry.view<TransformComponent, CameraComponent>();
+			for(auto entity : group) {
+				auto& [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
+
+				if(camera.primary) {
+					mainCamera = &camera.camera;
+					mainCameraTransform = &transform.transform;
+					break;
+				}
+			}
+		}
+
+		if(mainCamera) {
+			Renderer2D::BeginScene(*mainCamera, glm::mat4(1.0f));
+			
+			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for(auto entity : group) {
+				auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+				Renderer2D::DrawPropertiesMat4 drawProps;
+				drawProps.transform = transform;
+				drawProps.color = sprite.color;
+				Renderer2D::DrawQuad(drawProps);
+			}
+
+			Renderer2D::EndScene();
+
 		}
 	}
 
