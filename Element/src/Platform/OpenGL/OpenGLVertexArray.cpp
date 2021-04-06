@@ -31,7 +31,7 @@ namespace Element {
 			case ShaderDataType::Bool:
 				return GL_BOOL;
 			default:
-				EL_CORE_ASSERT(true, "Unknown ShaderDataType: {0}", type);
+				EL_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
 				return 0;
 		}
 	}
@@ -65,7 +65,7 @@ namespace Element {
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) {
 		EL_PROFILE_FUNCTION();
 		
-		EL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().empty(), "Vertex buffer has no layout!");
+		EL_CORE_ASSERT(!vertexBuffer->GetLayout().GetElements().empty(), "Vertex buffer has no layout!");
 		
 		glBindVertexArray(rendererId);
 		vertexBuffer->Bind();

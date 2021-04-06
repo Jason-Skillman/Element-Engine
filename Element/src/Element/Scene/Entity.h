@@ -19,21 +19,21 @@ namespace Element {
 	public:
 		template<typename T, typename... Args>
 		inline T& AddComponent(Args&&... args) {
-			EL_CORE_ASSERT(HasComponent<T>(), "Entity already has component: " + std::string(typeid(T).name()));
+			EL_CORE_ASSERT(!HasComponent<T>(), "Entity already has component: " + std::string(typeid(T).name()));
 			
 			return scene->registry.emplace<T>(entityId, std::forward<Args>(args)...);
 		}
 
 		template<typename T>
 		inline T& GetComponent() {
-			EL_CORE_ASSERT(!HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
+			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
 			
 			return scene->registry.get<T>(entityId);
 		}
 
 		template<typename T>
 		inline void RemoveComponent() {
-			EL_CORE_ASSERT(!HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
+			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
 			
 			scene->registry.remove<T>(entityId);
 		}

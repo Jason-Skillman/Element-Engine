@@ -10,7 +10,7 @@ namespace Element {
 		if(type == "vertex") return GL_VERTEX_SHADER;
 		if(type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
 
-		EL_CORE_ASSERT(true, "Unknown shader type: {0}", type);
+		EL_CORE_ASSERT(false, "Unknown shader type: {0}", type);
 		return -1;
 	}
 
@@ -152,11 +152,11 @@ namespace Element {
 		//Loop through every type token found
 		while(pos != std::string::npos) {
 			size_t eol = source.find_first_of("\r\n", pos);
-			EL_CORE_ASSERT(eol == std::string::npos, "Syntax error!");
+			EL_CORE_ASSERT(eol != std::string::npos, "Syntax error!");
 
 			size_t begin = pos + typeTokenLength + 1;
 			std::string type = source.substr(begin, eol - begin);
-			EL_CORE_ASSERT(type != "vertex" && type != "fragment" && type != "pixel", "Invalid shader type specified: {0}", type);
+			EL_CORE_ASSERT(type == "vertex" || type == "fragment" || type == "pixel", "Invalid shader type specified: {0}", type);
 
 			size_t nextLinePos = source.find_first_not_of("\r\n", eol);
 			pos = source.find(typeToken, nextLinePos);
@@ -173,7 +173,7 @@ namespace Element {
 		unsigned int program = glCreateProgram();
 
 		//Keep track of the rendererIDs
-		EL_CORE_ASSERT(shaderSources.size() > 2, "Only 2 shaders are supported for now.")
+		EL_CORE_ASSERT(shaderSources.size() <= 2, "Only 2 shaders are supported for now.")
 		std::array<GLenum, 2> glShaderIds;
 
 		int index = 0;
@@ -204,7 +204,7 @@ namespace Element {
 				glDeleteShader(shader);
 
 				// Use the infoLog as you see fit.
-				EL_CORE_ASSERT(true, "{0} shader failed to compile: {1}", type, infoLog.data());
+				EL_CORE_ASSERT(false, "{0} shader failed to compile: {1}", type, infoLog.data());
 				return;;
 			}
 
@@ -235,7 +235,7 @@ namespace Element {
 				glDeleteShader(id);
 
 			// Use the infoLog as you see fit.
-			EL_CORE_ASSERT(true, "Shader failed to link: {0}", infoLog.data());
+			EL_CORE_ASSERT(false, "Shader failed to link: {0}", infoLog.data());
 			return;
 		}
 
@@ -251,7 +251,7 @@ namespace Element {
 			return locationCache[name];
 
 		int location = glGetUniformLocation(rendererId, name.c_str());
-		//EL_CORE_ASSERT(location == -1, "Uniform {0} could not be found!", name.c_str());
+		//EL_CORE_ASSERT(location != -1, "Uniform {0} could not be found!", name.c_str());
 
 		locationCache[name] = location;
 

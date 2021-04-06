@@ -77,7 +77,7 @@ namespace Element {
 		if(!glfwInitialized) {
 			//Todo: glfwTerminate
 			int success = glfwInit();
-			EL_CORE_ASSERT(!success, "Could not initalize GLFW!");
+			EL_CORE_ASSERT(success, "Could not initalize GLFW!");
 
 			glfwSetErrorCallback(GLFWErrorCallback);
 

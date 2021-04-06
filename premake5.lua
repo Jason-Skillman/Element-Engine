@@ -45,7 +45,9 @@ project "Element"
 	pchsource "Element/src/pch.cpp"
 
    	files { 
-		"%{prj.name}/src/**.h", 
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.hpp",
+		"%{prj.name}/src/**.c",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/stb/**.h",
 		"%{prj.name}/vendor/stb/**.cpp"
@@ -192,7 +194,8 @@ project "Sandbox"
 		"%{IncludeDir.ElementSrc}",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.entt}"
 	}
 
 	links {

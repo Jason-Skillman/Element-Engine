@@ -39,7 +39,7 @@ namespace Element {
 			EL_PROFILE_SCOPE("OpenGLTexture2D::OpenGLTexture2D - stbi_load");
 			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 		}
-		EL_CORE_ASSERT(!data, "Failed to load image: {0}", path);
+		EL_CORE_ASSERT(data, "Failed to load image: {0}", path);
 
 		GLenum internalFormat = 0, dataFormat = 0;
 		if(channels == 4) {
@@ -80,7 +80,7 @@ namespace Element {
 		EL_PROFILE_FUNCTION();
 
 		uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
-		EL_CORE_ASSERT(size != width * height * bpp, "Data must be the entire texture!");
+		EL_CORE_ASSERT(size == width * height * bpp, "Data must be the entire texture!");
 		glTextureSubImage2D(rendererId, 0, 0, 0, width, height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}
 	

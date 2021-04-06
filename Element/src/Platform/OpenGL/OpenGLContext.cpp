@@ -10,7 +10,7 @@ namespace Element {
 
 	OpenGLContext::OpenGLContext(GLFWwindow* window)
 		: windowHandle(window) {
-		EL_CORE_ASSERT(!windowHandle, "Window handle is null!");
+		EL_CORE_ASSERT(windowHandle, "Window handle is null!");
 	}
 	
 	void OpenGLContext::Init() {
@@ -18,7 +18,7 @@ namespace Element {
 		
 		glfwMakeContextCurrent(windowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		EL_CORE_ASSERT(!status, "Failed to initalized Glad!");
+		EL_CORE_ASSERT(status, "Failed to initalized Glad!");
 
 		//Print graphics info
 		EL_LOG_CORE_INFO("OpenGL Renderer");
