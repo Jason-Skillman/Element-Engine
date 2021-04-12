@@ -4,16 +4,18 @@
 
 namespace Element {
 	class Camera {
+	protected:
+		glm::mat4 projection = glm::mat4(1.0f);
+		
 	public:
-		Camera(const glm::mat4& projecttion)
-			: projection(projecttion) {}
+		Camera() = default;
+		Camera(const glm::mat4& projection)
+			: projection(projection) {}
+		virtual ~Camera() = default;
 
-		inline const glm::mat4& GetProjecttion() const {
+	public:
+		inline const glm::mat4& GetProjection() const {
 			return projection;
-		}
-		
-	private:
-		glm::mat4 projection;
-		
+		}		
 	};
 }

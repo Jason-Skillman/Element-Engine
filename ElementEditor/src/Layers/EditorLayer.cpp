@@ -6,6 +6,7 @@
 #include <imgui.h>
 
 namespace Element {
+	
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer"), cameraController(16.0f / 9.0f) {}
 
@@ -23,7 +24,7 @@ namespace Element {
 		activeScene = CreateRef<Scene>();
 
 		entityCamera = activeScene->CreateEntity("Camera");
-		entityCamera.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		entityCamera.AddComponent<CameraComponent>();
 		
 		entitySquare = activeScene->CreateEntity();
 		entitySquare.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
@@ -141,6 +142,15 @@ namespace Element {
 				ImGui::Text("%s", entitySquare.GetComponent<TagComponent>().tag.c_str());
 			}
 
+
+			//Camera
+			SceneCamera& camera = entityCamera.GetComponent<CameraComponent>().camera;
+			float orthoSize = camera.GetOrthographicSize();
+			
+			if(ImGui::DragFloat("Orthographic Size", &orthoSize)) {
+				camera.SetOrthographicSize(orthoSize);
+			}
+			
 			ImGui::End();
 		}
 
@@ -154,12 +164,14 @@ namespace Element {
 			
 			//Set the viewport size
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-			
+
 			if(viewportSize != *reinterpret_cast<glm::vec2*>(&viewportPanelSize) && viewportPanelSize.x > 0 && viewportPanelSize.y > 0) {
 				viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 				frameBuffer->Resize(viewportSize.x, viewportSize.y);
 
 				cameraController.OnResize(viewportSize.x, viewportSize.y);
+
+				activeScene->OnViewportResize(static_cast<uint32_t>(viewportSize.x), static_cast<uint32_t>(viewportSize.y));
 			}
 
 			//Draw the frame buffer

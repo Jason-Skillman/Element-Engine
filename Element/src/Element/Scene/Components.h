@@ -2,10 +2,10 @@
 
 #include <glm/glm.hpp>
 
-#include "Element/Renderer/Camera.h"
+
+#include "Element/Scene/SceneCamera.h"
 
 namespace Element {
-
 	struct TransformComponent {
 		glm::mat4 transform = glm::mat4(1.0f);
 
@@ -48,12 +48,11 @@ namespace Element {
 	};
 
 	struct CameraComponent {
-		Camera camera;
-		bool primary = true;
+		SceneCamera camera;
+		bool primary = true;	//Todo: Move to scene
+		bool fixedAspectRatio = false;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
-		CameraComponent(const glm::mat4& projecttion)
-			: camera(projecttion) {}
 	};
 }

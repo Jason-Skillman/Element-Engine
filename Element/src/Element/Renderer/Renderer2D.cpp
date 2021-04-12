@@ -85,7 +85,7 @@ namespace Element {
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform) {
 		EL_PROFILE_FUNCTION();
 
-		glm::mat4 viewProjection = camera.GetProjecttion() * glm::inverse(transform);
+		glm::mat4 viewProjection = camera.GetProjection() * glm::inverse(transform);
 
 		data.standardShader->Bind();
 		data.standardShader->SetUniformMat4("u_ViewProjection", viewProjection);
