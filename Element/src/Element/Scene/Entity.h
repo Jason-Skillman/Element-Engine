@@ -25,7 +25,7 @@ namespace Element {
 		}
 
 		template<typename T>
-		inline T& GetComponent() {
+		inline T& GetComponent() const {
 			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
 			
 			return scene->registry.get<T>(entityId);
@@ -39,7 +39,7 @@ namespace Element {
 		}
 		
 		template<typename T>
-		inline bool HasComponent() {
+		inline bool HasComponent() const {
 			return scene->registry.has<T>(entityId);
 		}
 

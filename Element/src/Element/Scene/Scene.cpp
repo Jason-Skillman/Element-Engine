@@ -16,6 +16,23 @@ namespace Element {
 
 	void Scene::OnUpdate(Timestep ts) {
 
+		//Update script functions
+		{
+			registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) {
+				if(!nsc.instance) {
+					nsc.InstantiateFunction();
+					nsc.instance->entity = Entity{ entity, this };
+
+					if(nsc.OnCreateFunction)
+						nsc.OnCreateFunction(nsc.instance);
+				}
+
+				if(nsc.OnUpdateFunction)
+					nsc.OnUpdateFunction(nsc.instance, ts);
+			});
+		}
+
+		//Setup camera
 		Camera* mainCamera = nullptr;
 		glm::mat4* mainCameraTransform = nullptr;
 		{
@@ -31,8 +48,9 @@ namespace Element {
 			}
 		}
 
+		//Begin the scene and draw all objects
 		if(mainCamera) {
-			Renderer2D::BeginScene(*mainCamera, glm::mat4(1.0f));
+			Renderer2D::BeginScene(*mainCamera, *mainCameraTransform);
 			
 			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for(auto entity : group) {
@@ -45,7 +63,6 @@ namespace Element {
 			}
 
 			Renderer2D::EndScene();
-
 		}
 	}
 
@@ -64,7 +81,7 @@ namespace Element {
 
 	Entity Scene::CreateEntity(const std::string& name) {
 		Entity entity = { registry.create(), this };
-		entity.AddComponent<TransformComponent>();
+		entity.AddComponent<TransformComponent>(glm::translate(glm::mat4(1.0f), { 4.0f, 4.0f, 0.0f }));
 		
 		auto& tag = entity.AddComponent<TagComponent>();
 		tag = !name.empty() ? name : std::string("Entity");

@@ -26,8 +26,42 @@ namespace Element {
 		entityCamera = activeScene->CreateEntity("Camera");
 		entityCamera.AddComponent<CameraComponent>();
 		
+		
 		entitySquare = activeScene->CreateEntity();
 		entitySquare.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
+
+
+
+		//Todo: Temp
+		class CameraController : public ScriptableEntity {
+		public:
+			void OnCreate() {
+				EL_LOG_CORE_INFO("OnCreate");
+			}
+			void OnDestroy() {
+
+			}
+			void OnUpdate(Timestep ts) {
+				auto& transform = GetComponent<TransformComponent>().transform;
+				float speed = 5.0f;
+
+				if(Input::IsKeyPressed(KEY_A)) {
+					transform[3][0] -= speed * ts;
+					//EL_LOG_CORE_INFO("value: {0}", transform[3][0]);
+				}
+				else if(Input::IsKeyPressed(KEY_D)) {
+					transform[3][0] += speed * ts;
+				}
+				if(Input::IsKeyPressed(KEY_W)) {
+					transform[3][1] += speed * ts;
+				}
+				else if(Input::IsKeyPressed(KEY_S)) {
+					transform[3][1] -= speed * ts;
+				}
+			}
+		};
+
+		entityCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 	}
 
 	void EditorLayer::OnDetach() {}
