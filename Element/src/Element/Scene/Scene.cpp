@@ -35,7 +35,7 @@ namespace Element {
 		{
 			auto view = registry.view<TransformComponent, CameraComponent>();
 			for(auto entity : view) {
-				auto& [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 
 				if(camera.primary) {
 					mainCamera = &camera.camera;
@@ -51,7 +51,7 @@ namespace Element {
 			
 			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for(auto entity : group) {
-				auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
 				Renderer2D::DrawPropertiesMat4 drawProps;
 				drawProps.transform = transform;
