@@ -20,15 +20,12 @@ namespace Element {
 		{
 			registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) {
 				if(!nsc.instance) {
-					nsc.InstantiateFunction();
+					nsc.instance = nsc.InstantiateScript();
 					nsc.instance->entity = Entity{ entity, this };
-
-					if(nsc.OnCreateFunction)
-						nsc.OnCreateFunction(nsc.instance);
+					nsc.instance->OnCreate();
 				}
 
-				if(nsc.OnUpdateFunction)
-					nsc.OnUpdateFunction(nsc.instance, ts);
+				nsc.instance->OnUpdate(ts);
 			});
 		}
 

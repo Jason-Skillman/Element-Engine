@@ -10,6 +10,9 @@ namespace Element 	{
 		friend class Scene;
 
 	public:
+		virtual ~ScriptableEntity() = default;
+ 
+	public:
 		template<typename T, typename... Args>
 		inline T& AddComponent(Args&&... args) {
 			return entity.AddComponent<T>(std::forward<Args>(args)...);
@@ -29,5 +32,10 @@ namespace Element 	{
 		inline bool HasComponent() const {
 			return entity.HasComponent<T>();
 		}
+
+	protected:
+		virtual void OnCreate() {}
+		virtual void OnDestroy() {}
+		virtual void OnUpdate(Timestep ts) {}
 	};
 }
