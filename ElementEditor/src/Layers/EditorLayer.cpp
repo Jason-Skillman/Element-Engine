@@ -26,7 +26,6 @@ namespace Element {
 		entityCamera = activeScene->CreateEntity("Camera");
 		entityCamera.AddComponent<CameraComponent>();
 		
-		
 		entitySquare = activeScene->CreateEntity();
 		entitySquare.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
 
@@ -62,6 +61,8 @@ namespace Element {
 		};
 
 		entityCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+		sceneHierarchyPanel.SetContext(activeScene);
 	}
 
 	void EditorLayer::OnDetach() {}
@@ -216,8 +217,9 @@ namespace Element {
 			ImGui::PopStyleVar();
 		}
 
-		ImGui::End();
+		sceneHierarchyPanel.OnImGuiRender();
 
+		ImGui::End();
 	}
 
 	void EditorLayer::OnEvent(Event& event) {

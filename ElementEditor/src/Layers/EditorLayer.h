@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Element.h"
+#include "Panels/SceneHierarchyPanel.h"
 
 namespace Element {
 	class EditorLayer : public Layer {
@@ -16,6 +17,9 @@ namespace Element {
 		Ref<FrameBuffer> frameBuffer;
 		glm::vec2 viewportSize = { 0, 0 };
 		bool viewportFocused = false, viewportHovered = false;
+
+		//Panels
+		SceneHierarchyPanel sceneHierarchyPanel;
 
 	public:
 		EditorLayer();

@@ -47,5 +47,17 @@ namespace Element {
 			return entityId != entt::null;
 		}
 
+		operator uint32_t() const {
+			return static_cast<uint32_t>(entityId);
+		}
+
+		bool operator ==(const Entity& other) const {
+			return entityId == other.entityId && scene == other.scene;
+		}
+		
+		bool operator !=(const Entity& other) const {
+			return !(*this == other);
+		}
+		
 	};
 }

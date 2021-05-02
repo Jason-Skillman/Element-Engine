@@ -13,6 +13,7 @@ namespace Element {
 		uint32_t viewportWidth = 0, viewportHeight = 0;
 
 		friend class Entity;
+		friend class SceneHierarchyPanel;
 		
 	public:
 		Scene();
