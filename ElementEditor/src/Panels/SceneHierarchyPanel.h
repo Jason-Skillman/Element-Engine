@@ -23,5 +23,6 @@ namespace Element {
 
 	private:
 		void DrawEntityNode(Entity entity);
+		void DrawComponents(Entity entity);
 	};
 }
