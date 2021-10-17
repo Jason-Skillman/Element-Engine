@@ -39,7 +39,6 @@ namespace Element {
 	}
 
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity) {
-		
 		auto& tag = entity.GetComponent<TagComponent>().tag;
 
 		const ImGuiTreeNodeFlags flags = selectionContext == entity ? ImGuiTreeNodeFlags_Selected : 0 | ImGuiTreeNodeFlags_OpenOnArrow;
@@ -50,10 +49,10 @@ namespace Element {
 
 		if(opened)
 			ImGui::TreePop();
-
 	}
 
 	void SceneHierarchyPanel::DrawComponents(Entity entity) {
+		//Draws the name
 		if(entity.HasComponent<TagComponent>()) {
 			auto& tag = entity.GetComponent<TagComponent>().tag;
 
@@ -65,11 +64,10 @@ namespace Element {
 				tag = std::string(buffer);
 			}
 		}
-		
-		if(entity.HasComponent<TransformComponent>()) {
 
-			const ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen;
-			if(ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), flags, "Transform")) {
+		//Draws the transform
+		if(entity.HasComponent<TransformComponent>()) {
+			if(ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform")) {
 				auto& transform = entity.GetComponent<TransformComponent>().transform;
 
 				ImGui::DragFloat3("Position", glm::value_ptr(transform[3]), 0.1f);
