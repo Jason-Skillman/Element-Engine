@@ -26,9 +26,11 @@ namespace Element {
 		entityCamera = activeScene->CreateEntity("Camera");
 		entityCamera.AddComponent<CameraComponent>();
 		
-		entitySquare = activeScene->CreateEntity();
-		entitySquare.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
+		entityRedSquare = activeScene->CreateEntity("Red Square");
+		entityRedSquare.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
 
+		entityGreenSquare = activeScene->CreateEntity("Green Square");
+		entityGreenSquare.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 
 
 		//Todo: Temp
@@ -173,19 +175,6 @@ namespace Element {
 			ImGui::Text("Textures loaded: %d", stats.texturesLoaded);
 			ImGui::Separator();
 
-			if(entitySquare) {
-				ImGui::Text("%s", entitySquare.GetComponent<TagComponent>().tag.c_str());
-			}
-
-
-			//Camera
-			SceneCamera& camera = entityCamera.GetComponent<CameraComponent>().camera;
-			float orthoSize = camera.GetOrthographicSize();
-			
-			if(ImGui::DragFloat("Orthographic Size", &orthoSize)) {
-				camera.SetOrthographicSize(orthoSize);
-			}
-			
 			ImGui::End();
 		}
 
