@@ -2,7 +2,6 @@
 #include "Scene.h"
 
 #include <glm/glm.hpp>
-#include <glm/ext/matrix_transform.inl>
 
 #include "Components.h"
 #include "Entity.h"
@@ -31,7 +30,7 @@ namespace Element {
 
 		//Setup camera
 		Camera* mainCamera = nullptr;
-		glm::mat4* mainCameraTransform = nullptr;
+		glm::mat4 mainCameraTransform;
 		{
 			auto view = registry.view<TransformComponent, CameraComponent>();
 			for(auto entity : view) {
@@ -39,7 +38,7 @@ namespace Element {
 
 				if(camera.primary) {
 					mainCamera = &camera.camera;
-					mainCameraTransform = &transform.transform;
+					mainCameraTransform = transform.GetTransform();
 					break;
 				}
 			}
@@ -47,14 +46,14 @@ namespace Element {
 
 		//Begin the scene and draw all objects
 		if(mainCamera) {
-			Renderer2D::BeginScene(*mainCamera, *mainCameraTransform);
+			Renderer2D::BeginScene(*mainCamera, mainCameraTransform);
 			
 			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for(auto entity : group) {
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
 				Renderer2D::DrawPropertiesMat4 drawProps;
-				drawProps.transform = transform;
+				drawProps.transform = transform.GetTransform();
 				drawProps.color = sprite.color;
 				Renderer2D::DrawQuad(drawProps);
 			}
@@ -78,7 +77,7 @@ namespace Element {
 
 	Entity Scene::CreateEntity(const std::string& name) {
 		Entity entity = { registry.create(), this };
-		entity.AddComponent<TransformComponent>(glm::translate(glm::mat4(1.0f), { 4.0f, 4.0f, 0.0f }));
+		entity.AddComponent<TransformComponent>();
 		
 		auto& tag = entity.AddComponent<TagComponent>();
 		tag = !name.empty() ? name : std::string("Entity");

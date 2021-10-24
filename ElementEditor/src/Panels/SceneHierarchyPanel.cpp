@@ -3,6 +3,7 @@
 #include <imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "ImGui/ImGuiEditorUtils.h"
 #include "Element/Scene/Components.h"
 
 namespace Element {
@@ -68,9 +69,17 @@ namespace Element {
 		//Draws the transform
 		if(entity.HasComponent<TransformComponent>()) {
 			if(ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform")) {
-				auto& transform = entity.GetComponent<TransformComponent>().transform;
+				auto& transformComponent = entity.GetComponent<TransformComponent>();
 
-				ImGui::DragFloat3("Position", glm::value_ptr(transform[3]));
+				//ImGui::DragFloat3("Position", glm::value_ptr(transformComponent.translation));
+
+				Editor::DrawVec3Control("Translation", transformComponent.translation);
+
+				glm::vec3 rotationDegrees = glm::degrees(transformComponent.rotation);
+				Editor::DrawVec3Control("Rotation", rotationDegrees);
+				transformComponent.rotation = glm::radians(rotationDegrees);
+				
+				Editor::DrawVec3Control("Scale", transformComponent.scale, 1.0f);
 
 				ImGui::TreePop();
 			}

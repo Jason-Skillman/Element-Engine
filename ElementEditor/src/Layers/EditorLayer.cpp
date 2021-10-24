@@ -36,28 +36,27 @@ namespace Element {
 		//Todo: Temp
 		class CameraController : public ScriptableEntity {
 		public:
-			void OnCreate() {
+			void OnCreate() override {
 				EL_LOG_CORE_INFO("OnCreate");
 			}
-			void OnDestroy() {
+			void OnDestroy() override {
 
 			}
-			void OnUpdate(Timestep ts) {
-				auto& transform = GetComponent<TransformComponent>().transform;
+			void OnUpdate(Timestep ts) override {
+				auto& translation = GetComponent<TransformComponent>().translation;
 				float speed = 5.0f;
 
 				if(Input::IsKeyPressed(KEY_A)) {
-					transform[3][0] -= speed * ts;
-					//EL_LOG_CORE_INFO("value: {0}", transform[3][0]);
+					translation.x -= speed * ts;
 				}
 				else if(Input::IsKeyPressed(KEY_D)) {
-					transform[3][0] += speed * ts;
+					translation.x += speed * ts;
 				}
 				if(Input::IsKeyPressed(KEY_W)) {
-					transform[3][1] += speed * ts;
+					translation.y += speed * ts;
 				}
 				else if(Input::IsKeyPressed(KEY_S)) {
-					transform[3][1] -= speed * ts;
+					translation.y -= speed * ts;
 				}
 			}
 		};
