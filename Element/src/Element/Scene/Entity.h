@@ -20,8 +20,10 @@ namespace Element {
 		template<typename T, typename... Args>
 		inline T& AddComponent(Args&&... args) {
 			EL_CORE_ASSERT(!HasComponent<T>(), "Entity already has component: " + std::string(typeid(T).name()));
-			
-			return scene->registry.emplace<T>(entityId, std::forward<Args>(args)...);
+
+			T& component = scene->registry.emplace<T>(entityId, std::forward<Args>(args)...);
+			scene->OnComponentAdded<T>(*this, component);
+			return component;
 		}
 
 		template<typename T>

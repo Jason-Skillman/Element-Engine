@@ -25,5 +25,9 @@ namespace Element {
 
 		Entity CreateEntity(const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
+
+	private:
+		template<typename T>
+		void OnComponentAdded(Entity entity, T& component);
 	};
 }

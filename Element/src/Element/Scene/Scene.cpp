@@ -88,4 +88,26 @@ namespace Element {
 	void Scene::DestroyEntity(Entity entity) {
 		registry.destroy(entity);
 	}
+
+	template<typename T>
+	void Scene::OnComponentAdded(Entity entity, T& component) {
+		static_assert(false);
+	}
+
+	template<>
+	void Scene::OnComponentAdded(Entity entity, TagComponent& component) {}
+
+	template<>
+	void Scene::OnComponentAdded(Entity entity, TransformComponent& component) {}
+
+	template<>
+	void Scene::OnComponentAdded(Entity entity, CameraComponent& component) {
+		component.camera.SetViewportSize(viewportWidth, viewportHeight);
+	}
+
+	template<>
+	void Scene::OnComponentAdded(Entity entity, SpriteRendererComponent& component) {}
+
+	template<>
+	void Scene::OnComponentAdded(Entity entity, NativeScriptComponent& component) {}
 }
