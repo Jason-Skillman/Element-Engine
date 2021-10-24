@@ -84,4 +84,8 @@ namespace Element {
 		
 		return entity;
 	}
+
+	void Scene::DestroyEntity(Entity entity) {
+		registry.destroy(entity);
+	}
 }

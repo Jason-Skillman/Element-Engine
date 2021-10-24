@@ -17,39 +17,69 @@ namespace Element {
 	}
 	
 	void SceneHierarchyPanel::OnImGuiRender() {
-		ImGui::Begin("Scene Hierarchy");
+		//Draw the scene hierarchy window
+		{
+			ImGui::Begin("Scene Hierarchy");
 
-		context->registry.each([&](auto entityId) {
-			Entity entity{ entityId, context.get() };
-			DrawEntityNode(entity);
-		});
+			context->registry.each([&](auto entityId) {
+				Entity entity{ entityId, context.get() };
+				DrawEntityNode(entity);
+				});
 
-		//Removes the selected context when clicking in a blank area
-		if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-			selectionContext = {};
+			//Removes the selected context when clicking in a blank area
+			if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+				selectionContext = {};
 
-		ImGui::End();
+			//Context menu for the window (blank space)
+			if(ImGui::BeginPopupContextWindow(0, 1, false)) {
+				if(ImGui::MenuItem("Create Empty Entity"))
+					context->CreateEntity("Empty Entity");
 
-		ImGui::Begin("Properties");
+				ImGui::EndPopup();
+			}
 
-		if(selectionContext) {
-			DrawComponents(selectionContext);
+			ImGui::End();
 		}
-		
-		ImGui::End();
+
+		//Draw the properties window
+		{
+			ImGui::Begin("Properties");
+
+			if(selectionContext) {
+				DrawComponents(selectionContext);
+			}
+
+			ImGui::End();
+		}
 	}
 
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity) {
 		auto& tag = entity.GetComponent<TagComponent>().tag;
 
-		const ImGuiTreeNodeFlags flags = selectionContext == entity ? ImGuiTreeNodeFlags_Selected : 0 | ImGuiTreeNodeFlags_OpenOnArrow;
+		const ImGuiTreeNodeFlags flags = (selectionContext == entity ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
 		bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(static_cast<uint32_t>(entity)), flags, tag.c_str());
 
 		if(ImGui::IsItemClicked())
 			selectionContext = entity;
 
+		//Context menu
+		bool deleteEntity = false;
+		if(ImGui::BeginPopupContextItem()) {
+			if(ImGui::MenuItem("Delete"))
+				deleteEntity = true;
+
+			ImGui::EndPopup();
+		}
+
 		if(opened)
 			ImGui::TreePop();
+
+		if(deleteEntity) {
+			context->DestroyEntity(entity);
+			if(selectionContext == entity)
+				selectionContext = {};
+		}
+			
 	}
 
 	void SceneHierarchyPanel::DrawComponents(Entity entity) {

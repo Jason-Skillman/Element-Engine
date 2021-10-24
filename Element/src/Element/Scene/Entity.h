@@ -50,6 +50,10 @@ namespace Element {
 		operator uint32_t() const {
 			return static_cast<uint32_t>(entityId);
 		}
+		
+		operator entt::entity() const {
+			return entityId;
+		}
 
 		bool operator ==(const Entity& other) const {
 			return entityId == other.entityId && scene == other.scene;
