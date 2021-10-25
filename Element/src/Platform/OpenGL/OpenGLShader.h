@@ -32,11 +32,11 @@ namespace Element {
 		virtual void SetUniformMat3(const std::string& name, const glm::mat3& matrix) override;
 		virtual void SetUniformMat4(const std::string& name, const glm::mat4& matrix) override;
 
-		inline virtual const uint32_t GetRendererId() const override {
+		virtual uint32_t GetRendererId() const override {
 			return rendererId;
 		}
-		
-		inline virtual const std::string& GetName() const override {
+
+		virtual const std::string& GetName() const override {
 			return name;
 		}
 

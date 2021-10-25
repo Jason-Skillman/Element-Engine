@@ -26,17 +26,17 @@ namespace Element {
 		virtual ~WindowsWindow() override;
 
 	public:
-		void OnUpdate() override;
+		virtual void OnUpdate() override;
 		
-		unsigned int GetWidth() const override;
-		unsigned int GetHeight() const override;
+		virtual unsigned int GetWidth() const override;
+		virtual unsigned int GetHeight() const override;
 
 		//Window attributes
-		void SetEventCallback(const EventCallbackFunc& callback) override;
-		void SetVsync(bool enabled) override;
-		bool IsVsync() const override;
+		virtual void SetEventCallback(const EventCallbackFunc& callback) override;
+		virtual void SetVsync(bool enabled) override;
+		virtual bool IsVsync() const override;
 
-		inline void* GetNativeWindow() const override {
+		virtual void* GetNativeWindow() const override {
 			return window;
 		}
 		

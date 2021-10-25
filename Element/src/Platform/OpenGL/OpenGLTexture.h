@@ -18,20 +18,20 @@ namespace Element {
 		virtual ~OpenGLTexture2D();
 		
 	public:
-		inline virtual uint32_t GetWidth() const override {
+		virtual uint32_t GetWidth() const override {
 			return width;
 		}
-		
-		inline virtual uint32_t GetHeight() const override {
+
+		virtual uint32_t GetHeight() const override {
 			return height;
 		}
 
-		inline virtual uint32_t GetRendererId() const override {
+		virtual uint32_t GetRendererId() const override {
 			return rendererId;
 		}
 
 		virtual void SetData(void* data, uint32_t size) override;
-		
+
 		virtual void Bind(uint32_t slot = 0) const override;
 		virtual void Unbind(uint32_t slot) const override;
 

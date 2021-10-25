@@ -26,31 +26,33 @@ namespace Element {
 
 	public:
 		void SetProjection(float left, float right, float bottom, float top);
-		
-		inline const glm::mat4& GetProjectionMatrix() const {
+
+		const glm::mat4& GetProjectionMatrix() const {
 			return projectionMatrix;
 		}
 
-		inline const glm::mat4& GetViewMatrix() const {
+		const glm::mat4& GetViewMatrix() const {
 			return viewMatrix;
 		}
 
-		inline const glm::mat4& GetViewProjectionMatrix() const {
+		const glm::mat4& GetViewProjectionMatrix() const {
 			return viewProjectionMatrix;
 		}
-		
-		inline const glm::vec3& GetPosition() const {
+
+		const glm::vec3& GetPosition() const {
 			return position;
 		}
-		inline void SetPosition(const glm::vec3 position) {
+
+		void SetPosition(const glm::vec3 position) {
 			this->position = position;
 			RecalculateViewMatrix();
 		}
 
-		inline float GetRotation() const {
+		float GetRotation() const {
 			return rotation;
 		}
-		inline void SetRotation(float rotation) {
+
+		void SetRotation(float rotation) {
 			this->rotation = rotation;
 			RecalculateViewMatrix();
 		}

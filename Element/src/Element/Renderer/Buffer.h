@@ -13,7 +13,7 @@ namespace Element {
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
 			: name(name), type(type), size(ShaderDataTypeSize(type)), offset(0), normalized(normalized) {}
 
-		inline uint32_t GetComponentCount() const {
+		uint32_t GetComponentCount() const {
 			return ShaderDataTypeCount(type);
 		}
 	};
@@ -32,27 +32,27 @@ namespace Element {
 		}
 
 	public:
-		inline const std::vector<BufferElement>& GetElements() const {
+		const std::vector<BufferElement>& GetElements() const {
 			return elements;
 		}
 
-		inline uint32_t GetStride() const {
+		uint32_t GetStride() const {
 			return stride;
 		}
 
-		inline std::vector<BufferElement>::iterator begin() {
+		std::vector<BufferElement>::iterator begin() {
 			return elements.begin();
 		}
 
-		inline std::vector<BufferElement>::const_iterator begin() const {
+		std::vector<BufferElement>::const_iterator begin() const {
 			return elements.begin();
 		}
 
-		inline std::vector<BufferElement>::iterator end() {
+		std::vector<BufferElement>::iterator end() {
 			return elements.end();
 		}
 
-		inline std::vector<BufferElement>::const_iterator end() const {
+		std::vector<BufferElement>::const_iterator end() const {
 			return elements.end();
 		}
 

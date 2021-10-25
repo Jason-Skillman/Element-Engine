@@ -20,15 +20,15 @@ namespace Element {
 
 		virtual void Resize(uint32_t width, uint32_t height) override;
 
-		inline virtual const FrameBufferProperties& GetProperties() const override {
+		virtual const FrameBufferProperties& GetProperties() const override {
 			return properties;
 		}
 
-		inline virtual const uint32_t GetRendererId() const override {
+		virtual uint32_t GetRendererId() const override {
 			return rendererId;
 		}
 
-		inline virtual uint32_t GetColorAttachmentRendererId() const override {
+		virtual uint32_t GetColorAttachmentRendererId() const override {
 			return colorAttachment;
 		}
 

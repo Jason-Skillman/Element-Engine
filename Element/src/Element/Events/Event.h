@@ -50,16 +50,16 @@ namespace Element {
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
-		
-		inline virtual std::string ToString() const {
+
+		virtual std::string ToString() const {
 			return GetName();
 		}
 
-		inline bool IsInCategory(EventCategory category) {
+		bool IsInCategory(EventCategory category) {
 			return GetCategoryFlags() & category;
 		}
 
-		inline bool IsHandled() const {
+		bool IsHandled() const {
 			return handled;
 		}
 	};

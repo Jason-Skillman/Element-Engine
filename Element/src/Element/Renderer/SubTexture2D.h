@@ -16,11 +16,11 @@ namespace Element {
 		SubTexture2D(const Ref<Texture2D>& texture,const glm::vec2& min, const glm::vec2& max);
 
 	public:
-		inline const Ref<Texture2D>& GetTexture() const {
+		const Ref<Texture2D>& GetTexture() const {
 			return texture;
 		}
-		
-		inline const glm::vec2* GetTexCoords() const {
+
+		const glm::vec2* GetTexCoords() const {
 			return texCoords;
 		}
 

@@ -18,11 +18,11 @@ namespace Element {
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
 
-		inline std::vector<Layer*>::iterator begin() {
+		std::vector<Layer*>::iterator begin() {
 			return layers.begin();
 		}
-		
-		inline std::vector<Layer*>::iterator end() {
+
+		std::vector<Layer*>::iterator end() {
 			return layers.end();
 		}
 	};

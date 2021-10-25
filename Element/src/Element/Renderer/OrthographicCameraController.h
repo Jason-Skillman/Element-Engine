@@ -12,8 +12,8 @@ namespace Element {
 		float Left, Right;
 		float Bottom, Top;
 
-		inline float GetWidth() const { return Right - Left; }
-		inline float GetHeight() const { return Top - Bottom; }
+		float GetWidth() const { return Right - Left; }
+		float GetHeight() const { return Top - Bottom; }
 	};
 	
 	class OrthographicCameraController {
@@ -37,36 +37,40 @@ namespace Element {
 
 		void OnResize(float width, float height);
 
-		inline void SetZoomLevel(float zoomLevel) {
+		void SetZoomLevel(float zoomLevel) {
 			this->zoomLevel = zoomLevel;
 			CalculateView();
 		}
-		inline float GetZoomLevel() const {
+
+		float GetZoomLevel() const {
 			return zoomLevel;
 		}
 
-		inline void SetMoveSpeed(float speed) {
+		void SetMoveSpeed(float speed) {
 			moveSpeed = speed;
 		}
-		inline float GetMoveSpeed() const {
+
+		float GetMoveSpeed() const {
 			return moveSpeed;
 		}
 
-		inline void SetRotationSpeed(float rotation) {
+		void SetRotationSpeed(float rotation) {
 			rotationSpeed = rotation;
 		}
-		inline float GetRotationSpeed() const {
+
+		float GetRotationSpeed() const {
 			return rotationSpeed;
 		}
 
-		inline OrthographicCamera& GetCamera() {
-			return camera;
-		}
-		inline const OrthographicCamera& GetCamera() const {
+		OrthographicCamera& GetCamera() {
 			return camera;
 		}
 
-		inline const OrthographicCameraBounds& GetBounds() const {
+		const OrthographicCamera& GetCamera() const {
+			return camera;
+		}
+
+		const OrthographicCameraBounds& GetBounds() const {
 			return bounds;
 		}
 

@@ -18,15 +18,15 @@ namespace Element {
 
 		virtual void SetData(const void* data, uint32_t size) override;
 
-		inline virtual uint32_t GetRendererId() const override {
+		virtual uint32_t GetRendererId() const override {
 			return rendererId;
 		}
-		
-		inline virtual void SetLayout(const BufferLayout& layout) override {
+
+		virtual void SetLayout(const BufferLayout& layout) override {
 			this->layout = layout;
 		}
-		
-		inline virtual const BufferLayout& GetLayout() const override {
+
+		virtual const BufferLayout& GetLayout() const override {
 			return layout;
 		}
 	};
@@ -43,12 +43,12 @@ namespace Element {
 	public:
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
-		
-		inline virtual uint32_t GetRendererId() const override {
+
+		virtual uint32_t GetRendererId() const override {
 			return rendererId;
 		}
-		
-		inline virtual uint32_t GetCount() const override {
+
+		virtual uint32_t GetCount() const override {
 			return count;
 		}
 	};

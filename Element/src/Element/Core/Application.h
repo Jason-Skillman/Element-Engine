@@ -25,7 +25,7 @@ namespace Element {
 		virtual ~Application();
 
 	public:
-		inline static Application& GetInstance() {
+		static Application& GetInstance() {
 			if(!instance) instance = new Application();
 			return *instance;
 		}
@@ -44,11 +44,11 @@ namespace Element {
 			return imGuiLayer;
 		}
 
-		inline Window& GetWindow() const {
+		Window& GetWindow() const {
 			return *window;
 		}
 
-		inline bool IsMinimized() const {
+		bool IsMinimized() const {
 			return isMinimized;
 		}
 

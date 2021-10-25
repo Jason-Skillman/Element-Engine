@@ -28,11 +28,11 @@ namespace Element {
 	public:
 		static void Init();
 
-		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() {
+		static std::shared_ptr<spdlog::logger>& GetCoreLogger() {
 			return coreLogger;
 		}
-		
-		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() {
+
+		static std::shared_ptr<spdlog::logger>& GetClientLogger() {
 			return clientLogger;
 		}
 	};

@@ -14,7 +14,7 @@ namespace Element {
 		/// Returns time in seconds.
 		/// </summary>
 		/// <returns></returns>
-		inline float GetSeconds() const {
+		float GetSeconds() const {
 			return time;
 		}
 
@@ -22,11 +22,11 @@ namespace Element {
 		/// Returns time in milliseconds.
 		/// </summary>
 		/// <returns></returns>
-		inline float GetMilliseconds() const {
+		float GetMilliseconds() const {
 			return time * 1000;
 		}
 
-		inline operator float() const {
+		operator float() const {
 			return time;
 		}
 	};

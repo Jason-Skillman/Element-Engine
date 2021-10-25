@@ -19,7 +19,7 @@ namespace Element {
 		void Begin();
 		void End();
 
-		inline void SetBlockEvents(bool value) {
+		void SetBlockEvents(bool value) {
 			blockEvents = value;
 		}
 	};

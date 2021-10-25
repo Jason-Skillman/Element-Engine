@@ -14,7 +14,7 @@ namespace Element {
 		virtual ~Camera() = default;
 
 	public:
-		inline const glm::mat4& GetProjection() const {
+		const glm::mat4& GetProjection() const {
 			return projection;
 		}		
 	};
