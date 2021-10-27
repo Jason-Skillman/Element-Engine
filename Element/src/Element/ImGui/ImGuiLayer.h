@@ -22,5 +22,7 @@ namespace Element {
 		void SetBlockEvents(bool value) {
 			blockEvents = value;
 		}
+
+		void SetDarkThemeColors();
 	};
 }
