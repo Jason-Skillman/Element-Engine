@@ -102,23 +102,27 @@ namespace Element {
 	template<typename T, typename UIFunction>
 	static void DrawComponent(const std::string& name, Entity entity, UIFunction function, bool canRemove = true) {
 		if(entity.HasComponent<T>()) {
-			const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
+			const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap;
 
 			auto& component = entity.GetComponent<T>();
+			float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+			ImVec2 contentRegionAvail = ImGui::GetContentRegionAvail();
 
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
+			ImGui::Separator();
 
 			bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, name.c_str());
+			ImGui::PopStyleVar();
 
 			//Settings button
 			bool removeComponent = false;
 			{
-				ImGui::SameLine(ImGui::GetWindowWidth() - 25.0f);
+				ImGui::SameLine(contentRegionAvail.x - lineHeight * 0.5f);
 				const char* settingID = "ComponentSettings";
-				if(ImGui::Button("+", ImVec2{ 20, 20 })) {
+				if(ImGui::Button("+", ImVec2{ lineHeight, lineHeight })) {
 					ImGui::OpenPopup(settingID);
 				}
-				ImGui::PopStyleVar();
+				//ImGui::PopStyleVar();
 
 
 				if(ImGui::BeginPopup(settingID)) {
