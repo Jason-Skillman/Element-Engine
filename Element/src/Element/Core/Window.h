@@ -2,17 +2,23 @@
 #include "pch.h"
 
 #include "Element/Events/Event.h"
+#include "Element/Core/Resolution.h"
 
 namespace Element {
 	struct WindowProps {
 		std::string title;
 		uint32_t width, height;
 
-		WindowProps(const std::string& title = std::string(), uint32_t width = 1280, uint32_t height = 720)
+		WindowProps(const std::string& title, uint32_t width, uint32_t height)
 			: title(title), width(width), height(height) {}
+
+		WindowProps(const std::string& title, Resolution resolution)
+			: title(title), width(resolution.width), height(resolution.height) {}
 	};
 
-	//Interface representing a desktop system based Window
+	/// <summary>
+	/// Interface representing a desktop system based Window
+	/// </summary>
 	class Window {
 	public:
 		using EventCallbackFunc = std::function<void(Event&)>;
@@ -32,9 +38,8 @@ namespace Element {
 		/// <summary>
 		/// Returns a GLFW window
 		/// </summary>
-		/// <returns></returns>
 		inline virtual void* GetNativeWindow() const = 0;
 
-		static Scope<Window> Create(const WindowProps& props = WindowProps());
+		static Scope<Window> Create(const WindowProps& props);
 	};
 }

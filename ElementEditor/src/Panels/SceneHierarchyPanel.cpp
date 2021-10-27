@@ -47,23 +47,6 @@ namespace Element {
 
 			if(selectionContext) {
 				DrawComponents(selectionContext);
-
-				if(ImGui::Button("Add Component"))
-					ImGui::OpenPopup("AddComponent");
-
-				if(ImGui::BeginPopup("AddComponent")) {
-					if(ImGui::MenuItem("Camera")) {
-						selectionContext.AddComponent<CameraComponent>();
-						ImGui::CloseCurrentPopup();
-					}
-
-					if(ImGui::MenuItem("Sprite Renderer")) {
-						selectionContext.AddComponent<SpriteRendererComponent>();
-						ImGui::CloseCurrentPopup();
-					}
-
-					ImGui::EndPopup();
-				}
 			}
 
 			ImGui::End();
@@ -154,10 +137,34 @@ namespace Element {
 			memset(buffer, 0, sizeof(buffer));
 			strcpy_s(buffer, sizeof(buffer), tag.c_str());
 			
-			if(ImGui::InputText("Tag", buffer, sizeof(buffer))) {
+			if(ImGui::InputText("##Tag", buffer, sizeof(buffer))) {
 				tag = std::string(buffer);
 			}
 		}
+
+		ImGui::SameLine();
+		ImGui::PushItemWidth(-1);
+
+		const char* addID = "AddComponent";
+
+		if(ImGui::Button("Add Component"))
+			ImGui::OpenPopup(addID);
+
+		if(ImGui::BeginPopup(addID)) {
+			if(ImGui::MenuItem("Camera")) {
+				selectionContext.AddComponent<CameraComponent>();
+				ImGui::CloseCurrentPopup();
+			}
+
+			if(ImGui::MenuItem("Sprite Renderer")) {
+				selectionContext.AddComponent<SpriteRendererComponent>();
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::PopItemWidth;
 
 		//Draws the transform
 		DrawComponent<TransformComponent>("Transform", entity, [](auto& component) {

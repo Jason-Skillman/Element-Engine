@@ -7,6 +7,7 @@
 #include "Log.h"
 #include "Application.h"
 #include "Timestep.h"
+#include "Resolution.h"
 
 #include "Element/Events/Event.h"
 
@@ -51,7 +52,7 @@ namespace Element {
 	Application::Application(const std::string& name) {
 		if(!instance) instance = this;
 		
-		window = Window::Create(WindowProps("Element Engine"));
+		window = Window::Create(WindowProps("Element Engine", Resolution_1080));
 		window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
 
 		Renderer::Init();
