@@ -10,6 +10,7 @@ An OpenGL game engine written in C++ for games.
 - `glm` https://github.com/g-truc/glm
 - `stb` https://github.com/nothings/stb
 - `entt` https://github.com/skypjack/entt
+- `yaml-cpp` https://github.com/jbeder/yaml-cpp
 
 ## Original link
 This project was originaly based off of `The Cherno`'s Game Engine series.
