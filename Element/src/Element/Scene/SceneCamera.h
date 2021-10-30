@@ -38,7 +38,7 @@ namespace Element {
 		float GetPerspectiveFOV() const {
 			return perspectiveFOV;
 		}
-		void SetPerspectiveSize(float size) {
+		void SetPerspectiveFOV(float size) {
 			perspectiveFOV = size;
 			RecalculateProjection();
 		}

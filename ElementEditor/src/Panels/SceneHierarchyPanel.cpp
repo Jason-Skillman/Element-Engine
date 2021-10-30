@@ -1,5 +1,6 @@
 #include "SceneHierarchyPanel.h"
 
+#include <cstring>
 #include <imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -209,7 +210,7 @@ namespace Element {
 			if(camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective) {
 				float perspectiveFOV = glm::degrees(camera.GetPerspectiveFOV());
 				if(ImGui::DragFloat("Vertical FOV", &perspectiveFOV))
-					camera.SetPerspectiveSize(glm::radians(perspectiveFOV));
+					camera.SetPerspectiveFOV(glm::radians(perspectiveFOV));
 
 				float PerspectiveNearClip = camera.GetPerspectiveNearClip();
 				if(ImGui::DragFloat("Near Clip", &PerspectiveNearClip))

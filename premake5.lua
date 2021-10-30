@@ -23,12 +23,14 @@ IncludeDir["ImGui"] = "Element/vendor/ImGui"
 IncludeDir["glm"] = "Element/vendor/glm"
 IncludeDir["stb"] = "Element/vendor/stb"
 IncludeDir["entt"] = "Element/vendor/entt/include"
+IncludeDir["yaml_cpp"] = "Element/vendor/yaml-cpp/include"
 
 -- Includes other project premake files
 group "Dependencies"
 	include "Element/vendor/GLFW"
 	include "Element/vendor/Glad"
 	include "Element/vendor/ImGui"
+	include "Element/vendor/yaml-cpp"
 group ""
 
 project "Element"
@@ -36,7 +38,7 @@ project "Element"
    	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "off"
 	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
@@ -66,13 +68,15 @@ project "Element"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}"
 	}
 
 	links {
 		"GLFW",
 		"Glad",
 		"ImGui",
+		"yaml-cpp",
 		"opengl32.lib"
 	}
 
@@ -114,10 +118,10 @@ project "ElementEditor"
 		kind "ConsoleApp"
 		language "C++"
 		cppdialect "C++17"
-		staticruntime "on"
+		staticruntime "off"
 		
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-		 objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
+		objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
 	
 		files { 
 			"%{prj.name}/src/**.h", 
@@ -174,7 +178,7 @@ project "Sandbox"
    	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "off"
 	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
  	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")

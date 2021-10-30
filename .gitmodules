@@ -10,3 +10,6 @@
 [submodule "Element/vendor/spdlog"]
 	path = Element/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Element/vendor/yaml-cpp"]
+	path = Element/vendor/yaml-cpp
+	url = https://github.com/TheCherno/yaml-cpp

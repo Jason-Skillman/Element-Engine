@@ -1,10 +1,6 @@
 #pragma once
 
 #include "Element.h"
-#include "Element/Core/Core.h"
-#include "Element/Core/Log.h"
-#include "Element/Scene/Scene.h"
-#include "Element/Scene/Entity.h"
 
 namespace Element {
 	class SceneHierarchyPanel {

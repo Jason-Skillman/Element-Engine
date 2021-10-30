@@ -5,6 +5,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
+#include "Element/Scene/SceneSerializer.h"
+
 namespace Element {
 	
 	EditorLayer::EditorLayer()
@@ -23,6 +25,7 @@ namespace Element {
 		//ECS
 		activeScene = CreateRef<Scene>();
 
+#if 0
 		entityCamera = activeScene->CreateEntity("Camera");
 		entityCamera.AddComponent<CameraComponent>();
 		
@@ -36,12 +39,8 @@ namespace Element {
 		//Todo: Temp
 		class CameraController : public ScriptableEntity {
 		public:
-			void OnCreate() override {
-				EL_LOG_CORE_INFO("OnCreate");
-			}
-			void OnDestroy() override {
-
-			}
+			void OnCreate() override {}
+			void OnDestroy() override {}
 			void OnUpdate(Timestep ts) override {
 				auto& translation = GetComponent<TransformComponent>().translation;
 				float speed = 5.0f;
@@ -62,8 +61,13 @@ namespace Element {
 		};
 
 		entityCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+#endif
 
 		sceneHierarchyPanel.SetContext(activeScene);
+
+		//SceneSerializer serializer(activeScene);
+		//serializer.Serialize("assets/scenes/TestScene.element");
+		//serializer.Deserialize("assets/scenes/TestScene.element");
 	}
 
 	void EditorLayer::OnDetach() {}
@@ -163,6 +167,28 @@ namespace Element {
 				if(ImGui::MenuItem("Exit")) {
 					Application::GetInstance().Close();
 				}
+
+				ImGui::EndMenu();
+			}
+
+			if(ImGui::BeginMenu("Debug")) {
+				
+				if(ImGui::MenuItem("Serialize")) {
+					SceneSerializer serializer(activeScene);
+					serializer.Serialize("assets/scenes/TestScene.element");
+				}
+				if(ImGui::MenuItem("Deserialize")) {
+					SceneSerializer serializer(activeScene);
+					serializer.Deserialize("assets/scenes/TestScene.element");
+				}
+
+				/*if(ImGui::BeginMenu("Nest2")) {
+					if(ImGui::MenuItem("Item1")) {
+
+					}
+
+					ImGui::EndMenu();
+				}*/
 
 				ImGui::EndMenu();
 			}

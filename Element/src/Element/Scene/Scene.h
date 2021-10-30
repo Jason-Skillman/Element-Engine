@@ -1,6 +1,6 @@
 #pragma once
 
-#include "entt.hpp"
+#include <entt.hpp>
 
 #include "Element/Core/Timestep.h"
 
@@ -13,6 +13,7 @@ namespace Element {
 		uint32_t viewportWidth = 0, viewportHeight = 0;
 
 		friend class Entity;
+		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
 		
 	public:
