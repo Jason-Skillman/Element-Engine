@@ -5,6 +5,7 @@
 #include "Element/Core/Resolution.h"
 
 namespace Element {
+
 	struct WindowProps {
 		std::string title;
 		uint32_t width, height;

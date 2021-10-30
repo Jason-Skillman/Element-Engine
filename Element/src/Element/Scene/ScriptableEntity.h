@@ -2,7 +2,8 @@
 
 #include "Entity.h"
 
-namespace Element 	{
+namespace Element {
+
 	class ScriptableEntity {
 	private:
 		Entity entity;

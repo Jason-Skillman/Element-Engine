@@ -8,7 +8,7 @@
 #include "Camera.h"
 
 namespace Element {
-	//Static
+
 	class Renderer2D {
 	public:
 		struct DrawProperties {

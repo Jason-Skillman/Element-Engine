@@ -2,6 +2,7 @@
 #include "pch.h"
 
 namespace Element {
+
 	struct Resolution {
 		uint32_t width, height;
 	};

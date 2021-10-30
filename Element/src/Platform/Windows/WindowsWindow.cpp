@@ -5,11 +5,9 @@
 #include <GLFW/glfw3.h>
 
 #include "Element/Core/Log.h"
-
 #include "Element/Events/ApplicationEvent.h"
 #include "Element/Events/MouseEvent.h"
 #include "Element/Events/KeyEvent.h"
-
 #include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Element {

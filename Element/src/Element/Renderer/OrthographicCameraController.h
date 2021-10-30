@@ -1,13 +1,12 @@
 #pragma once
 
 #include "Element/Core/Timestep.h"
-
 #include "Element/Events/ApplicationEvent.h"
 #include "Element/Events/MouseEvent.h"
-
 #include "Element/Renderer/OrthographicCamera.h"
 
 namespace Element {
+
 	struct OrthographicCameraBounds {
 		float Left, Right;
 		float Bottom, Top;

@@ -4,6 +4,7 @@
 #include "Element/Events/Event.h"
 
 namespace Element {
+
 	class Layer {
 	protected:
 		std::string debugName;

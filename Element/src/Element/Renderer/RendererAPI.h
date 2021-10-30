@@ -5,6 +5,7 @@
 #include "Element/Renderer/VertexArray.h"
 
 namespace Element {
+
 	class RendererAPI {
 	public:
 		enum class API {

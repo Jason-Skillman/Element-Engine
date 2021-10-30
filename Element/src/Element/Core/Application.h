@@ -5,10 +5,10 @@
 #include "LayerStack.h"
 
 #include "Element/Events/ApplicationEvent.h"
-
 #include "Element/ImGui/ImGuiLayer.h"
 
 namespace Element {
+
 	class Application {
 	private:
 		static Application* instance;
@@ -61,6 +61,5 @@ namespace Element {
 	/// Defines the application for the engine to create.
 	/// <para>Note: This method should be defined in the client.</para>
 	/// </summary>
-	/// <returns></returns>
 	Application* CreateApplication();
 }

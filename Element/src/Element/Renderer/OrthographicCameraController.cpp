@@ -2,7 +2,6 @@
 #include "OrthographicCameraController.h"
 
 #include "Element/Codes/KeyCodes.h"
-
 #include "Element/Core/Input.h"
 
 namespace Element {

@@ -3,6 +3,7 @@
 #include "Layers/EditorLayer.h"
 
 namespace Element {
+
 	class ElementEditor : public Application {
 	public:
 		ElementEditor()

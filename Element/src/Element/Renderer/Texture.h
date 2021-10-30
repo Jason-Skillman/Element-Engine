@@ -3,6 +3,7 @@
 #include "Element/Core/Core.h"
 
 namespace Element {
+
 	class Texture {
 	public:
 		virtual ~Texture() = default;

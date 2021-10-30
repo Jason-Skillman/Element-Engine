@@ -3,6 +3,7 @@
 #include "Element/Renderer/Camera.h"
 
 namespace Element {
+
 	class SceneCamera : public Camera {
 	public:
 		enum class ProjectionType : uint8_t {
@@ -33,6 +34,7 @@ namespace Element {
 		}
 
 #pragma region Perspective
+
 		void SetPerspective(float fov, float nearClip, float farClip);
 
 		float GetPerspectiveFOV() const {
@@ -58,9 +60,11 @@ namespace Element {
 			this->perspectiveFar = perspectiveFar;
 			RecalculateProjection();
 		}
+
 #pragma endregion
 
 #pragma region Orthographic
+
 		void SetOrthographic(float size, float nearClip, float farClip);
 
 		float GetOrthographicSize() const {
@@ -86,6 +90,7 @@ namespace Element {
 			this->orthographicFar = orthographicFar;
 			RecalculateProjection();
 		}
+
 #pragma endregion
 		
 	private:

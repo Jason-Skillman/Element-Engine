@@ -3,6 +3,7 @@
 #include "Element/Core/Layer.h"
 
 namespace Element {
+
 	class LayerStack {
 	private:
 		std::vector<Layer*> layers;

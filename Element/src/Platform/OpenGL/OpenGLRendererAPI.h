@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Element/Core/Core.h"
-
 #include "Element/Renderer/RendererAPI.h"
 
 namespace Element {
+
 	class OpenGLRendererAPI : public RendererAPI {
 	public:
 		virtual void Init() override;

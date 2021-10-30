@@ -1,6 +1,7 @@
 #pragma once
 
 namespace Element {
+
 	class GraphicsContext {
 	public:
 		virtual ~GraphicsContext() = default;

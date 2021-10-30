@@ -2,6 +2,7 @@
 #include "Element/Renderer/Buffer.h"
 
 namespace Element {
+
 	class OpenGLVertexBuffer : public VertexBuffer {
 	private:
 		uint32_t rendererId;

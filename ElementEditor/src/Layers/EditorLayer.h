@@ -4,6 +4,7 @@
 #include "Panels/SceneHierarchyPanel.h"
 
 namespace Element {
+
 	class EditorLayer : public Layer {
 	private:
 		OrthographicCameraController cameraController;

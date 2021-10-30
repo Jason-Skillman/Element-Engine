@@ -4,6 +4,7 @@
 struct GLFWwindow;
 
 namespace Element {
+
 	class OpenGLContext : public GraphicsContext {
 	public:
 		OpenGLContext(GLFWwindow* window);

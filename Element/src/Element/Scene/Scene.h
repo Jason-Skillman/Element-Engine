@@ -5,6 +5,7 @@
 #include "Element/Core/Timestep.h"
 
 namespace Element {
+
 	class Entity;
 
 	class Scene {

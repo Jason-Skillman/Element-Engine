@@ -3,6 +3,7 @@
 #include "Element.h"
 
 namespace Element {
+
 	class SceneHierarchyPanel {
 	private:
 		Ref<Scene> context;

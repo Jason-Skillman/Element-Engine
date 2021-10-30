@@ -2,6 +2,7 @@
 #include "LayerStack.h"
 
 namespace Element {
+
 	LayerStack::LayerStack() = default;
 	
 	LayerStack::~LayerStack() {

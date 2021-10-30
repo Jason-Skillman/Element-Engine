@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Element/Core/Window.h"
-
 #include "Element/Renderer/GraphicsContext.h"
 
 struct GLFWwindow;
 
 namespace Element {
+
 	class WindowsWindow : public Window {
 	private:
 		struct WindowData {

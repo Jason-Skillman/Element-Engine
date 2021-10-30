@@ -7,6 +7,7 @@
 #include "Element/Scene/SceneCamera.h"
 
 namespace Element {
+
 	struct TransformComponent {
 		glm::vec3 translation = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 rotation = { 0.0f, 0.0f, 0.0f };

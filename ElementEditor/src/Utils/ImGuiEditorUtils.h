@@ -8,9 +8,9 @@
 
 #include "Element/Codes/FontTypes.h"
 
-constexpr float DragSpeed = 1.0f;
-
 namespace Element::Editor {
+
+	constexpr float DragSpeed = 1.0f;
 		
 	static void DrawVec3Control(const std::string& label, glm::vec3& values, float resetValue = 0.0f, float columnWidth = 100.0f) {
 		ImGuiIO& io = ImGui::GetIO();

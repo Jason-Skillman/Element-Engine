@@ -3,6 +3,7 @@
 #include "Element/Renderer/FrameBuffer.h"
 
 namespace Element {
+
 	class OpenGLFrameBuffer : public FrameBuffer {
 	private:
 		uint32_t rendererId;

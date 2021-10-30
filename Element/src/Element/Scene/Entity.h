@@ -6,6 +6,7 @@
 #include "Scene.h"
 
 namespace Element {
+
 	class Entity {
 	private:
 		entt::entity entityId = entt::null;
@@ -64,6 +65,5 @@ namespace Element {
 		bool operator !=(const Entity& other) const {
 			return !(*this == other);
 		}
-		
 	};
 }

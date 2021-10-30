@@ -3,6 +3,7 @@
 #include "Event.h"
 
 namespace Element {
+
 	class WindowResizeEvent : public Event {
 	private:
 		unsigned int width, height;

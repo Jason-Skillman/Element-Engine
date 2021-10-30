@@ -3,6 +3,7 @@
 #include "glm/glm.hpp"
 
 namespace Element {
+
 	class Camera {
 	protected:
 		glm::mat4 projection = glm::mat4(1.0f);

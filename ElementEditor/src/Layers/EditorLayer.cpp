@@ -64,10 +64,6 @@ namespace Element {
 #endif
 
 		sceneHierarchyPanel.SetContext(activeScene);
-
-		//SceneSerializer serializer(activeScene);
-		//serializer.Serialize("assets/scenes/TestScene.element");
-		//serializer.Deserialize("assets/scenes/TestScene.element");
 	}
 
 	void EditorLayer::OnDetach() {}

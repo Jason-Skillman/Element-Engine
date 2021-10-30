@@ -2,6 +2,7 @@
 #include "Layer.h"
 
 namespace Element {
+
 	Layer::Layer(const std::string& name)
 		: debugName(name) {}
 

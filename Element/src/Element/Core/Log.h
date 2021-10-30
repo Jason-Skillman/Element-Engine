@@ -20,6 +20,7 @@
 #define EL_LOG_CRITICAL(...) ::Element::Log::GetClientLogger()->critical(__VA_ARGS__);
 
 namespace Element {
+
 	class Log {
 	private:
 		static std::shared_ptr<spdlog::logger> coreLogger;

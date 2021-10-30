@@ -1,7 +1,7 @@
 #pragma once
 
 namespace Element {
-	//Static
+
 	class Input {
 	public:
 		static bool IsKeyPressed(int keycode);

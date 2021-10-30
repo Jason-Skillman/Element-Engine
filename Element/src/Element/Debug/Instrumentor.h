@@ -23,6 +23,7 @@
 #include <thread>
 
 namespace Element {
+
     struct ProfileResult {
         std::string Name;
         long long Start, End;
@@ -120,7 +121,6 @@ namespace Element {
         std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
         bool m_Stopped;
     };
-
 }
 
 #if PROFILE

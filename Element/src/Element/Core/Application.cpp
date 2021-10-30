@@ -10,7 +10,6 @@
 #include "Resolution.h"
 
 #include "Element/Events/Event.h"
-
 #include "Element/Renderer/Renderer.h"
 #include "Element/Renderer/RendererAPI.h"
 

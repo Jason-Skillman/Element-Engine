@@ -225,5 +225,4 @@ namespace Element {
 
 		data.textureSlotIndex = 1;
 	}
-
 }

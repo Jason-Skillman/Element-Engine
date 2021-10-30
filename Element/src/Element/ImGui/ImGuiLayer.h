@@ -3,6 +3,7 @@
 #include "Element/Core/Layer.h"
 
 namespace Element {
+
 	class ImGuiLayer : public Layer {
 	private:
 		bool blockEvents = true;

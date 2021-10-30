@@ -3,6 +3,7 @@
 #include "RendererAPI.h"
 
 namespace Element {
+
 	class RenderCommand {
 	private:
 		static RendererAPI* rendererApi;

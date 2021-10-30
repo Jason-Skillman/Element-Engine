@@ -5,9 +5,8 @@
 #include "Element/Core/Core.h"
 
 namespace Element {
-	/// <summary>
-	/// Abstract
-	/// </summary>
+
+	//Abstract
 	class Shader {
 	public:
 		virtual ~Shader() = default;

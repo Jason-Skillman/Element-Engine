@@ -2,6 +2,7 @@
 #include "Element/Renderer/VertexArray.h"
 
 namespace Element {
+
 	class OpenGLVertexArray : public VertexArray {
 	private:
 		uint32_t rendererId;

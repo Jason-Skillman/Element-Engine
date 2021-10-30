@@ -2,7 +2,6 @@
 #include "Renderer.h"
 
 #include "Renderer2D.h"
-
 #include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Element {

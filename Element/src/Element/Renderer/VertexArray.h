@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Element/Core/Core.h"
-
 #include "Element/Renderer/Buffer.h"
 
 namespace Element {
+
 	class VertexArray {
 	public:
 		virtual ~VertexArray() = default;

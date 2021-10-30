@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 namespace Element {
+
 	struct AspectRatio {
 		float width;
 		float height;

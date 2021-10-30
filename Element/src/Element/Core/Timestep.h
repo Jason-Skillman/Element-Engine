@@ -1,6 +1,7 @@
 #pragma once
 
 namespace Element {
+
 	class Timestep {
 	private:
 		float time;
@@ -13,7 +14,6 @@ namespace Element {
 		/// <summary>
 		/// Returns time in seconds.
 		/// </summary>
-		/// <returns></returns>
 		float GetSeconds() const {
 			return time;
 		}
@@ -21,7 +21,6 @@ namespace Element {
 		/// <summary>
 		/// Returns time in milliseconds.
 		/// </summary>
-		/// <returns></returns>
 		float GetMilliseconds() const {
 			return time * 1000;
 		}
