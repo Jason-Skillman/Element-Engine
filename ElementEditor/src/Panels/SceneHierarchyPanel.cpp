@@ -4,7 +4,7 @@
 #include <imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "ImGui/ImGuiEditorUtils.h"
+#include "Utils/ImGuiEditorUtils.h"
 #include "Element/Scene/Components.h"
 
 namespace Element {
