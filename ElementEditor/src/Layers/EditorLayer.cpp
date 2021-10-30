@@ -5,7 +5,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
+#include "Element/Codes/KeyCodes.h"
+#include "Element/Core/Core.h"
 #include "Element/Scene/SceneSerializer.h"
+#include "Element/Utils/PlatformUtils.h"
 
 namespace Element {
 	
@@ -155,39 +158,39 @@ namespace Element {
 
 		style.WindowMinSize.x = originalMinSize;
 
+
+		//----- Setup the menu bar -----
 		if(ImGui::BeginMenuBar()) {
+
 			if(ImGui::BeginMenu("File")) {
-				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
-				//ImGui::Separator();
-
-				if(ImGui::MenuItem("Exit")) {
-					Application::GetInstance().Close();
-				}
-
-				ImGui::EndMenu();
-			}
-
-			if(ImGui::BeginMenu("Debug")) {
 				
-				if(ImGui::MenuItem("Serialize")) {
-					SceneSerializer serializer(activeScene);
-					serializer.Serialize("assets/scenes/TestScene.element");
-				}
-				if(ImGui::MenuItem("Deserialize")) {
-					SceneSerializer serializer(activeScene);
-					serializer.Deserialize("assets/scenes/TestScene.element");
-				}
+				if(ImGui::MenuItem("New", "Ctrl+N"))
+					NewScene();
 
-				/*if(ImGui::BeginMenu("Nest2")) {
-					if(ImGui::MenuItem("Item1")) {
-
-					}
-
-					ImGui::EndMenu();
-				}*/
+				if(ImGui::MenuItem("Open", "Ctrl+O"))
+					OpenScene();
+				
+				if(ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+					SaveSceneAs();
+				
+				if(ImGui::MenuItem("Exit"))
+					Application::GetInstance().Close();
 
 				ImGui::EndMenu();
 			}
+
+			//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
+			//ImGui::Separator();
+
+			//if(ImGui::BeginMenu("Debug")) {
+			//	/*if(ImGui::BeginMenu("Nest2")) {
+			//		if(ImGui::MenuItem("Item1")) {
+
+			//		}
+			//		ImGui::EndMenu();
+			//	}*/
+			//	ImGui::EndMenu();
+			//}
 
 			ImGui::EndMenuBar();
 		}
@@ -241,5 +244,57 @@ namespace Element {
 
 	void EditorLayer::OnEvent(Event& event) {
 		cameraController.OnEvent(event);
+
+		EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<KeyPressedEvent>(EL_BIND_EVENT_FUNC(EditorLayer::OnKeyPressed));
+	}
+
+	void EditorLayer::NewScene() {
+		activeScene = CreateRef<Scene>();
+		activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+		sceneHierarchyPanel.SetContext(activeScene);
+	}
+
+	void EditorLayer::OpenScene() {
+		std::string filePath = FileDialog::OpenFile("Element Scene (*.element)\0*.element\0");
+
+		if(!filePath.empty()) {
+			NewScene();
+
+			SceneSerializer serializer(activeScene);
+			serializer.Deserialize(filePath);
+		}
+	}
+
+	void EditorLayer::SaveSceneAs() {
+		std::string filePath = FileDialog::SaveFile("Element Scene (*.element)\0*.element\0");
+
+		if(!filePath.empty()) {
+			SceneSerializer serializer(activeScene);
+			serializer.Serialize(filePath);
+		}
+	}
+
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& event) {
+		//Shortcuts
+		if(event.GetRepeatCount() > 0) return false;
+
+		const bool control = Input::IsKeyPressed(KEY_LEFT_CONTROL) || Input::IsKeyPressed(KEY_RIGHT_CONTROL);
+		const bool shift = Input::IsKeyPressed(KEY_LEFT_SHIFT) || Input::IsKeyPressed(KEY_RIGHT_SHIFT);
+
+		switch(event.GetKeyCode()) {
+			case KEY_N:
+				if(control) NewScene();
+				break;
+			case KEY_O:
+				if(control) OpenScene();
+				break;
+			case KEY_S:
+				if(control && shift) SaveSceneAs();
+				break;
+			default:
+				break;
+		}
+		return false;
 	}
 }

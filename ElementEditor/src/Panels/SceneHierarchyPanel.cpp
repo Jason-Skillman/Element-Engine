@@ -15,6 +15,7 @@ namespace Element {
 	
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context) {
 		this->context = context;
+		selectionContext = {};
 	}
 	
 	void SceneHierarchyPanel::OnImGuiRender() {
@@ -25,7 +26,7 @@ namespace Element {
 			context->registry.each([&](auto entityId) {
 				Entity entity{ entityId, context.get() };
 				DrawEntityNode(entity);
-				});
+			});
 
 			//Removes the selected context when clicking in a blank area
 			if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())

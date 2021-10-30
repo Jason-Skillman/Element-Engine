@@ -181,7 +181,7 @@ public:
 		cameraController.OnEvent(event);
 
 		Element::EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<Element::KeyPressedEvent>(BIND_EVENT_FUNC(ExampleLayer::OnKeyPressedEvent));
+		dispatcher.Dispatch<Element::KeyPressedEvent>(EL_BIND_EVENT_FUNC(ExampleLayer::OnKeyPressedEvent));
 	}
 
 	bool OnKeyPressedEvent(Element::KeyPressedEvent& event) {

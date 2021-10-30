@@ -32,5 +32,11 @@ namespace Element {
 		virtual void OnUpdate(Timestep ts) override;
 		virtual void OnImGuiRender() override;
 		virtual void OnEvent(Event& event) override;
+
+	private:
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
+		bool OnKeyPressed(KeyPressedEvent& event);
 	};
 }

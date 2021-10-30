@@ -27,8 +27,8 @@ namespace Element {
 	
 	void OrthographicCameraController::OnEvent(Event& event) {
 		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_FUNC(OrthographicCameraController::OnMouseScrolled));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNC(OrthographicCameraController::OnWindowResized));
+		dispatcher.Dispatch<MouseScrolledEvent>(EL_BIND_EVENT_FUNC(OrthographicCameraController::OnMouseScrolled));
+		dispatcher.Dispatch<WindowResizeEvent>(EL_BIND_EVENT_FUNC(OrthographicCameraController::OnWindowResized));
 	}
 
 	void OrthographicCameraController::OnResize(float width, float height) {

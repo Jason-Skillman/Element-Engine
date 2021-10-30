@@ -52,7 +52,7 @@ namespace Element {
 		if(!instance) instance = this;
 		
 		window = Window::Create(WindowProps("Element Engine", Resolution_1080));
-		window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
+		window->SetEventCallback(EL_BIND_EVENT_FUNC(Application::OnEvent));
 
 		Renderer::Init();
 
@@ -89,8 +89,8 @@ namespace Element {
 
 	void Application::OnEvent(Event& event) {
 		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClose));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNC(Application::OnWindowResizeEvent));
+		dispatcher.Dispatch<WindowCloseEvent>(EL_BIND_EVENT_FUNC(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(EL_BIND_EVENT_FUNC(Application::OnWindowResizeEvent));
 
 		for(auto it = layerStack.end(); it != layerStack.begin();) {
 			(*--it)->OnEvent(event);
