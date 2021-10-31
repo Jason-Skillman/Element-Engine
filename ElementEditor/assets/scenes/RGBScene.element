@@ -31,7 +31,7 @@ Entities:
     TagComponent:
       Tag: Camera
     TransformComponent:
-      Translation: [0, 0, -1]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CameraComponent:
@@ -41,7 +41,7 @@ Entities:
         PerspectiveNearClip: 0.00999999978
         PerspectiveFarClip: 1000
         OrthographicSize: 10
-        OrthographicNearClip: -1
+        OrthographicNearClip: 0
         OrthographicFarClip: 1
       Primary: true
       FixedAspectRation: false

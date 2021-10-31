@@ -6,7 +6,7 @@ namespace Element {
 
 	class SceneCamera : public Camera {
 	public:
-		enum class ProjectionType : uint8_t {
+		enum class ProjectionType {
 			Perspective = 0,
 			Orthographic = 1
 		};
@@ -16,7 +16,7 @@ namespace Element {
 		
 		float perspectiveFOV = glm::radians(45.0f), perspectiveNear = 0.01f, perspectiveFar = 1000.0f;
 		float orthographicSize = 10.0f, orthographicNear = -1.0f, orthographicFar = 1.0f;
-		float aspectRatio;
+		float aspectRatio = 0.0f;
 		
 	public:
 		SceneCamera();
