@@ -41,7 +41,5 @@ namespace Element {
 
 			projection = glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, orthographicNear, orthographicFar);
 		}
-
-		
 	}
 }

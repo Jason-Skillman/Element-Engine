@@ -75,6 +75,16 @@ namespace Element {
 		}
 	}
 
+	Entity Scene::GetPrimaryCameraEntity() {
+		auto view = registry.view<CameraComponent>();
+		for(auto entity : view) {
+			const auto& camera = view.get<CameraComponent>(entity);
+			if(camera.primary)
+				return Entity{ entity, this };
+		}
+		return {};
+	}
+
 	Entity Scene::CreateEntity(const std::string& name) {
 		Entity entity = { registry.create(), this };
 		entity.AddComponent<TransformComponent>();

@@ -4,9 +4,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
+#include <ImGuizmo.h>
 
 #include "Element/Codes/KeyCodes.h"
 #include "Element/Core/Core.h"
+#include "Element/Scene/Scene.h"
 #include "Element/Scene/SceneSerializer.h"
 #include "Element/Utils/PlatformUtils.h"
 
@@ -232,6 +234,37 @@ namespace Element {
 			//Draw the frame buffer
 			uint32_t textureID = frameBuffer->GetColorAttachmentRendererId();
 			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+			//Draw gizmos
+			Entity selectedEntity = sceneHierarchyPanel.GetSelectedEntity();
+
+			if(selectedEntity) {
+				ImGuizmo::SetDrawlist();
+
+				const float windowWidth = static_cast<float>(ImGui::GetWindowWidth());
+				const float windowHeight = static_cast<float>(ImGui::GetWindowHeight());
+				ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+				//Camera
+				Entity cameraEntity = activeScene->GetPrimaryCameraEntity();
+				const auto& camera = cameraEntity.GetComponent<CameraComponent>().camera;
+				const glm::mat4& cameraProjection = camera.GetProjection();
+				glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+
+				//Change the gizmo's projection based on the camera
+				const SceneCamera::ProjectionType projectionType = camera.GetProjectionType();
+				ImGuizmo::SetOrthographic(projectionType == SceneCamera::ProjectionType::Orthographic ? true : false);
+
+				//Entity transform
+				auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
+				glm::mat4 transform = transformComponent.GetTransform();
+
+				ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform));
+
+				if(ImGuizmo::IsUsing()) {
+					transformComponent.translation = glm::vec3(transform[3]);
+				}
+			}
 
 			ImGui::End();
 			ImGui::PopStyleVar();

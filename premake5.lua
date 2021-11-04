@@ -24,6 +24,7 @@ IncludeDir["glm"] = "Element/vendor/glm"
 IncludeDir["stb"] = "Element/vendor/stb"
 IncludeDir["entt"] = "Element/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "Element/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] = "Element/vendor/ImGuizmo"
 
 -- Includes other project premake files
 group "Dependencies"
@@ -52,7 +53,9 @@ project "Element"
 		"%{prj.name}/src/**.c",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/stb/**.h",
-		"%{prj.name}/vendor/stb/**.cpp"
+		"%{prj.name}/vendor/stb/**.cpp",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	defines {
@@ -69,7 +72,8 @@ project "Element"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.yaml_cpp}"
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links {
@@ -79,6 +83,10 @@ project "Element"
 		"yaml-cpp",
 		"opengl32.lib"
 	}
+
+	-- Marks ImGuizmo files to not require the pch file as it is not needed.
+	filter "files:Element/vendor/ImGuizmo/**.cpp"
+		flags { "NoPCH" }
 
 	filter "system:windows"
 		systemversion "latest"
@@ -135,7 +143,8 @@ project "ElementEditor"
 			"%{IncludeDir.spdlog}",
 			"%{IncludeDir.glm}",
 			"%{IncludeDir.ImGui}",
-			"%{IncludeDir.entt}"
+			"%{IncludeDir.entt}",
+			"%{IncludeDir.ImGuizmo}"
 		}
 	
 		links {

@@ -13,3 +13,6 @@
 [submodule "Element/vendor/yaml-cpp"]
 	path = Element/vendor/yaml-cpp
 	url = https://github.com/TheCherno/yaml-cpp
+[submodule "Element/vendor/ImGuizmo"]
+	path = Element/vendor/ImGuizmo
+	url = https://github.com/TheCherno/ImGuizmo.git
