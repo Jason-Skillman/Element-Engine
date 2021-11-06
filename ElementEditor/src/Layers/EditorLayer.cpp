@@ -11,6 +11,7 @@
 #include "Element/Scene/Scene.h"
 #include "Element/Scene/SceneSerializer.h"
 #include "Element/Utils/PlatformUtils.h"
+#include "Element/Math/Math.h"
 
 namespace Element {
 	
@@ -236,38 +237,47 @@ namespace Element {
 			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 			//Draw gizmos
-			Entity selectedEntity = sceneHierarchyPanel.GetSelectedEntity();
+			{
+				Entity selectedEntity = sceneHierarchyPanel.GetSelectedEntity();
 
-			if(selectedEntity) {
-				ImGuizmo::SetDrawlist();
+				if(selectedEntity && gizmoType != -1) {
+					ImGuizmo::SetDrawlist();
 
-				const float windowWidth = static_cast<float>(ImGui::GetWindowWidth());
-				const float windowHeight = static_cast<float>(ImGui::GetWindowHeight());
-				ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+					const float windowWidth = static_cast<float>(ImGui::GetWindowWidth());
+					const float windowHeight = static_cast<float>(ImGui::GetWindowHeight());
+					ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
-				//Camera
-				Entity cameraEntity = activeScene->GetPrimaryCameraEntity();
-				const auto& camera = cameraEntity.GetComponent<CameraComponent>().camera;
-				const glm::mat4& cameraProjection = camera.GetProjection();
-				glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+					//Camera
+					Entity cameraEntity = activeScene->GetPrimaryCameraEntity();
+					const auto& camera = cameraEntity.GetComponent<CameraComponent>().camera;
+					const glm::mat4& cameraProjection = camera.GetProjection();
+					glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
 
-				//Change the gizmo's projection based on the camera
-				const SceneCamera::ProjectionType projectionType = camera.GetProjectionType();
-				ImGuizmo::SetOrthographic(projectionType == SceneCamera::ProjectionType::Orthographic ? true : false);
+					//Change the gizmo's projection based on the camera
+					const SceneCamera::ProjectionType projectionType = camera.GetProjectionType();
+					ImGuizmo::SetOrthographic(projectionType == SceneCamera::ProjectionType::Orthographic ? true : false);
 
-				//Entity transform
-				auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
-				glm::mat4 transform = transformComponent.GetTransform();
+					//Entity transform
+					auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
+					glm::mat4 transform = transformComponent.GetTransform();
 
-				ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform));
+					ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)gizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
 
-				if(ImGuizmo::IsUsing()) {
-					transformComponent.translation = glm::vec3(transform[3]);
+					if(ImGuizmo::IsUsing()) {
+						glm::vec3 translation, rotation, scale;
+						Math::DecomposeTransform(transform, translation, rotation, scale);
+
+						glm::vec3 deltaRotation = rotation - transformComponent.rotation;	//delta rotation = decomposed rotation - original rotation
+
+						transformComponent.translation = translation;
+						transformComponent.rotation += deltaRotation;
+						transformComponent.scale = scale;
+					}
 				}
-			}
 
-			ImGui::End();
-			ImGui::PopStyleVar();
+				ImGui::End();
+				ImGui::PopStyleVar();
+			}
 		}
 
 		sceneHierarchyPanel.OnImGuiRender();
@@ -316,6 +326,7 @@ namespace Element {
 		const bool shift = Input::IsKeyPressed(KEY_LEFT_SHIFT) || Input::IsKeyPressed(KEY_RIGHT_SHIFT);
 
 		switch(event.GetKeyCode()) {
+			//Editor shortcuts
 			case KEY_N:
 				if(control) NewScene();
 				break;
@@ -325,6 +336,21 @@ namespace Element {
 			case KEY_S:
 				if(control && shift) SaveSceneAs();
 				break;
+			
+			//Gizmo shortcuts
+			case KEY_Q:	//Selection
+				gizmoType = -1;
+				break;
+			case KEY_W:	//Translate
+				gizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				break;
+			case KEY_E:	//Rotate
+				gizmoType = ImGuizmo::OPERATION::ROTATE;
+				break;
+			case KEY_R:	//Scale
+				gizmoType = ImGuizmo::OPERATION::SCALE;
+				break;
+
 			default:
 				break;
 		}

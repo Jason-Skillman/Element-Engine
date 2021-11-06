@@ -19,6 +19,8 @@ namespace Element {
 		glm::vec2 viewportSize = { 0, 0 };
 		bool viewportFocused = false, viewportHovered = false;
 
+		int gizmoType = -1;
+
 		//Panels
 		SceneHierarchyPanel sceneHierarchyPanel;
 
