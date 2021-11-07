@@ -270,19 +270,18 @@ namespace Element {
 					float snapValues[3] = { snapValue, snapValue, snapValue };
 
 					//DO NOT REMOVE!
-					//For some reason ImGuizmo::Manipulate() sets the transform matrix to NaN when matrix is set to identity. (0, 0, scale is 1)
+					//For some reason ImGuizmo::Manipulate() sets the transform matrix to NaN when matrix is set to identity. { 0, 0, 0 } scale is 1
 					//This offsets the gizmo from the zero origin just enough to prevent the NaN.
 					//EL_ASSERT(!std::isnan(transform[0][0]), "NAN");
-					if((transform[0][1] == 0 && transform[0][2] == 0 && transform[0][3] == 0 &&
-						transform[1][0] == 0 && transform[1][2] == 0 && transform[1][3] == 0 &&
-						transform[2][0] == 0 && transform[2][1] == 0 && transform[2][3] == 0 &&
-						transform[3][0] == 0 && transform[3][1] == 0 && transform[3][2] == 0)) {
-
+					{
 						constexpr float zeroOffset = 0.0000001f;
 
-						transform[3][0] += zeroOffset;
-						transform[3][1] += zeroOffset;
-						transform[3][2] += zeroOffset;
+						if(transform[3][0] == 0)
+							transform[3][0] += zeroOffset;
+						if(transform[3][1] == 0)
+							transform[3][1] += zeroOffset;
+						if(transform[3][2] == 0)
+							transform[3][2] += zeroOffset;
 					}
 
 					//Render the gizmo
