@@ -82,6 +82,14 @@ namespace Element {
 		EL_PROFILE_FUNCTION();
 	}
 
+	void Renderer2D::ResetStats() {
+		memset(&data.stats, 0, sizeof(Statistics));
+	}
+
+	Renderer2D::Statistics Renderer2D::GetStats() {
+		return data.stats;
+	}
+
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform) {
 		EL_PROFILE_FUNCTION();
 
@@ -90,10 +98,7 @@ namespace Element {
 		data.standardShader->Bind();
 		data.standardShader->SetUniformMat4("u_ViewProjection", viewProjection);
 
-		data.quadIndexCount = 0;
-		data.quadVertexBufferPtr = data.quadVertexBufferBase;
-
-		data.textureSlotIndex = 1;
+		StartBatch();
 	}
 	
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
@@ -102,6 +107,10 @@ namespace Element {
 		data.standardShader->Bind();
 		data.standardShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
+		StartBatch();
+	}
+
+	void Renderer2D::StartBatch() {
 		data.quadIndexCount = 0;
 		data.quadVertexBufferPtr = data.quadVertexBufferBase;
 
@@ -111,14 +120,17 @@ namespace Element {
 	void Renderer2D::EndScene() {
 		EL_PROFILE_FUNCTION();
 
-		uint32_t dataSize = reinterpret_cast<uint8_t*>(data.quadVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.quadVertexBufferBase);
-		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
-		
 		Flush();
 	}
 
 	void Renderer2D::Flush() {
 		EL_PROFILE_FUNCTION();
+
+		//Check if nothing to draw
+		if(data.quadIndexCount == 0) return; 
+
+		uint32_t dataSize = (uint32_t)(reinterpret_cast<uint8_t*>(data.quadVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.quadVertexBufferBase));
+		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
 
 		//Bind all textures to their texture slot
 		for(uint32_t i = 0; i < data.textureSlotIndex; i++) {
@@ -128,6 +140,13 @@ namespace Element {
 		RenderCommand::DrawIndexed(data.quadVertexArray, data.quadIndexCount);
 		data.stats.drawCalls++;
 	}
+
+	void Renderer2D::NextBatch() {
+		Flush();
+		StartBatch();
+	}
+
+	#pragma region Draw
 
 	void Renderer2D::DrawQuad(const DrawProperties& properties, const Ref<Texture2D>& texture, const glm::vec2* texCoords) {
 		glm::mat4 transform;
@@ -170,7 +189,7 @@ namespace Element {
 		}
 
 		if(data.quadIndexCount >= data.maxIndices)
-			FlushAndReset();
+			NextBatch();	//Start the next batch
 
 		//Texture batching
 		float textureIndex = 0.0f;
@@ -209,20 +228,5 @@ namespace Element {
 		DrawQuad(properties, subTexture->GetTexture(), subTexture->GetTexCoords());
 	}
 
-	void Renderer2D::ResetStats() {
-		memset(&data.stats, 0, sizeof(Statistics));
-	}
-
-	Renderer2D::Statistics Renderer2D::GetStats() {
-		return data.stats;
-	}
-
-	void Renderer2D::FlushAndReset() {
-		EndScene();
-
-		data.quadIndexCount = 0;
-		data.quadVertexBufferPtr = data.quadVertexBufferBase;
-
-		data.textureSlotIndex = 1;
-	}
+	#pragma endregion
 }

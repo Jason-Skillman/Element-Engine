@@ -84,13 +84,15 @@ namespace Element {
 	public:
 		static void Init();
 		static void Shutdown();
+
+		static void ResetStats();
+		static Statistics GetStats();
 		
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		//Todo: Remove
 		[[deprecated("Use BeginScene(camera, mat4)")]]
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
-		static void Flush();
 		
 		static void DrawQuad(const DrawProperties& properties, const Ref<Texture2D>& texture = nullptr, const glm::vec2* texCoords = nullptr);
 		static void DrawQuad(const DrawProperties& properties, const Ref<SubTexture2D>& subTexture);
@@ -98,10 +100,9 @@ namespace Element {
 		static void DrawQuad(const DrawPropertiesMat4& properties, const Ref<Texture2D>& texture = nullptr, const glm::vec2* texCoords = nullptr);
 		static void DrawQuad(const DrawPropertiesMat4& properties, const Ref<SubTexture2D>& subTexture);
 
-		static void ResetStats();
-		static Statistics GetStats();
-
 	private:
-		static void FlushAndReset();
+		static void StartBatch();
+		static void NextBatch();
+		static void Flush();
 	};
 }
