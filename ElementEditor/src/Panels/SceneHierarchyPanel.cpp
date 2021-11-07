@@ -34,8 +34,8 @@ namespace Element {
 
 			//Context menu for the window (blank space)
 			if(ImGui::BeginPopupContextWindow(0, 1, false)) {
-				if(ImGui::MenuItem("Create Empty Entity"))
-					context->CreateEntity("Empty Entity");
+				if(ImGui::MenuItem("Create Entity"))
+					context->CreateEntity("Entity");
 
 				ImGui::EndPopup();
 			}
