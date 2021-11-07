@@ -218,7 +218,7 @@ namespace Element {
 
 			viewportFocused = ImGui::IsWindowFocused();
 			viewportHovered = ImGui::IsWindowHovered();
-			Application::GetInstance().GetImGuiLayer()->SetBlockEvents(!viewportFocused || !viewportHovered);
+			Application::GetInstance().GetImGuiLayer()->SetBlockEvents(!viewportFocused && !viewportHovered);
 			
 			//Set the viewport size
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
@@ -261,17 +261,50 @@ namespace Element {
 					auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
 					glm::mat4 transform = transformComponent.GetTransform();
 
-					ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)gizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
+					//Snapping
+					bool snap = Input::IsKeyPressed(KEY_LEFT_CONTROL);
+					float snapValue = 0.5f;	//Snap value in meters
+					if(gizmoType == ImGuizmo::OPERATION::ROTATE)
+						snapValue = 45.0f;
 
-					if(ImGuizmo::IsUsing()) {
-						glm::vec3 translation, rotation, scale;
+					float snapValues[3] = { snapValue, snapValue, snapValue };
+
+					//DO NOT REMOVE!
+					//For some reason ImGuizmo::Manipulate() sets the transform matrix to NaN when matrix is set to identity. (0, 0, scale is 1)
+					//This offsets the gizmo from the zero origin just enough to prevent the NaN.
+					//EL_ASSERT(!std::isnan(transform[0][0]), "NAN");
+					if((transform[0][1] == 0 && transform[0][2] == 0 && transform[0][3] == 0 &&
+						transform[1][0] == 0 && transform[1][2] == 0 && transform[1][3] == 0 &&
+						transform[2][0] == 0 && transform[2][1] == 0 && transform[2][3] == 0 &&
+						transform[3][0] == 0 && transform[3][1] == 0 && transform[3][2] == 0)) {
+
+						constexpr float zeroOffset = 0.0000001f;
+
+						transform[3][0] += zeroOffset;
+						transform[3][1] += zeroOffset;
+						transform[3][2] += zeroOffset;
+					}
+
+					//Render the gizmo
+					ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)gizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
+						nullptr, snap ? snapValues : nullptr);
+
+					
+					if(ImGuizmo::IsUsing() && !std::isnan(transform[0][0])) {
+						//Split mat4 transform into translation, rotation, scale
+						glm::vec3 translation = {}, rotation = {}, scale = {};
+
 						Math::DecomposeTransform(transform, translation, rotation, scale);
 
-						glm::vec3 deltaRotation = rotation - transformComponent.rotation;	//delta rotation = decomposed rotation - original rotation
-
-						transformComponent.translation = translation;
-						transformComponent.rotation += deltaRotation;
-						transformComponent.scale = scale;
+						//Apply the gizmo transformation
+						if(gizmoType == ImGuizmo::OPERATION::TRANSLATE)
+							transformComponent.translation = translation;
+						if(gizmoType == ImGuizmo::OPERATION::ROTATE) {
+							glm::vec3 deltaRotation = rotation - transformComponent.rotation;	//delta rotation = decomposed rotation - original rotation
+							transformComponent.rotation += deltaRotation;
+						}
+						if(gizmoType == ImGuizmo::OPERATION::SCALE)
+							transformComponent.scale = scale;
 					}
 				}
 
