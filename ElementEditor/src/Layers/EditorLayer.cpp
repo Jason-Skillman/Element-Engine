@@ -331,7 +331,7 @@ namespace Element {
 	}
 
 	void EditorLayer::OpenScene() {
-		std::string filePath = FileDialog::OpenFile("Element Scene (*.element)\0*.element\0");
+		std::string filePath = FileDialog::OpenFile("Element Scene (*.scene)\0*.scene\0");
 
 		if(!filePath.empty()) {
 			NewScene();
@@ -342,7 +342,7 @@ namespace Element {
 	}
 
 	void EditorLayer::SaveSceneAs() {
-		std::string filePath = FileDialog::SaveFile("Element Scene (*.element)\0*.element\0");
+		std::string filePath = FileDialog::SaveFile("Element Scene (*.scene)\0*.scene\0");
 
 		if(!filePath.empty()) {
 			SceneSerializer serializer(activeScene);
