@@ -8,13 +8,13 @@ namespace Element {
 	static const uint32_t maxFrameBufferSize = 8192;
 
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferProperties& properties)
-		: rendererId(0), properties(properties) {
+		: rendererID(0), properties(properties) {
 
 		Invalidate();
 	}
 
 	OpenGLFrameBuffer::~OpenGLFrameBuffer() {
-		glDeleteFramebuffers(1, &rendererId);
+		glDeleteFramebuffers(1, &rendererID);
 		glDeleteTextures(1, &colorAttachment);
 		glDeleteTextures(1, &depthAttachment);
 	}
@@ -22,7 +22,7 @@ namespace Element {
 	void OpenGLFrameBuffer::Bind() {
 		EL_PROFILE_FUNCTION();
 		
-		glBindFramebuffer(GL_FRAMEBUFFER, rendererId);
+		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
 		glViewport(0, 0, properties.width, properties.height);
 	}
 
@@ -46,14 +46,14 @@ namespace Element {
 	void OpenGLFrameBuffer::Invalidate() {
 		EL_PROFILE_FUNCTION();
 
-		if(rendererId) {
-			glDeleteFramebuffers(1, &rendererId);
+		if(rendererID) {
+			glDeleteFramebuffers(1, &rendererID);
 			glDeleteTextures(1, &colorAttachment);
 			glDeleteTextures(1, &depthAttachment);
 		}
 		
-		glCreateFramebuffers(1, &rendererId);
-		glBindFramebuffer(GL_FRAMEBUFFER, rendererId);
+		glCreateFramebuffers(1, &rendererID);
+		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
 
 		
 		glCreateTextures(GL_TEXTURE_2D, 1, &colorAttachment);

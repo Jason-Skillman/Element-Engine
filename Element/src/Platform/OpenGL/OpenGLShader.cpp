@@ -30,7 +30,7 @@ namespace Element {
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
-		: rendererId(-1), name(name) {
+		: rendererID(-1), name(name) {
 
 		EL_PROFILE_FUNCTION();
 		
@@ -43,13 +43,13 @@ namespace Element {
 	OpenGLShader::~OpenGLShader() {
 		EL_PROFILE_FUNCTION();
 		
-		glDeleteProgram(rendererId);
+		glDeleteProgram(rendererID);
 	}
 
 	void OpenGLShader::Bind() const {
 		EL_PROFILE_FUNCTION();
 		
-		glUseProgram(rendererId);
+		glUseProgram(rendererID);
 	}
 
 	void OpenGLShader::Unbind() const {
@@ -243,14 +243,14 @@ namespace Element {
 		for(auto id : glShaderIds)
 			glDetachShader(program, id);
 
-		rendererId = program;
+		rendererID = program;
 	}
 
 	int OpenGLShader::GetUniformLocation(const std::string& name) const {
 		if(locationCache.find(name) != locationCache.end())
 			return locationCache[name];
 
-		int location = glGetUniformLocation(rendererId, name.c_str());
+		int location = glGetUniformLocation(rendererID, name.c_str());
 		//EL_CORE_ASSERT(location != -1, "Uniform {0} could not be found!", name.c_str());
 
 		locationCache[name] = location;

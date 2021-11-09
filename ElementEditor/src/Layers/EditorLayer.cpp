@@ -233,7 +233,7 @@ namespace Element {
 			}
 
 			//Draw the frame buffer
-			uint32_t textureID = frameBuffer->GetColorAttachmentRendererId();
+			uint32_t textureID = frameBuffer->GetColorAttachmentRendererID();
 			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 			//Draw gizmos

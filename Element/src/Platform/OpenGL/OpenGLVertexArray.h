@@ -5,7 +5,7 @@ namespace Element {
 
 	class OpenGLVertexArray : public VertexArray {
 	private:
-		uint32_t rendererId;
+		uint32_t rendererID;
 		std::vector<Ref<VertexBuffer>> vertexBuffers;
 		Ref<IndexBuffer> indexBuffer;
 		
@@ -20,8 +20,8 @@ namespace Element {
 		virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
 		virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
-		virtual uint32_t GetRendererId() const override {
-			return rendererId;
+		virtual uint32_t GetRendererID() const override {
+			return rendererID;
 		}
 
 		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const override {
