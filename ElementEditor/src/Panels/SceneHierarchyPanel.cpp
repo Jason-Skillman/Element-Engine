@@ -34,8 +34,17 @@ namespace Element {
 
 			//Context menu for the window (blank space)
 			if(ImGui::BeginPopupContextWindow(0, 1, false)) {
+
 				if(ImGui::MenuItem("Create Entity")) {
 					Entity newEntity = context->CreateEntity("Entity");
+					selectionContext = newEntity;
+				} else if(ImGui::MenuItem("Sprite Renderer")) {
+					Entity newEntity = context->CreateEntity("Entity");
+					newEntity.AddComponent<SpriteRendererComponent>();
+					selectionContext = newEntity;
+				} else if(ImGui::MenuItem("Camera")) {
+					Entity newEntity = context->CreateEntity("Camera");
+					newEntity.AddComponent<CameraComponent>();
 					selectionContext = newEntity;
 				}
 
