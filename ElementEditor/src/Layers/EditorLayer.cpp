@@ -81,10 +81,10 @@ namespace Element {
 		{
 			EL_PROFILE_SCOPE("Update");
 
-			if(viewportFocused) {
+			if(viewportFocused)
 				cameraController.OnUpdate(ts);
-				editorCamera.OnUpdate(ts);
-			}
+			
+			editorCamera.OnUpdate(ts);
 		}
 
 		//Pre-render

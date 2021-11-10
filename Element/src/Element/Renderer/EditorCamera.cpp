@@ -75,7 +75,7 @@ namespace Element {
 	}
 
 	void EditorCamera::UpdateView() {
-		//Lock the camera's rotation
+		//Lock the camera's rotation. Disables Alt + LMB for orthographic camera movement.
 		//yaw = pitch = 0.0f;
 
 		position = CalculatePosition();
