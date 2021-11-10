@@ -5,12 +5,6 @@
 namespace Element {
 
 	class SceneCamera : public Camera {
-	public:
-		enum class ProjectionType {
-			Perspective = 0,
-			Orthographic = 1
-		};
-		
 	private:
 		ProjectionType projectionType = ProjectionType::Orthographic;
 		

@@ -164,7 +164,7 @@ namespace Element {
 						auto& component = newEntity.AddComponent<CameraComponent>();
 						auto& cameraProps = componentValue["Camera"];
 
-						component.camera.SetProjectionType((SceneCamera::ProjectionType)cameraProps["ProjectionType"].as<int>());
+						component.camera.SetProjectionType((ProjectionType)cameraProps["ProjectionType"].as<int>());
 
 						component.camera.SetPerspectiveFOV(cameraProps["PerspectiveFOV"].as<float>());
 						component.camera.SetPerspectiveNearClip(cameraProps["PerspectiveNearClip"].as<float>());

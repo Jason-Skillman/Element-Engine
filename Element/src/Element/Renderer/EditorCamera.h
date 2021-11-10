@@ -23,6 +23,8 @@ namespace Element {
 		float pitch = 0.0f, yaw = 0.0f;
 		float viewportWidth = 1280, viewportHeight = 720;
 
+		ProjectionType projectionType = ProjectionType::Perspective;
+
 	public:
 		EditorCamera() = default;
 		EditorCamera(float fov, float aspectRatio, float nearClip, float farClip);
@@ -66,6 +68,10 @@ namespace Element {
 		}
 		float GetYaw() const {
 			return yaw;
+		}
+
+		ProjectionType GetProjectionType() const {
+			return projectionType;
 		}
 
 	private:

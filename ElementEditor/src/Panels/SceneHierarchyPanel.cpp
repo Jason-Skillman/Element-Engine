@@ -197,7 +197,7 @@ namespace Element {
 					if(ImGui::Selectable(projectionTypes[i], isSelected)) {
 						currentProjection = projectionTypes[i];
 
-						camera.SetProjectionType(static_cast<SceneCamera::ProjectionType>(i));
+						camera.SetProjectionType(static_cast<ProjectionType>(i));
 					}
 
 					if(isSelected)
@@ -208,7 +208,7 @@ namespace Element {
 			}
 
 			//Draw perspective properties
-			if(camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective) {
+			if(camera.GetProjectionType() == ProjectionType::Perspective) {
 				float perspectiveFOV = glm::degrees(camera.GetPerspectiveFOV());
 				if(ImGui::DragFloat("Vertical FOV", &perspectiveFOV))
 					camera.SetPerspectiveFOV(glm::radians(perspectiveFOV));
@@ -222,7 +222,7 @@ namespace Element {
 					camera.SetPerspectiveFarClip(PerspectiveFarClip);
 			}
 			//Draw orthographic properties
-			else if(camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic) {
+			else if(camera.GetProjectionType() == ProjectionType::Orthographic) {
 				ImGui::Checkbox("Fixed Aspect Ratio", &component.fixedAspectRatio);
 
 				float orthographicSize = camera.GetOrthographicSize();

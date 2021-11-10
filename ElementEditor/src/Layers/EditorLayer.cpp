@@ -250,14 +250,19 @@ namespace Element {
 					ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
 					//Camera
-					Entity cameraEntity = activeScene->GetPrimaryCameraEntity();
+					//Runtime camera
+					/*Entity cameraEntity = activeScene->GetPrimaryCameraEntity();
 					const auto& camera = cameraEntity.GetComponent<CameraComponent>().camera;
 					const glm::mat4& cameraProjection = camera.GetProjection();
-					glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+					glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());*/
+
+					//Editor camera
+					const glm::mat4& cameraProjection = editorCamera.GetProjection();
+					glm::mat4 cameraView = editorCamera.GetViewMatrix();
 
 					//Change the gizmo's projection based on the camera
-					const SceneCamera::ProjectionType projectionType = camera.GetProjectionType();
-					ImGuizmo::SetOrthographic(projectionType == SceneCamera::ProjectionType::Orthographic ? true : false);
+					const ProjectionType projectionType = editorCamera.GetProjectionType();
+					ImGuizmo::SetOrthographic(projectionType == ProjectionType::Orthographic ? true : false);
 
 					//Entity transform
 					auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
