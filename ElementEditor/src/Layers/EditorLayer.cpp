@@ -16,7 +16,7 @@
 namespace Element {
 	
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), cameraController(16.0f / 9.0f) {}
+		: Layer("EditorLayer"), cameraController(16.0f / 9.0f), editorCamera(45.f, 16.0 / 9.0f, 0.1f, 1000.0f) {}
 
 	void EditorLayer::OnAttach() {
 		textureCheckerboard = Texture2D::Create("assets/textures/checkerboard.png");
@@ -83,6 +83,7 @@ namespace Element {
 
 			if(viewportFocused) {
 				cameraController.OnUpdate(ts);
+				editorCamera.OnUpdate(ts);
 			}
 		}
 
@@ -101,7 +102,7 @@ namespace Element {
 
 			Renderer2D::ResetStats();
 			
-			activeScene->OnUpdate(ts);
+			activeScene->OnUpdateEditor(ts, editorCamera);
 			frameBuffer->Unbind();
 		}
 	}
@@ -219,7 +220,7 @@ namespace Element {
 			viewportFocused = ImGui::IsWindowFocused();
 			viewportHovered = ImGui::IsWindowHovered();
 			Application::GetInstance().GetImGuiLayer()->SetBlockEvents(!viewportFocused && !viewportHovered);
-			
+
 			//Set the viewport size
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 
@@ -228,6 +229,7 @@ namespace Element {
 				frameBuffer->Resize(viewportSize.x, viewportSize.y);
 
 				cameraController.OnResize(viewportSize.x, viewportSize.y);
+				editorCamera.SetViewportSize(viewportSize.x, viewportSize.y);
 
 				activeScene->OnViewportResize(static_cast<uint32_t>(viewportSize.x), static_cast<uint32_t>(viewportSize.y));
 			}
@@ -319,6 +321,7 @@ namespace Element {
 
 	void EditorLayer::OnEvent(Event& event) {
 		cameraController.OnEvent(event);
+		editorCamera.OnEvent(event);
 
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<KeyPressedEvent>(EL_BIND_EVENT_FUNC(EditorLayer::OnKeyPressed));

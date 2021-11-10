@@ -7,6 +7,7 @@ namespace Element {
 
 	class EditorLayer : public Layer {
 	private:
+		EditorCamera editorCamera;
 		OrthographicCameraController cameraController;
 
 		Ref<Texture2D> textureCheckerboard, textureArrow;

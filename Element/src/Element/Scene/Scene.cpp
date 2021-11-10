@@ -13,7 +13,7 @@ namespace Element {
 	
 	Scene::~Scene() {}
 
-	void Scene::OnUpdate(Timestep ts) {
+	void Scene::OnUpdateRuntime(Timestep ts) {
 
 		//Update script functions
 		{
@@ -46,7 +46,7 @@ namespace Element {
 
 		//Begin the scene and draw all objects
 		if(mainCamera) {
-			Renderer2D::BeginScene(*mainCamera, mainCameraTransform);
+			/*Renderer2D::BeginScene(*mainCamera, mainCameraTransform);
 			
 			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for(auto entity : group) {
@@ -58,8 +58,24 @@ namespace Element {
 				Renderer2D::DrawQuad(drawProps);
 			}
 
-			Renderer2D::EndScene();
+			Renderer2D::EndScene();*/
 		}
+	}
+
+	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera) {
+		Renderer2D::BeginScene(camera);
+
+		auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for(auto entity : group) {
+			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+			Renderer2D::DrawPropertiesMat4 drawProps;
+			drawProps.transform = transform.GetTransform();
+			drawProps.color = sprite.color;
+			Renderer2D::DrawQuad(drawProps);
+		}
+
+		Renderer2D::EndScene();
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height) {

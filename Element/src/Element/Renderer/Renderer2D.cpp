@@ -100,6 +100,17 @@ namespace Element {
 
 		StartBatch();
 	}
+
+	void Renderer2D::BeginScene(const EditorCamera& camera) {
+		EL_PROFILE_FUNCTION();
+
+		glm::mat4 viewProjection = camera.GetViewProjection();
+
+		data.standardShader->Bind();
+		data.standardShader->SetUniformMat4("u_ViewProjection", viewProjection);
+
+		StartBatch();
+	}
 	
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
 		EL_PROFILE_FUNCTION();

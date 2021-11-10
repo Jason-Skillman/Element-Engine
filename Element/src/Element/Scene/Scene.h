@@ -3,6 +3,7 @@
 #include <entt.hpp>
 
 #include "Element/Core/Timestep.h"
+#include "Element/Renderer/EditorCamera.h"
 
 namespace Element {
 
@@ -22,7 +23,8 @@ namespace Element {
 		~Scene();
 
 	public:
-		void OnUpdate(Timestep ts);
+		void OnUpdateRuntime(Timestep ts);
+		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
 		Entity GetPrimaryCameraEntity();
 

@@ -6,6 +6,7 @@
 #include "VertexArray.h"
 #include "SubTexture2D.h"
 #include "Camera.h"
+#include "EditorCamera.h"
 
 namespace Element {
 
@@ -89,7 +90,7 @@ namespace Element {
 		static Statistics GetStats();
 		
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
-		//Todo: Remove
+		static void BeginScene(const EditorCamera& camera);
 		[[deprecated("Use BeginScene(camera, mat4)")]]
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
