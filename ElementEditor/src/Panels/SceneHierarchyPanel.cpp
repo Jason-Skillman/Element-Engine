@@ -39,7 +39,7 @@ namespace Element {
 					Entity newEntity = context->CreateEntity("Entity");
 					selectionContext = newEntity;
 				} else if(ImGui::MenuItem("Sprite Renderer")) {
-					Entity newEntity = context->CreateEntity("Entity");
+					Entity newEntity = context->CreateEntity("Sprite Renderer");
 					newEntity.AddComponent<SpriteRendererComponent>();
 					selectionContext = newEntity;
 				} else if(ImGui::MenuItem("Camera")) {
