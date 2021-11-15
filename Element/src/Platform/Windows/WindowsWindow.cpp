@@ -82,6 +82,9 @@ namespace Element {
 			glfwInitialized = true;
 		}
 
+		//Hides the windows title bar
+		//glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+
 		//Create window context
 		window = glfwCreateWindow(static_cast<int>(props.width), static_cast<int>(props.height), data.title.c_str(), nullptr, nullptr);
 
@@ -91,6 +94,24 @@ namespace Element {
 		glfwSetWindowUserPointer(window, &data);
 		SetVsync(true);
 
+		//Center the window in the middle of the main monitor
+		{
+			//Get the list of monitors
+			/*int monitorCount;
+			GLFWmonitor** monitors = glfwGetMonitors(&monitorCount);
+			GLFWmonitor* monitor = monitors[0];
+			if (monitors == nullptr) return;*/
+
+			GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+
+			//Get the monitor size from its video mode
+			GLFWvidmode* monitorVidMode = (GLFWvidmode*)glfwGetVideoMode(monitor);
+
+			int monitorWidth = monitorVidMode->width;
+			int monitorHeight = monitorVidMode->height;
+
+			glfwSetWindowPos(window, (monitorWidth - props.width) / 2, (monitorHeight - props.height) / 2);
+		}
 		
 		//Set GLFW callback events
 		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
