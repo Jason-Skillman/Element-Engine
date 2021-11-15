@@ -5,7 +5,6 @@ workspace "Element-Engine"
 	configurations { 
 		"Debug", 
 		"Release",
-		"Dist"
 	}
 
 	startproject "ElementEditor"
@@ -113,14 +112,6 @@ project "Element"
 			"RELEASE" 
 		}
 
-	filter "configurations:Dist"
-		runtime "Release"
-		optimize "on"
-
-		defines { 
-			"DIST" 
-		}
-
 project "ElementEditor"
 		location "ElementEditor"
 		kind "ConsoleApp"
@@ -172,14 +163,6 @@ project "ElementEditor"
 	
 			defines { 
 				"RELEASE" 
-			}
-	
-		filter "configurations:Dist"
-			runtime "Release"
-			optimize "on"
-	
-			defines { 
-				"DIST" 
 			}
 
 project "Sandbox"
@@ -236,12 +219,4 @@ project "Sandbox"
 
 		defines { 
 			"RELEASE" 
-		}
-
-	filter "configurations:Dist"
-		runtime "Release"
-		optimize "on"
-
-		defines { 
-			"DIST" 
 		}
