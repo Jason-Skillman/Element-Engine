@@ -11,7 +11,7 @@ void SandboxLayer::OnAttach() {
 	textureCheckerboard = Element::Texture2D::Create("assets/textures/checkerboard.png");
 	textureArrow = Element::Texture2D::Create("assets/textures/arrow_head.png");
 
-	Element::FrameBufferProperties fbProps;
+	Element::FrameBufferSpecification fbProps;
 	fbProps.width = 1280;
 	fbProps.height = 720;
 	

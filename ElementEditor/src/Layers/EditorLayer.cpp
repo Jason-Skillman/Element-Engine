@@ -22,10 +22,11 @@ namespace Element {
 		textureCheckerboard = Texture2D::Create("assets/textures/checkerboard.png");
 		textureArrow = Texture2D::Create("assets/textures/arrow_head.png");
 
-		FrameBufferProperties fbProps;
-		fbProps.width = 1280;
-		fbProps.height = 720;
-		frameBuffer = FrameBuffer::Create(fbProps);
+		FrameBufferSpecification fbSpec;
+		fbSpec.attachments = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::Depth };
+		fbSpec.width = 1280;
+		fbSpec.height = 720;
+		frameBuffer = FrameBuffer::Create(fbSpec);
 
 
 		//ECS
@@ -235,7 +236,7 @@ namespace Element {
 			}
 
 			//Draw the frame buffer
-			uint32_t textureID = frameBuffer->GetColorAttachmentRendererID();
+			uint32_t textureID = frameBuffer->GetColorAttachmentID();
 			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 			//Draw gizmos
