@@ -23,7 +23,7 @@ namespace Element {
 		textureArrow = Texture2D::Create("assets/textures/arrow_head.png");
 
 		FrameBufferSpecification fbSpec;
-		fbSpec.attachments = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::Depth };
+		fbSpec.attachments = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RED_INTEGER, FrameBufferTextureFormat::Depth };
 		fbSpec.width = 1280;
 		fbSpec.height = 720;
 		frameBuffer = FrameBuffer::Create(fbSpec);
@@ -88,22 +88,47 @@ namespace Element {
 			editorCamera.OnUpdate(ts);
 		}
 
-		//Pre-render
-		{
-			EL_PROFILE_SCOPE("Pre-render");
-
-			frameBuffer->Bind();
-			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-			RenderCommand::Clear();
-		}
-
 		//Rendering
 		{
 			EL_PROFILE_SCOPE("Rendering");
 
+			frameBuffer->Bind();
+
+			//Pre-render
+			{
+				EL_PROFILE_SCOPE("Pre-render");
+
+				RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+				RenderCommand::Clear();
+			}
+
 			Renderer2D::ResetStats();
 			
 			activeScene->OnUpdateEditor(ts, editorCamera);
+
+			auto [mx, my] = ImGui::GetMousePos();
+			mx -= viewportBounds[0].x;	//Makes it 0, 0
+			my -= viewportBounds[0].y;	//Makes it 0, 0
+			glm::vec2 viewportSize = viewportBounds[1] - viewportBounds[0];
+			
+			//Top left is (0, 0)
+			
+			//Flip y to make it bottom left (0, 0)
+			//OpenGl/textures like (0, 0) on the bottom left
+			my = viewportSize.y - my;
+
+			int mouseX = static_cast<int>(mx);
+			int mouseY = static_cast<int>(my);
+
+			//Check if mouse is within viewport bounds
+			if(mouseX >= 0 && mouseY >= 0 && mouseX < static_cast<int>(viewportSize.x) && mouseY < static_cast<int>(viewportSize.y)) {
+				//EL_LOG_CORE_TRACE("Viewport mouse pos: {0}, {1}", mouseX, mouseY);
+
+				//Todo: Temp read from second attachment in frame buffer
+				int value = frameBuffer->ReadPixel(1, mouseX, mouseY);
+				EL_LOG_CORE_TRACE("Int at mouse pos: {0}", value);
+			}
+
 			frameBuffer->Unbind();
 		}
 	}
@@ -238,8 +263,11 @@ namespace Element {
 		}
 
 		{
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 			ImGui::Begin("Viewport");
+
+			ImVec2 viewportOffset = ImGui::GetCursorPos();	//Includes the tab bar
+			//viewportOffset.y -= ImGui::GetFontSize() + ImGui::frame() * 2;
 
 			viewportFocused = ImGui::IsWindowFocused();
 			viewportHovered = ImGui::IsWindowHovered();
@@ -261,6 +289,20 @@ namespace Element {
 			//Draw the frame buffer
 			uint32_t textureID = frameBuffer->GetColorAttachmentID();
 			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+			//Get the bounds of the window. Excludes the window's title bar.
+			ImVec2 windowPos = ImGui::GetWindowPos();
+			ImVec2 minBound = ImGui::GetWindowContentRegionMin();
+			ImVec2 maxBound = ImGui::GetWindowContentRegionMax();
+
+			minBound.x += windowPos.x;
+			minBound.y += windowPos.y;
+			maxBound.x += windowPos.x;
+			maxBound.y += windowPos.y;
+
+			//Min will be stored in the first slot, max in the second
+			viewportBounds[0] = { minBound.x, minBound.y };
+			viewportBounds[1] = { maxBound.x, maxBound.y };
 
 			//Draw gizmos
 			{
@@ -337,10 +379,10 @@ namespace Element {
 							transformComponent.scale = scale;
 					}
 				}
-
-				ImGui::End();
-				ImGui::PopStyleVar();
 			}
+
+			ImGui::End();
+			ImGui::PopStyleVar();
 		}
 
 		sceneHierarchyPanel.OnImGuiRender();

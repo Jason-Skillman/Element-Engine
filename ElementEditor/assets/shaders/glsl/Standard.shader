@@ -31,6 +31,7 @@ void main() {
 #version 330 core
 
 layout(location = 0) out vec4 o_Color;
+layout(location = 1) out int o_Color2;
 
 in vec3 v_Position;
 in vec2 v_TexCoord;
@@ -79,6 +80,8 @@ void main() {
 	}
 
 	o_Color = texColor * v_Color;
+
+	o_Color2 = 50;
 }
 
 //Does not work on AMD graphic cards

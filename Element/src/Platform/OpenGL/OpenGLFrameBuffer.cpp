@@ -21,12 +21,12 @@ namespace Element {
 			glBindTexture(TextureTarget(multisample), id);
 		}
 
-		inline static void AttachColorTexture(uint32_t id, int samples, GLenum format, uint32_t width, uint32_t height, int index) {
+		inline static void AttachColorTexture(uint32_t id, int samples, GLenum internalFormat, GLenum format, uint32_t width, uint32_t height, int index) {
 			bool multisample = samples > 1;
 			if(multisample)
-				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, format, width, height, GL_FALSE);
+				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, internalFormat, width, height, GL_FALSE);
 			else {
-				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+				glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
 
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -107,6 +107,15 @@ namespace Element {
 		Invalidate();
 	}
 
+	int OpenGLFrameBuffer::ReadPixel(uint32_t attachmentIndex, int x, int y) {
+		EL_CORE_ASSERT(attachmentIndex < colorAttachmentIDs.size(), "Index is out of range");
+
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
+		int pixelData;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
+		return pixelData;
+	}
+
 	void OpenGLFrameBuffer::Invalidate() {
 		EL_PROFILE_FUNCTION();
 
@@ -137,8 +146,11 @@ namespace Element {
 				Utils::BindTexture(multisample, colorAttachmentIDs[i]);
 
 				switch(colorAttachmentSpecifications[i].textureFormat) {
+					case FrameBufferTextureFormat::RED_INTEGER:
+						Utils::AttachColorTexture(colorAttachmentIDs[i], specification.samples, GL_R32I, GL_RED_INTEGER, specification.width, specification.height, i);
+						break;
 					case FrameBufferTextureFormat::RGBA8:
-						Utils::AttachColorTexture(colorAttachmentIDs[i], specification.samples, GL_RGBA8, specification.width, specification.height, i);
+						Utils::AttachColorTexture(colorAttachmentIDs[i], specification.samples, GL_RGBA8, GL_RGBA, specification.width, specification.height, i);
 						break;
 				}
 			}
