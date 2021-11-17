@@ -25,6 +25,9 @@ namespace Element {
 		//Panels
 		SceneHierarchyPanel sceneHierarchyPanel;
 
+		//Windows
+		bool showSettingsWindow = false;
+
 	public:
 		EditorLayer();
 		virtual ~EditorLayer() = default;

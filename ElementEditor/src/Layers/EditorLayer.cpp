@@ -184,6 +184,16 @@ namespace Element {
 				ImGui::EndMenu();
 			}
 
+			if(ImGui::BeginMenu("Window")) {
+
+				if(ImGui::MenuItem("Settings")) {
+					showSettingsWindow = true;
+					ImGui::SetWindowFocus("Settings");
+				}
+
+				ImGui::EndMenu();
+			}
+
 			//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
 			//ImGui::Separator();
 
@@ -198,6 +208,19 @@ namespace Element {
 			//}
 
 			ImGui::EndMenuBar();
+		}
+
+		{
+			if(showSettingsWindow) {
+
+				if(!ImGui::Begin("Settings", &showSettingsWindow)) {
+					ImGui::End();
+				} else {
+					ImGui::Text("Test");
+
+					ImGui::End();
+				}
+			}
 		}
 
 		{
