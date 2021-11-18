@@ -92,6 +92,8 @@ namespace Element {
 		{
 			EL_PROFILE_SCOPE("Rendering");
 
+			Renderer2D::ResetStats();
+
 			frameBuffer->Bind();
 
 			//Pre-render
@@ -102,7 +104,8 @@ namespace Element {
 				RenderCommand::Clear();
 			}
 
-			Renderer2D::ResetStats();
+			//Clear enity ID attachment to -1
+			frameBuffer->ClearAttachment(1, -1);
 			
 			activeScene->OnUpdateEditor(ts, editorCamera);
 

@@ -61,6 +61,17 @@ namespace Element {
 			}
 			return false;
 		}
+
+		static GLenum TextureFormatToGLenum(FrameBufferTextureFormat format) {
+			switch(format)
+			{
+				case Element::FrameBufferTextureFormat::RED_INTEGER: return GL_RED_INTEGER;
+				case Element::FrameBufferTextureFormat::RGBA8: return GL_RGBA8;
+			}
+
+			EL_CORE_ASSERT(false, "No GLenum found for FrameBufferTextureFormat.");
+			return 0;
+		}
 	}
 
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& specification)
@@ -114,6 +125,14 @@ namespace Element {
 		int pixelData;
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
 		return pixelData;
+	}
+
+	void OpenGLFrameBuffer::ClearAttachment(uint32_t attachmentIndex, int value) {
+		EL_CORE_ASSERT(attachmentIndex < colorAttachmentIDs.size(), "Index is out of range");
+
+		auto& spec = colorAttachmentSpecifications[attachmentIndex];
+
+		glClearTexImage(colorAttachmentIDs[attachmentIndex], 0, Utils::TextureFormatToGLenum(spec.textureFormat), GL_INT, &value);
 	}
 
 	void OpenGLFrameBuffer::Invalidate() {
