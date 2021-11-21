@@ -355,7 +355,7 @@ namespace Element {
 					glm::mat4 transform = transformComponent.GetTransform();
 
 					//Snapping
-					bool snap = Input::IsKeyPressed(KEY_LEFT_CONTROL);
+					bool snap = Input::IsKeyPressed(Key::LeftControl);
 					float snapValue = 0.5f;	//Snap value in meters
 					if(gizmoType == ImGuizmo::OPERATION::ROTATE)
 						snapValue = 45.0f;
@@ -449,32 +449,32 @@ namespace Element {
 		//Shortcuts
 		if(event.GetRepeatCount() > 0) return false;
 
-		const bool control = Input::IsKeyPressed(KEY_LEFT_CONTROL) || Input::IsKeyPressed(KEY_RIGHT_CONTROL);
-		const bool shift = Input::IsKeyPressed(KEY_LEFT_SHIFT) || Input::IsKeyPressed(KEY_RIGHT_SHIFT);
+		const bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		const bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
 
 		switch(event.GetKeyCode()) {
 			//Editor shortcuts
-			case KEY_N:
+			case Key::N:
 				if(control) NewScene();
 				break;
-			case KEY_O:
+			case Key::O:
 				if(control) OpenScene();
 				break;
-			case KEY_S:
+			case Key::S:
 				if(control && shift) SaveSceneAs();
 				break;
 			
 			//Gizmo shortcuts
-			case KEY_Q:	//Selection
+			case Key::Q:	//Selection
 				gizmoType = -1;
 				break;
-			case KEY_W:	//Translate
+			case Key::W:	//Translate
 				gizmoType = ImGuizmo::OPERATION::TRANSLATE;
 				break;
-			case KEY_E:	//Rotate
+			case Key::E:	//Rotate
 				gizmoType = ImGuizmo::OPERATION::ROTATE;
 				break;
-			case KEY_R:	//Scale
+			case Key::R:	//Scale
 				gizmoType = ImGuizmo::OPERATION::SCALE;
 				break;
 
@@ -486,7 +486,7 @@ namespace Element {
 
 	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& event) {
 		//Select the hovered entity on mouse click
-		if(event.GetMouseButton() == Mouse::ButtonLeft && viewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(KEY_LEFT_ALT))
+		if(event.GetMouseButton() == Mouse::ButtonLeft && viewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftAlt))
 			sceneHierarchyPanel.SetSelectedEntity(hoveredEntity);
 
 		return false;

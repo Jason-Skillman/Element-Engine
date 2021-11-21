@@ -13,13 +13,13 @@ namespace Element {
 	
 	void OrthographicCameraController::OnUpdate(Timestep ts) {
 		//Move camera
-		if(Input::IsKeyPressed(KEY_W)) cameraPosition.y += moveSpeed * zoomLevel * ts;
-		else if(Input::IsKeyPressed(KEY_S)) cameraPosition.y -= moveSpeed * zoomLevel * ts;
-		if(Input::IsKeyPressed(KEY_D)) cameraPosition.x += moveSpeed * zoomLevel * ts;
-		else if(Input::IsKeyPressed(KEY_A)) cameraPosition.x -= moveSpeed * zoomLevel * ts;
+		if(Input::IsKeyPressed(Key::W)) cameraPosition.y += moveSpeed * zoomLevel * ts;
+		else if(Input::IsKeyPressed(Key::S)) cameraPosition.y -= moveSpeed * zoomLevel * ts;
+		if(Input::IsKeyPressed(Key::D)) cameraPosition.x += moveSpeed * zoomLevel * ts;
+		else if(Input::IsKeyPressed(Key::A)) cameraPosition.x -= moveSpeed * zoomLevel * ts;
 		
-		if(Input::IsKeyPressed(KEY_E)) cameraRotation -= rotationSpeed * ts;
-		else if(Input::IsKeyPressed(KEY_Q)) cameraRotation += rotationSpeed * ts;
+		if(Input::IsKeyPressed(Key::E)) cameraRotation -= rotationSpeed * ts;
+		else if(Input::IsKeyPressed(Key::Q)) cameraRotation += rotationSpeed * ts;
 
 		camera.SetPosition(cameraPosition);
 		camera.SetRotation(cameraRotation);

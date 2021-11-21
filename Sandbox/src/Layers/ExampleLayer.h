@@ -113,10 +113,10 @@ public:
 		cameraController.OnUpdate(ts);
 
 		//Todo: Move
-		if(Element::Input::IsKeyPressed(KEY_UP)) trianglePosition.y += moveSpeed * ts;
-		else if(Element::Input::IsKeyPressed(KEY_DOWN)) trianglePosition.y -= moveSpeed * ts;
-		if(Element::Input::IsKeyPressed(KEY_RIGHT)) trianglePosition.x += moveSpeed * ts;
-		else if(Element::Input::IsKeyPressed(KEY_LEFT)) trianglePosition.x -= moveSpeed * ts;
+		if(Element::Input::IsKeyPressed(Element::Key::Up)) trianglePosition.y += moveSpeed * ts;
+		else if(Element::Input::IsKeyPressed(Element::Key::Down)) trianglePosition.y -= moveSpeed * ts;
+		if(Element::Input::IsKeyPressed(Element::Key::Right)) trianglePosition.x += moveSpeed * ts;
+		else if(Element::Input::IsKeyPressed(Element::Key::Left)) trianglePosition.x -= moveSpeed * ts;
 		
 		
 		//Render

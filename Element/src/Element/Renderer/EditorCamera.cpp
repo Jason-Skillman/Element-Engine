@@ -20,7 +20,7 @@ namespace Element {
 
 	void EditorCamera::OnUpdate(Timestep ts) {
 		//Maya style camera
-		if(Input::IsKeyPressed(KEY_LEFT_ALT)) {
+		if(Input::IsKeyPressed(Key::LeftAlt)) {
 			const glm::vec2& mouse{ Input::GetMouseX(), Input::GetMouseY() };
 
 			glm::vec2 delta = (mouse - initialMousePosition) * 0.003f;
