@@ -8,6 +8,7 @@ namespace Element {
 		uint32_t rendererID;
 		std::vector<Ref<VertexBuffer>> vertexBuffers;
 		Ref<IndexBuffer> indexBuffer;
+		uint32_t vertexBufferIndex = 0;
 		
 	public:
 		OpenGLVertexArray();

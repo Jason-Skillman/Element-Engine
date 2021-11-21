@@ -20,7 +20,10 @@ namespace Element {
 			{ ShaderDataType::Float2, "a_TexCoord" },
 			{ ShaderDataType::Float4, "a_Color" },
 			{ ShaderDataType::Float, "a_TextureIndex" },
-			{ ShaderDataType::Float, "a_Tiling" }
+			{ ShaderDataType::Float, "a_Tiling" },
+
+			//Editor only
+			{ ShaderDataType::Int, "a_EntityID" },
 		};
 
 		//Objects
@@ -176,6 +179,7 @@ namespace Element {
 		drawProps.transform = transform;
 		drawProps.color = properties.color;
 		drawProps.tiling = properties.tiling;
+		drawProps.entityID = properties.entityID;
 
 		DrawQuad(drawProps, texture, texCoords);
 	}
@@ -187,10 +191,10 @@ namespace Element {
 	void Renderer2D::DrawQuad(const DrawPropertiesMat4& properties, const Ref<Texture2D>& texture, const glm::vec2* texCoords) {
 		EL_PROFILE_FUNCTION();
 
-		size_t quadVertexCount = 4;
+		constexpr size_t quadVertexCount = 4;
 
 		if(!texCoords) {
-			glm::vec2 texCoordsOne[] = {
+			constexpr glm::vec2 texCoordsOne[] = {
 				{ 0.0f, 0.0f },
 				{ 1.0f, 0.0f },
 				{ 1.0f, 1.0f },
@@ -228,15 +232,26 @@ namespace Element {
 			data.quadVertexBufferPtr->color = properties.color;
 			data.quadVertexBufferPtr->textureIndex = textureIndex;
 			data.quadVertexBufferPtr->tiling = properties.tiling;
+			data.quadVertexBufferPtr->entityID = properties.entityID;
 			data.quadVertexBufferPtr++;
 		}
 		data.quadIndexCount += 6;
 
+		//Stats
 		data.stats.quadCount++;
 	}
 
 	void Renderer2D::DrawQuad(const DrawPropertiesMat4& properties, const Ref<SubTexture2D>& subTexture) {
 		DrawQuad(properties, subTexture->GetTexture(), subTexture->GetTexCoords());
+	}
+
+	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& spriteComponent, int entityID) {
+		DrawPropertiesMat4 drawProps;
+		drawProps.transform = transform;
+		drawProps.color = spriteComponent.color;
+		drawProps.entityID = entityID;
+
+		DrawQuad(drawProps);
 	}
 
 	#pragma endregion

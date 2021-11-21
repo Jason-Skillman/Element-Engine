@@ -15,6 +15,7 @@ namespace Element {
 		Ref<Scene> activeScene;
 		Entity entityCamera;
 		Entity entityRedSquare, entityGreenSquare;
+		Entity hoveredEntity;
 
 		Ref<FrameBuffer> frameBuffer;
 		glm::vec2 viewportSize = { 0, 0 };

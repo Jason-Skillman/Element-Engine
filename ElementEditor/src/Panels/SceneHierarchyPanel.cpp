@@ -23,8 +23,8 @@ namespace Element {
 		{
 			ImGui::Begin("Scene Hierarchy");
 
-			context->registry.each([&](auto entityId) {
-				Entity entity{ entityId, context.get() };
+			context->registry.each([&](auto entityID) {
+				Entity entity{ entityID, context.get() };
 				DrawEntityNode(entity);
 			});
 

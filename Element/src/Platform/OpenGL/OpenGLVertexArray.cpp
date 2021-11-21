@@ -70,13 +70,42 @@ namespace Element {
 		glBindVertexArray(rendererID);
 		vertexBuffer->Bind();
 
-		uint32_t index = 0;
-		for(const auto& element : vertexBuffer->GetLayout()) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
-				element.normalized ? GL_TRUE : GL_FALSE, vertexBuffer->GetLayout().GetStride(), reinterpret_cast<const void*>(element.offset));
+		//uint32_t index = 0;
+		auto& layout = vertexBuffer->GetLayout();
+		for(const auto& element : layout) {
 
-			index++;
+			switch(element.type) {
+				case ShaderDataType::Float:
+				case ShaderDataType::Float2:
+				case ShaderDataType::Float3:
+				case ShaderDataType::Float4:
+					glEnableVertexAttribArray(vertexBufferIndex);
+					glVertexAttribPointer(vertexBufferIndex, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
+						element.normalized ? GL_TRUE : GL_FALSE, layout.GetStride(), reinterpret_cast<const void*>(element.offset));
+					vertexBufferIndex++;
+					break;
+				case ShaderDataType::Int:
+				case ShaderDataType::Int2:
+				case ShaderDataType::Int3:
+				case ShaderDataType::Int4:
+				case ShaderDataType::Bool:
+					glEnableVertexAttribArray(vertexBufferIndex);
+					glVertexAttribIPointer(vertexBufferIndex, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
+						layout.GetStride(), reinterpret_cast<const void*>(element.offset));
+					vertexBufferIndex++;
+					break;
+				case ShaderDataType::Mat3:
+				case ShaderDataType::Mat4:
+					//Todo: Backwards compatable, should still work
+					glEnableVertexAttribArray(vertexBufferIndex);
+					glVertexAttribPointer(vertexBufferIndex, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
+						element.normalized ? GL_TRUE : GL_FALSE, layout.GetStride(), reinterpret_cast<const void*>(element.offset));
+					vertexBufferIndex++;
+					break;
+				default:
+					EL_CORE_ASSERT(false, "Unknown ShaderDataType!");
+					break;
+			}
 		}
 
 		vertexBuffers.push_back(vertexBuffer);

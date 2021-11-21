@@ -65,14 +65,12 @@ namespace Element {
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera) {
 		Renderer2D::BeginScene(camera);
 
+		//Render all sprite components
 		auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 		for(auto entity : group) {
 			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-			Renderer2D::DrawPropertiesMat4 drawProps;
-			drawProps.transform = transform.GetTransform();
-			drawProps.color = sprite.color;
-			Renderer2D::DrawQuad(drawProps);
+			Renderer2D::DrawSprite(transform.GetTransform(), sprite, static_cast<int>(entity));
 		}
 
 		Renderer2D::EndScene();

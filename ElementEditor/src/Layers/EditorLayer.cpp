@@ -6,6 +6,7 @@
 #include <imgui.h>
 #include <ImGuizmo.h>
 
+#include "Element/Codes/FontTypes.h"
 #include "Element/Codes/KeyCodes.h"
 #include "Element/Core/Core.h"
 #include "Element/Scene/Scene.h"
@@ -127,9 +128,8 @@ namespace Element {
 			if(mouseX >= 0 && mouseY >= 0 && mouseX < static_cast<int>(viewportSize.x) && mouseY < static_cast<int>(viewportSize.y)) {
 				//EL_LOG_CORE_TRACE("Viewport mouse pos: {0}, {1}", mouseX, mouseY);
 
-				//Todo: Temp read from second attachment in frame buffer
 				int value = frameBuffer->ReadPixel(1, mouseX, mouseY);
-				EL_LOG_CORE_TRACE("Int at mouse pos: {0}", value);
+				hoveredEntity = value != -1 ? Entity(static_cast<entt::entity>(value), activeScene.get()) : Entity();
 			}
 
 			frameBuffer->Unbind();
@@ -190,6 +190,9 @@ namespace Element {
 		}
 
 		style.WindowMinSize.x = originalMinSize;
+
+		//Fonts
+		ImFont* boldFont = io.Fonts->Fonts[static_cast<int>(FontType_Bold)];
 
 
 		//----- Setup the menu bar -----
@@ -252,15 +255,29 @@ namespace Element {
 		}
 
 		{
-			ImGui::Begin("Renderer2D Stats");
+			ImGui::Begin("Stats");
 
-			auto stats = Renderer2D::GetStats();
-			ImGui::Text("Draw calls: %d", stats.drawCalls);
-			ImGui::Text("Quads: %d", stats.quadCount);
-			ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-			ImGui::Text("Textures loaded: %d", stats.texturesLoaded);
-			ImGui::Separator();
+			{
+				ImGui::PushFont(boldFont);
+				ImGui::Text("Entities");
+				ImGui::PopFont();
+				std::string entityName = hoveredEntity ? hoveredEntity.GetComponent<TagComponent>().tag : "None";
+				ImGui::Text("Hovered Entity: %s", entityName.c_str());
+				ImGui::Separator();
+			}
+
+			{
+				ImGui::PushFont(boldFont);
+				ImGui::Text("Renderer2D");
+				ImGui::PopFont();
+				auto stats = Renderer2D::GetStats();
+				ImGui::Text("Draw calls: %d", stats.drawCalls);
+				ImGui::Text("Quads: %d", stats.quadCount);
+				ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+				ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+				ImGui::Text("Textures loaded: %d", stats.texturesLoaded);
+				ImGui::Separator();
+			}
 
 			ImGui::End();
 		}

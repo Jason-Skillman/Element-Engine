@@ -7,6 +7,7 @@
 #include "SubTexture2D.h"
 #include "Camera.h"
 #include "EditorCamera.h"
+#include "Element/Scene/Components.h"
 
 namespace Element {
 
@@ -19,18 +20,16 @@ namespace Element {
 			/// </summary>
 			float rotation = 0.0f;
 			glm::vec2 scale = { 1.0f, 1.0f };
-
 			glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-			
 			float tiling = 1.0f;
+			int entityID = -1;
 		};
 
 		struct DrawPropertiesMat4 {
 			glm::mat4 transform = glm::mat4(1.0f);
-
 			glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-			
 			float tiling = 1.0f;
+			int entityID = -1;
 		};
 
 	private:
@@ -54,6 +53,9 @@ namespace Element {
 			glm::vec4 color;
 			float textureIndex;
 			float tiling;
+
+			//Editor only
+			int entityID;
 		};
 		
 		struct RendererData {
@@ -100,6 +102,8 @@ namespace Element {
 
 		static void DrawQuad(const DrawPropertiesMat4& properties, const Ref<Texture2D>& texture = nullptr, const glm::vec2* texCoords = nullptr);
 		static void DrawQuad(const DrawPropertiesMat4& properties, const Ref<SubTexture2D>& subTexture);
+
+		static void DrawSprite(const glm::mat4& transform, SpriteRendererComponent& spriteComponent, int entityID = -1);
 
 	private:
 		static void StartBatch();

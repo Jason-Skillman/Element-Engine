@@ -9,12 +9,12 @@ namespace Element {
 
 	class Entity {
 	private:
-		entt::entity entityId = entt::null;
+		entt::entity entityID = entt::null;
 		Scene* scene = nullptr;
 
 	public:
 		Entity() = default;
-		Entity(entt::entity entityId, Scene* scene);
+		Entity(entt::entity entityID, Scene* scene);
 		Entity(const Entity& other) = default;
 
 	public:
@@ -22,7 +22,7 @@ namespace Element {
 		T& AddComponent(Args&&... args) {
 			EL_CORE_ASSERT(!HasComponent<T>(), "Entity already has component: " + std::string(typeid(T).name()));
 
-			T& component = scene->registry.emplace<T>(entityId, std::forward<Args>(args)...);
+			T& component = scene->registry.emplace<T>(entityID, std::forward<Args>(args)...);
 			scene->OnComponentAdded<T>(*this, component);
 			return component;
 		}
@@ -31,35 +31,35 @@ namespace Element {
 		T& GetComponent() const {
 			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
 			
-			return scene->registry.get<T>(entityId);
+			return scene->registry.get<T>(entityID);
 		}
 
 		template<typename T>
 		void RemoveComponent() {
 			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
 			
-			scene->registry.remove<T>(entityId);
+			scene->registry.remove<T>(entityID);
 		}
 		
 		template<typename T>
 		bool HasComponent() const {
-			return scene->registry.has<T>(entityId);
+			return scene->registry.has<T>(entityID);
 		}
 
 		operator bool() const {
-			return entityId != entt::null;
+			return entityID != entt::null;
 		}
 
 		operator uint32_t() const {
-			return static_cast<uint32_t>(entityId);
+			return static_cast<uint32_t>(entityID);
 		}
 		
 		operator entt::entity() const {
-			return entityId;
+			return entityID;
 		}
 
 		bool operator ==(const Entity& other) const {
-			return entityId == other.entityId && scene == other.scene;
+			return entityID == other.entityID && scene == other.scene;
 		}
 		
 		bool operator !=(const Entity& other) const {

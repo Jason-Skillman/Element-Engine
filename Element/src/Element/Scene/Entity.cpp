@@ -3,6 +3,6 @@
 
 namespace Element {
 
-	Entity::Entity(entt::entity entityId, Scene* scene)
-		: entityId(entityId), scene(scene) {}
+	Entity::Entity(entt::entity entityID, Scene* scene)
+		: entityID(entityID), scene(scene) {}
 }
