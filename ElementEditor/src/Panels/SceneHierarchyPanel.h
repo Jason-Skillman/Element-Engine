@@ -21,6 +21,9 @@ namespace Element {
 		Entity GetSelectedEntity() const {
 			return selectionContext;
 		}
+		void SetSelectedEntity(Entity entity) {
+			selectionContext = entity;
+		}
 
 	private:
 		void DrawEntityNode(Entity entity);

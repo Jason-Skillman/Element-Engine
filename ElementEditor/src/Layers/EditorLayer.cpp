@@ -416,6 +416,7 @@ namespace Element {
 
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<KeyPressedEvent>(EL_BIND_EVENT_FUNC(EditorLayer::OnKeyPressed));
+		dispatcher.Dispatch<MouseButtonPressedEvent>(EL_BIND_EVENT_FUNC(EditorLayer::OnMouseButtonPressed));
 	}
 
 	void EditorLayer::NewScene() {
@@ -480,6 +481,14 @@ namespace Element {
 			default:
 				break;
 		}
+		return false;
+	}
+
+	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& event) {
+		//Select the hovered entity on mouse click
+		if(event.GetMouseButton() == MOUSE_BUTTON_1 && viewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(KEY_LEFT_ALT))
+			sceneHierarchyPanel.SetSelectedEntity(hoveredEntity);
+
 		return false;
 	}
 }

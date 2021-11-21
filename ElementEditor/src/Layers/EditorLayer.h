@@ -45,6 +45,8 @@ namespace Element {
 		void NewScene();
 		void OpenScene();
 		void SaveSceneAs();
+
 		bool OnKeyPressed(KeyPressedEvent& event);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& event);
 	};
 }
