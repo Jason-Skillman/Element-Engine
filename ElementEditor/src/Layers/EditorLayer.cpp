@@ -486,7 +486,7 @@ namespace Element {
 
 	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& event) {
 		//Select the hovered entity on mouse click
-		if(event.GetMouseButton() == MOUSE_BUTTON_1 && viewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(KEY_LEFT_ALT))
+		if(event.GetMouseButton() == Mouse::ButtonLeft && viewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(KEY_LEFT_ALT))
 			sceneHierarchyPanel.SetSelectedEntity(hoveredEntity);
 
 		return false;

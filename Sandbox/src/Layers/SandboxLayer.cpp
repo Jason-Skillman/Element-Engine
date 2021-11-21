@@ -106,7 +106,7 @@ void SandboxLayer::OnUpdate(Element::Timestep ts) {
 		Element::Renderer2D::EndScene();
 
 		//Particles
-		if(Element::Input::IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+		if(Element::Input::IsMouseButtonPressed(Element::Mouse::ButtonRight)) {
 			auto [x, y] = Element::Input::GetMousePosition();
 			auto width = Element::Application::GetInstance().GetWindow().GetWidth();
 			auto height = Element::Application::GetInstance().GetWindow().GetHeight();

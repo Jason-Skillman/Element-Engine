@@ -26,11 +26,11 @@ namespace Element {
 			glm::vec2 delta = (mouse - initialMousePosition) * 0.003f;
 			initialMousePosition = mouse;
 
-			if(Input::IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE))
+			if(Input::IsMouseButtonPressed(Mouse::ButtonMiddle))
 				MousePan(delta);
-			else if(Input::IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+			else if(Input::IsMouseButtonPressed(Mouse::ButtonLeft))
 				MouseRotate(delta);
-			else if(Input::IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
+			else if(Input::IsMouseButtonPressed(Mouse::ButtonRight))
 				MouseZoom(delta.x);
 		}
 
