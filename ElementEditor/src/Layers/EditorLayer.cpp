@@ -268,7 +268,7 @@ namespace Element {
 				ImGui::PushFont(boldFont);
 				ImGui::Text("Renderer2D");
 				ImGui::PopFont();
-				auto stats = Renderer2D::GetStats();
+				Renderer2D::Statistics stats = Renderer2D::GetStats();
 				ImGui::Text("Draw calls: %d", stats.drawCalls);
 				ImGui::Text("Quads: %d", stats.quadCount);
 				ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
@@ -349,7 +349,7 @@ namespace Element {
 					ImGuizmo::SetOrthographic(projectionType == ProjectionType::Orthographic ? true : false);
 
 					//Entity transform
-					auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
+					TransformComponent& transformComponent = selectedEntity.GetComponent<TransformComponent>();
 					glm::mat4 transform = transformComponent.GetTransform();
 
 					//Snapping

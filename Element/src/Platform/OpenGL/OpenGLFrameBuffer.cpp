@@ -132,7 +132,7 @@ namespace Element {
 	void OpenGLFrameBuffer::ClearAttachment(uint32_t attachmentIndex, int value) {
 		EL_CORE_ASSERT(attachmentIndex < colorAttachmentIDs.size(), "Index is out of range");
 
-		auto& spec = colorAttachmentSpecifications[attachmentIndex];
+		FrameBufferTextureSpecification& spec = colorAttachmentSpecifications[attachmentIndex];
 
 		glClearTexImage(colorAttachmentIDs[attachmentIndex], 0, Utils::TextureFormatToGLenum(spec.textureFormat), GL_INT, &value);
 	}

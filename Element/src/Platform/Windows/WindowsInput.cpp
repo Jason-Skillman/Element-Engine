@@ -9,21 +9,21 @@
 namespace Element {
 	
 	bool Input::IsKeyPressed(int keycode) {
-		auto window = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetNativeWindow());
+		GLFWwindow* window = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetNativeWindow());
 		int state = glfwGetKey(window, keycode);
 
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
 	bool Input::IsMouseButtonPressed(int button) {
-		auto window = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetNativeWindow());
+		GLFWwindow* window = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetNativeWindow());
 		int state = glfwGetMouseButton(window, button);
 
 		return state == GLFW_PRESS;
 	}
 
 	std::pair<float, float> Input::GetMousePosition() {
-		auto window = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetNativeWindow());
+		GLFWwindow* window = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetNativeWindow());
 
 		double xPos, yPos;
 		glfwGetCursorPos(window, &xPos, &yPos);

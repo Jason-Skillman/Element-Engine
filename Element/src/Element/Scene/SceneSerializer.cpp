@@ -23,7 +23,7 @@ namespace Element {
 
 				out << YAML::BeginMap;
 				{
-					auto& component = entity.GetComponent<TagComponent>();
+					TagComponent& component = entity.GetComponent<TagComponent>();
 
 					out << YAML::Key << "Tag" << YAML::Value << component.tag;
 				}
@@ -35,7 +35,7 @@ namespace Element {
 
 				out << YAML::BeginMap;
 				{
-					auto& component = entity.GetComponent<TransformComponent>();
+					TransformComponent& component = entity.GetComponent<TransformComponent>();
 
 					out << YAML::Key << "Translation" << YAML::Value << component.translation;
 					out << YAML::Key << "Rotation" << YAML::Value << component.rotation;
@@ -49,8 +49,8 @@ namespace Element {
 
 				out << YAML::BeginMap;
 				{
-					auto& component = entity.GetComponent<CameraComponent>();
-					auto& camera = component.camera;
+					CameraComponent& component = entity.GetComponent<CameraComponent>();
+					SceneCamera& camera = component.camera;
 
 					out << YAML::Key << "Camera" << YAML::Value;
 					out << YAML::BeginMap;
@@ -76,7 +76,7 @@ namespace Element {
 
 				out << YAML::BeginMap;
 				{
-					auto& component = entity.GetComponent<SpriteRendererComponent>();
+					SpriteRendererComponent& component = entity.GetComponent<SpriteRendererComponent>();
 
 					out << YAML::Key << "Color" << YAML::Value << component.color;
 				}
@@ -128,7 +128,7 @@ namespace Element {
 
 		EL_LOG_CORE_TRACE("Deserialized scene {0}", sceneName);
 
-		auto entities = data["Entities"];
+		YAML::Node entities = data["Entities"];
 		if(entities) {
 
 			for(auto entity : entities) {
@@ -136,7 +136,7 @@ namespace Element {
 				uint64_t uuid = entity["Entity"].as<uint64_t>();
 
 				std::string name;
-				auto tagComponent = entity["TagComponent"];
+				YAML::Node tagComponent = entity["TagComponent"];
 				if(tagComponent)
 					name = tagComponent["Tag"].as<std::string>();
 
@@ -147,9 +147,9 @@ namespace Element {
 
 				//Setup transform component. All entities have a transform component.
 				{
-					auto componentValue = entity["TransformComponent"];
+					YAML::Node componentValue = entity["TransformComponent"];
 					if(componentValue) {
-						auto& component = newEntity.GetComponent<TransformComponent>();
+						TransformComponent& component = newEntity.GetComponent<TransformComponent>();
 
 						component.translation = componentValue["Translation"].as<glm::vec3>();
 						component.rotation = componentValue["Rotation"].as<glm::vec3>();
@@ -159,10 +159,10 @@ namespace Element {
 
 				//Setup camera component
 				{
-					auto componentValue = entity["CameraComponent"];
+					YAML::Node componentValue = entity["CameraComponent"];
 					if(componentValue) {
-						auto& component = newEntity.AddComponent<CameraComponent>();
-						auto& cameraProps = componentValue["Camera"];
+						CameraComponent& component = newEntity.AddComponent<CameraComponent>();
+						YAML::Node& cameraProps = componentValue["Camera"];
 
 						component.camera.SetProjectionType((ProjectionType)cameraProps["ProjectionType"].as<int>());
 
@@ -181,9 +181,9 @@ namespace Element {
 
 				//Setup sprite renderer component
 				{
-					auto componentValue = entity["SpriteRendererComponent"];
+					YAML::Node componentValue = entity["SpriteRendererComponent"];
 					if(componentValue) {
-						auto& component = newEntity.AddComponent<SpriteRendererComponent>();
+						SpriteRendererComponent& component = newEntity.AddComponent<SpriteRendererComponent>();
 
 						component.color = componentValue["Color"].as<glm::vec4>();
 					}

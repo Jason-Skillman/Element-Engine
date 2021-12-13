@@ -103,7 +103,7 @@ namespace Element {
 		Entity entity = { registry.create(), this };
 		entity.AddComponent<TransformComponent>();
 		
-		auto& tag = entity.AddComponent<TagComponent>();
+		TagComponent& tag = entity.AddComponent<TagComponent>();
 		tag = !name.empty() ? name : std::string("Entity");
 		
 		return entity;

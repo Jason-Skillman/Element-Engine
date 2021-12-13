@@ -70,8 +70,7 @@ namespace Element {
 		glBindVertexArray(rendererID);
 		vertexBuffer->Bind();
 
-		//uint32_t index = 0;
-		auto& layout = vertexBuffer->GetLayout();
+		const BufferLayout& layout = vertexBuffer->GetLayout();
 		for(const auto& element : layout) {
 
 			switch(element.type) {

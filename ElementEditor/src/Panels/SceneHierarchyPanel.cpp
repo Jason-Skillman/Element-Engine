@@ -67,7 +67,7 @@ namespace Element {
 	}
 
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity) {
-		auto& tag = entity.GetComponent<TagComponent>().tag;
+		std::string& tag = entity.GetComponent<TagComponent>().tag;
 
 		const ImGuiTreeNodeFlags flags = (selectionContext == entity ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 		bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(static_cast<uint32_t>(entity)), flags, tag.c_str());
@@ -100,7 +100,7 @@ namespace Element {
 		if(entity.HasComponent<T>()) {
 			const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap;
 
-			auto& component = entity.GetComponent<T>();
+			T& component = entity.GetComponent<T>();
 			float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 			ImVec2 contentRegionAvail = ImGui::GetContentRegionAvail();
 
@@ -144,7 +144,7 @@ namespace Element {
 	void SceneHierarchyPanel::DrawComponents(Entity entity) {
 		//Draws the name
 		if(entity.HasComponent<TagComponent>()) {
-			auto& tag = entity.GetComponent<TagComponent>().tag;
+			std::string& tag = entity.GetComponent<TagComponent>().tag;
 
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
