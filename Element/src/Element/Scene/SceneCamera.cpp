@@ -3,6 +3,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Element/Core/Core.h"
+
 namespace Element {
 
 	SceneCamera::SceneCamera() {
@@ -10,6 +12,8 @@ namespace Element {
 	}
 
 	void SceneCamera::SetViewportSize(uint32_t width, uint32_t height) {
+		EL_CORE_ASSERT(width > 0 && height > 0, "Width or height cannot be less then or equal to 0!");
+
 		aspectRatio = static_cast<float>(width) / static_cast<float>(height);
 		RecalculateProjection();
 	}

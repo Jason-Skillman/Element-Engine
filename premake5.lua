@@ -12,6 +12,9 @@ workspace "Element-Engine"
 -- bin/Windows/Debug/x64
 outputdir = "%{cfg.system}/%{cfg.buildcfg}/%{cfg.architecture}"
 
+-- Vulkan
+VULKAN_SDK = os.getenv("VULKAN_SDK")
+
 -- Include dir relative to root folder path (solution dir)
 IncludeDir = {}
 IncludeDir["ElementSrc"] = "Element/src"
@@ -24,6 +27,28 @@ IncludeDir["stb"] = "Element/vendor/stb"
 IncludeDir["entt"] = "Element/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "Element/vendor/yaml-cpp/include"
 IncludeDir["ImGuizmo"] = "Element/vendor/ImGuizmo"
+IncludeDir["shaderc"] = "Element/vendor/shaderc/include"
+IncludeDir["SPIRV_Cross"] = "Element/vendor/SPIRV-Cross"
+IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
+
+LibraryDir = {}
+
+LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
+LibraryDir["VulkanSDK_Debug"] = "%{wks.location}/Element/vendor/VulkanSDK/Lib"
+LibraryDir["VulkanSDK_DebugDLL"] = "%{wks.location}Element/vendor/VulkanSDK/Bin"
+
+Library = {}
+Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
+Library["VulkanUtils"] = "%{LibraryDir.VulkanSDK}/VkLayer_utils.lib"
+
+Library["ShaderC_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/shaderc_sharedd.lib"
+Library["SPIRV_Cross_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-cored.lib"
+Library["SPIRV_Cross_GLSL_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-glsld.lib"
+Library["SPIRV_Tools_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/SPIRV-Toolsd.lib"
+
+Library["ShaderC_Release"] = "%{LibraryDir.VulkanSDK}/shaderc_shared.lib"
+Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
+Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
 
 -- Includes other project premake files
 group "Dependencies"
@@ -72,7 +97,8 @@ project "Element"
 		"%{IncludeDir.stb}",
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.yaml_cpp}",
-		"%{IncludeDir.ImGuizmo}"
+		"%{IncludeDir.ImGuizmo}",
+		"%{IncludeDir.VulkanSDK}"
 	}
 
 	links {
@@ -104,66 +130,82 @@ project "Element"
 			"DEBUG"
 		}
 
+		links {
+			"%{Library.ShaderC_Debug}",
+			"%{Library.SPIRV_Cross_Debug}",
+			"%{Library.SPIRV_Cross_GLSL_Debug}"
+		}
+
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
 
 		defines { 
-			"RELEASE" 
+			"RELEASE"
+		}
+
+		links {
+			"%{Library.ShaderC_Release}",
+			"%{Library.SPIRV_Cross_Release}",
+			"%{Library.SPIRV_Cross_GLSL_Release}"
 		}
 
 project "ElementEditor"
-		location "ElementEditor"
-		kind "ConsoleApp"
-		language "C++"
-		cppdialect "C++17"
-		staticruntime "off"
-		
-		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
+	location "ElementEditor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "off"
 	
-		files { 
-			"%{prj.name}/src/**.h", 
-			"%{prj.name}/src/**.cpp",
-			"%{prj.name}/assets/**"
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
+
+	files { 
+		"%{prj.name}/src/**.h", 
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/assets/**"
+	}
+	
+	includedirs {
+		"ElementEditor/src",
+		"%{IncludeDir.ElementSrc}",
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.ImGuizmo}"
+	}
+
+	links {
+		"Element"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+		defines {
+			"PLATFORM_WINDOWS"
 		}
-		
-		includedirs {
-			"ElementEditor/src",
-			"%{IncludeDir.ElementSrc}",
-			"%{IncludeDir.spdlog}",
-			"%{IncludeDir.glm}",
-			"%{IncludeDir.ImGui}",
-			"%{IncludeDir.entt}",
-			"%{IncludeDir.ImGuizmo}"
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+		defines { 
+			"DEBUG"
 		}
-	
-		links {
-			"Element"
+
+		postbuildcommands {
+			"xcopy \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\" /Y"
 		}
-	
-		filter "system:windows"
-			systemversion "latest"
-	
-			defines {
-				"PLATFORM_WINDOWS"
-			}
-	
-		filter "configurations:Debug"
-			runtime "Debug"
-			symbols "on"
-	
-			defines { 
-				"DEBUG" 
-			}
-	
-		filter "configurations:Release"
-			runtime "Release"
-			optimize "on"
-	
-			defines { 
-				"RELEASE" 
-			}
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
+
+		defines { 
+			"RELEASE"
+		}
 
 project "Sandbox"
 	location "Sandbox"

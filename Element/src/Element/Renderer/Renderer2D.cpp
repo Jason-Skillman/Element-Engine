@@ -3,13 +3,55 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Buffer.h"
 #include "RenderCommand.h"
+#include "Element/Renderer/UniformBuffer.h"
 
 namespace Element {
 
-	Renderer2D::RendererData Renderer2D::data;
+	struct QuadVertex {
+		glm::vec3 position;
+		glm::vec2 texCoord;
+		glm::vec4 color;
+		float textureIndex;
+		float tiling;
+
+		//Editor only
+		int entityID;
+	};
+
+	struct Renderer2DData {
+		const uint32_t maxQuads = 1000;
+		const uint32_t maxVertices = maxQuads * 4;
+		const uint32_t maxIndices = maxQuads * 6;
+		static const uint32_t maxTextureSlots = 32; //Todo: Render caps
+
+		Ref<VertexArray> quadVertexArray;
+		Ref<VertexBuffer> quadVertexBuffer;
+		Ref<Shader> standardShader;
+		Ref<Texture2D> whiteTexture;
+
+		uint32_t quadIndexCount = 0;
+		QuadVertex* quadVertexBufferBase = nullptr;
+		QuadVertex* quadVertexBufferPtr = nullptr;
+
+		std::array<Ref<Texture2D>, maxTextureSlots> textureSlots;
+		uint32_t textureSlotIndex = 1;
+
+		glm::vec4 quadVertexPositions[4];
+
+		Renderer2D::Statistics stats;
+
+		struct CameraData {
+			glm::mat4 viewProjection;
+		};
+		CameraData cameraBuffer;
+		Ref<UniformBuffer> cameraUniformBuffer;
+	};
+
+	static Renderer2DData data;
 
 	void Renderer2D::Init() {
 		EL_PROFILE_FUNCTION();
@@ -28,7 +70,7 @@ namespace Element {
 
 		//Objects
 		data.quadVertexArray = VertexArray::Create();
-		data.standardShader = Shader::Create("assets/shaders/glsl/Standard.shader");
+		data.standardShader = Shader::Create("assets/shaders/glsl/Standard.glsl");
 
 		//Setup vertex buffer
 		data.quadVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(QuadVertex));
@@ -69,8 +111,6 @@ namespace Element {
 		for(uint32_t i = 0; i < data.maxTextureSlots; i++) {
 			samplers[i] = i;
 		}
-		data.standardShader->Bind();
-		data.standardShader->SetUniformIntArray("u_Textures", samplers, data.maxTextureSlots);
 
 
 		data.textureSlots[0] = data.whiteTexture;
@@ -79,10 +119,14 @@ namespace Element {
 		data.quadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
 		data.quadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
 		data.quadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
+
+		data.cameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData), 0);
 	}
 	
 	void Renderer2D::Shutdown() {
 		EL_PROFILE_FUNCTION();
+
+		delete[] data.quadVertexBufferBase;
 	}
 
 	void Renderer2D::ResetStats() {
@@ -96,10 +140,8 @@ namespace Element {
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform) {
 		EL_PROFILE_FUNCTION();
 
-		glm::mat4 viewProjection = camera.GetProjection() * glm::inverse(transform);
-
-		data.standardShader->Bind();
-		data.standardShader->SetUniformMat4("u_ViewProjection", viewProjection);
+		data.cameraBuffer.viewProjection = camera.GetProjection() * glm::inverse(transform);
+		data.cameraUniformBuffer->SetData(&data.cameraBuffer, sizeof(Renderer2DData::CameraData));
 
 		StartBatch();
 	}
@@ -107,10 +149,8 @@ namespace Element {
 	void Renderer2D::BeginScene(const EditorCamera& camera) {
 		EL_PROFILE_FUNCTION();
 
-		glm::mat4 viewProjection = camera.GetViewProjection();
-
-		data.standardShader->Bind();
-		data.standardShader->SetUniformMat4("u_ViewProjection", viewProjection);
+		data.cameraBuffer.viewProjection = camera.GetViewProjection();
+		data.cameraUniformBuffer->SetData(&data.cameraBuffer, sizeof(Renderer2DData::CameraData));
 
 		StartBatch();
 	}
@@ -151,6 +191,7 @@ namespace Element {
 			data.textureSlots[i]->Bind(i);
 		}
 		
+		data.standardShader->Bind();
 		RenderCommand::DrawIndexed(data.quadVertexArray, data.quadIndexCount);
 		data.stats.drawCalls++;
 	}

@@ -8,11 +8,18 @@
 typedef unsigned int GLenum;
 
 namespace Element {
+
 	class OpenGLShader : public Shader {
 	private:
 		uint32_t rendererID;
 		std::string name;
+		std::string filePath;
 		mutable std::unordered_map<std::string, int> locationCache;
+
+		std::unordered_map<GLenum, std::vector<uint32_t>> openGLSPIRV;
+		std::unordered_map<GLenum, std::vector<uint32_t>> vulkanSPIRV;
+
+		std::unordered_map<GLenum, std::string> openGLSourceCode;
 
 	public:
 		OpenGLShader(const std::string& filepath);
@@ -52,8 +59,10 @@ namespace Element {
 	private:
 		std::string ReadFile(const std::string& filepath);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
-		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
-		
-		int OpenGLShader::GetUniformLocation(const std::string& name) const;
+
+		void CompileOrGetVulkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSources);
+		void CompileOrGetOpenGLBinaries();
+		void CreateProgram();
+		void Reflect(GLenum stage, const std::vector<uint32_t>& shaderData);
 	};
 }

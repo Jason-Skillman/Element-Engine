@@ -113,25 +113,31 @@ namespace Element {
 		registry.destroy(entity);
 	}
 
+	#pragma region OnComponentAdded<>() Definitions
+
 	template<typename T>
 	void Scene::OnComponentAdded(Entity entity, T& component) {
+		//We dont support generic types. Instead define below.
 		static_assert(false);
 	}
 
 	template<>
-	void Scene::OnComponentAdded(Entity entity, TagComponent& component) {}
+	void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component) {}
 
 	template<>
-	void Scene::OnComponentAdded(Entity entity, TransformComponent& component) {}
+	void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component) {}
 
 	template<>
-	void Scene::OnComponentAdded(Entity entity, CameraComponent& component) {
-		component.camera.SetViewportSize(viewportWidth, viewportHeight);
+	void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component) {
+		if(viewportWidth > 0 && viewportHeight > 0)
+			component.camera.SetViewportSize(viewportWidth, viewportHeight);
 	}
 
 	template<>
-	void Scene::OnComponentAdded(Entity entity, SpriteRendererComponent& component) {}
+	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component) {}
 
 	template<>
-	void Scene::OnComponentAdded(Entity entity, NativeScriptComponent& component) {}
+	void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component) {}
+
+	#pragma endregion
 }

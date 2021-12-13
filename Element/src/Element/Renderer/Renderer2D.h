@@ -15,9 +15,7 @@ namespace Element {
 	public:
 		struct DrawProperties {
 			glm::vec3 position = { 0.0f, 0.0f, 0.0f };
-			/// <summary>
-			/// The amount to rotate in radians.
-			/// </summary>
+			/// <summary>The amount to rotate in radians.</summary>
 			float rotation = 0.0f;
 			glm::vec2 scale = { 1.0f, 1.0f };
 			glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -32,7 +30,6 @@ namespace Element {
 			int entityID = -1;
 		};
 
-	private:
 		struct Statistics {
 			uint32_t drawCalls;
 			uint32_t quadCount;
@@ -47,43 +44,6 @@ namespace Element {
 			}
 		};
 		
-		struct QuadVertex {
-			glm::vec3 position;
-			glm::vec2 texCoord;
-			glm::vec4 color;
-			float textureIndex;
-			float tiling;
-
-			//Editor only
-			int entityID;
-		};
-		
-		struct RendererData {
-			const uint32_t maxQuads = 1000;
-			const uint32_t maxVertices = maxQuads * 4;
-			const uint32_t maxIndices = maxQuads * 6;
-			static const uint32_t maxTextureSlots = 32; //Todo: Render caps
-			
-			Ref<VertexArray> quadVertexArray;
-			Ref<VertexBuffer> quadVertexBuffer;
-			Ref<Shader> standardShader;
-			Ref<Texture2D> whiteTexture;
-
-			uint32_t quadIndexCount = 0;
-			QuadVertex* quadVertexBufferBase = nullptr;
-			QuadVertex* quadVertexBufferPtr = nullptr;
-
-			std::array<Ref<Texture2D>, maxTextureSlots> textureSlots;
-			uint32_t textureSlotIndex = 1;
-
-			glm::vec4 quadVertexPositions[4];
-
-			Statistics stats;
-		};
-
-	private:
-		static RendererData data;
-		
 	public:
 		static void Init();
 		static void Shutdown();
@@ -93,7 +53,7 @@ namespace Element {
 		
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		static void BeginScene(const EditorCamera& camera);
-		[[deprecated("Use BeginScene(camera, mat4)")]]
+		[[deprecated("Please use BeginScene(camera, mat4) instead. OrthographicCamera is no longer supported.")]]
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
 		

@@ -362,6 +362,13 @@ MigrationBackup/
 [Dd]ist/
 x86_64/
 
+# Cache
+ElementEditor/cache
+scripts/Python/__pycache__
+
+# Vendor
+Element/vendor/VulkanSDK
+
 # Project files
 *.json
 

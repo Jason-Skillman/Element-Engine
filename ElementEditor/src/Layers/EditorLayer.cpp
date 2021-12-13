@@ -29,8 +29,6 @@ namespace Element {
 		fbSpec.height = 720;
 		frameBuffer = FrameBuffer::Create(fbSpec);
 
-
-		//ECS
 		activeScene = CreateRef<Scene>();
 
 #if 0
