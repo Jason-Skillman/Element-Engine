@@ -19,30 +19,36 @@ namespace Element {
 				return GL_VERTEX_SHADER;
 			if(type == "fragment" || type == "pixel")
 				return GL_FRAGMENT_SHADER;
-			EL_CORE_ASSERT(false, "Unknown shader type!");
+			EL_CORE_FAIL("Unknown type: {0}, ", type);
 			return 0;
 		}
 
 		static shaderc_shader_kind GLShaderStageToShaderC(GLenum stage) {
 			switch(stage) {
-				case GL_VERTEX_SHADER:   return shaderc_glsl_vertex_shader;
-				case GL_FRAGMENT_SHADER: return shaderc_glsl_fragment_shader;
+				case GL_VERTEX_SHADER:
+					return shaderc_glsl_vertex_shader;
+				case GL_FRAGMENT_SHADER:
+					return shaderc_glsl_fragment_shader;
+				default:
+					EL_CORE_FAIL("Unknown type: {0}", stage);
+					return (shaderc_shader_kind)0;
 			}
-			EL_CORE_ASSERT(false, "Unknown type!");
-			return (shaderc_shader_kind)0;
 		}
 
 		static const char* GLShaderStageToString(GLenum stage) {
 			switch(stage) {
-				case GL_VERTEX_SHADER:   return "GL_VERTEX_SHADER";
-				case GL_FRAGMENT_SHADER: return "GL_FRAGMENT_SHADER";
+				case GL_VERTEX_SHADER:
+					return "GL_VERTEX_SHADER";
+				case GL_FRAGMENT_SHADER:
+					return "GL_FRAGMENT_SHADER";
+				default:
+					EL_CORE_FAIL("Unknown type: {0}", stage);
+					return nullptr;
 			}
-			EL_CORE_ASSERT(false, "Unknown type!");
-			return nullptr;
 		}
 
 		static const char* GetCacheDirectory() {
-			// TODO: make sure the assets directory is valid
+			//Todo: Make sure the assets directory is valid
 			return "cache/shader/opengl";
 		}
 
@@ -54,20 +60,26 @@ namespace Element {
 
 		static const char* GLShaderStageCachedOpenGLFileExtension(uint32_t stage) {
 			switch(stage) {
-				case GL_VERTEX_SHADER:    return ".cached_opengl.vert";
-				case GL_FRAGMENT_SHADER:  return ".cached_opengl.frag";
+				case GL_VERTEX_SHADER:
+					return ".cached_opengl.vert";
+				case GL_FRAGMENT_SHADER:
+					return ".cached_opengl.frag";
+				default:
+					EL_CORE_FAIL("Unknown type: {0}", stage);
+					return "";
 			}
-			EL_CORE_ASSERT(false, "Unknown type!");
-			return "";
 		}
 
 		static const char* GLShaderStageCachedVulkanFileExtension(uint32_t stage) {
 			switch(stage) {
-				case GL_VERTEX_SHADER:    return ".cached_vulkan.vert";
-				case GL_FRAGMENT_SHADER:  return ".cached_vulkan.frag";
+				case GL_VERTEX_SHADER:
+					return ".cached_vulkan.vert";
+				case GL_FRAGMENT_SHADER:
+					return ".cached_vulkan.frag";
+				default:
+					EL_CORE_FAIL("Unknown type: {0}", stage);
+					return "";
 			}
-			EL_CORE_ASSERT(false, "Unknown type!");
-			return "";
 		}
 	}
 
@@ -193,7 +205,7 @@ namespace Element {
 				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, Utils::GLShaderStageToShaderC(stage), filePath.c_str(), options);
 				if(module.GetCompilationStatus() != shaderc_compilation_status_success) {
 					EL_LOG_CORE_ERROR(module.GetErrorMessage());
-					EL_CORE_ASSERT(false, "Shader could not be compiled! The shader probably has a syntax error.");
+					EL_CORE_FAIL("Shader could not be compiled! The shader probably has a syntax error.");
 				}
 
 				shaderData[stage] = std::vector<uint32_t>(module.cbegin(), module.cend());
@@ -248,8 +260,7 @@ namespace Element {
 
 				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, Utils::GLShaderStageToShaderC(stage), filePath.c_str());
 				if(module.GetCompilationStatus() != shaderc_compilation_status_success) {
-					EL_LOG_CORE_ERROR(module.GetErrorMessage());
-					EL_CORE_ASSERT(false, "");
+					EL_CORE_FAIL("Error in OpenGLShader::CompileOrGetOpenGLBinaries(): {0}", module.GetErrorMessage());
 				}
 
 				shaderData[stage] = std::vector<uint32_t>(module.cbegin(), module.cend());

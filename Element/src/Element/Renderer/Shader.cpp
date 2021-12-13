@@ -11,7 +11,7 @@ namespace Element {
 			case RendererAPI::API::OpenGL:
 				return CreateRef<OpenGLShader>(filepath);
 			default:
-				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				EL_CORE_FAIL("No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}
@@ -21,7 +21,7 @@ namespace Element {
 			case RendererAPI::API::OpenGL:
 				return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
 			default:
-				EL_CORE_ASSERT(true, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				EL_CORE_FAIL("No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}

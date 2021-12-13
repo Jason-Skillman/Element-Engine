@@ -65,12 +65,14 @@ namespace Element {
 		static GLenum TextureFormatToGLenum(FrameBufferTextureFormat format) {
 			switch(format)
 			{
-				case Element::FrameBufferTextureFormat::RED_INTEGER: return GL_RED_INTEGER;
-				case Element::FrameBufferTextureFormat::RGBA8: return GL_RGBA8;
+				case Element::FrameBufferTextureFormat::RED_INTEGER: 
+					return GL_RED_INTEGER;
+				case Element::FrameBufferTextureFormat::RGBA8: 
+					return GL_RGBA8;
+				default:
+					EL_CORE_FAIL("Unknown type: {0}", format);
+					return 0;
 			}
-
-			EL_CORE_ASSERT(false, "No GLenum found for FrameBufferTextureFormat.");
-			return 0;
 		}
 	}
 

@@ -11,7 +11,7 @@ namespace Element {
 			case RendererAPI::API::OpenGL:
 				return CreateRef<OpenGLFrameBuffer>(specification);
 			default:
-				EL_CORE_ASSERT(false, "No compatible renderer API selected: {0}", Renderer::GetAPI());
+				EL_CORE_FAIL("No compatible renderer API selected: {0}", Renderer::GetAPI());
 				return nullptr;
 		}
 	}

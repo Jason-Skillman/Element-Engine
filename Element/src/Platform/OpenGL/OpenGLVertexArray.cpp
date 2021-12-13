@@ -31,7 +31,7 @@ namespace Element {
 			case ShaderDataType::Bool:
 				return GL_BOOL;
 			default:
-				EL_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
+				EL_CORE_FAIL("Unknown type: {0}", type);
 				return 0;
 		}
 	}
@@ -103,7 +103,7 @@ namespace Element {
 					vertexBufferIndex++;
 					break;
 				default:
-					EL_CORE_ASSERT(false, "Unknown ShaderDataType!");
+					EL_CORE_FAIL("Unknown type: {0}", element.type);
 					break;
 			}
 		}

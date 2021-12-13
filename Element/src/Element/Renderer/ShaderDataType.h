@@ -42,7 +42,7 @@ static uint32_t ShaderDataTypeSize(ShaderDataType type) {
 		case ShaderDataType::Bool:
 			return 1;
 		default:
-			EL_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
+			EL_CORE_FAIL("Unknown type: {0}", type);
 			return 0;
 	}
 }
@@ -72,7 +72,7 @@ static uint32_t ShaderDataTypeCount(ShaderDataType type) {
 		case ShaderDataType::Bool:
 			return 1;
 		default:
-			EL_CORE_ASSERT(false, "Unknown ShaderDataType: {0}", type);
+			EL_CORE_FAIL("Unknown type: {0}", type);
 			return 0;
 	}
 }

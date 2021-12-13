@@ -29,17 +29,21 @@
 #if ENABLE_ASSERTS
 	#define EL_CORE_ASSERT(x, ...) { if(!(x)) { EL_LOG_CORE_ERROR(__VA_ARGS__); __debugbreak(); } }
 	#define EL_ASSERT(x, ...) { if(!(x)) { EL_LOG_ERROR(__VA_ARGS__); __debugbreak(); } }
+	#define EL_CORE_FAIL(...) { EL_LOG_CORE_ERROR(__VA_ARGS__); __debugbreak(); }
+	#define EL_FAIL(...) { EL_LOG_ERROR(__VA_ARGS__); __debugbreak(); }
 #else
 	#define EL_CORE_ASSERT(x, ...)
 	#define EL_ASSERT(x, ...)
+	#define EL_CORE_FAIL(...)
+	#define EL_FAIL(...)
 #endif
-
 
 #define BIT(x) (1 << x)
 
 #define EL_BIND_EVENT_FUNC(x) std::bind(&x, this, std::placeholders::_1)
 
 namespace Element {
+
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
 
