@@ -165,6 +165,8 @@ namespace Element {
 	}
 
 	void Renderer2D::StartBatch() {
+		EL_PROFILE_FUNCTION();
+
 		data.quadIndexCount = 0;
 		data.quadVertexBufferPtr = data.quadVertexBufferBase;
 
@@ -197,6 +199,8 @@ namespace Element {
 	}
 
 	void Renderer2D::NextBatch() {
+		EL_PROFILE_FUNCTION();
+
 		Flush();
 		StartBatch();
 	}
@@ -204,6 +208,8 @@ namespace Element {
 	#pragma region Draw
 
 	void Renderer2D::DrawQuad(const DrawProperties& properties, const Ref<Texture2D>& texture, const glm::vec2* texCoords) {
+		EL_PROFILE_FUNCTION();
+
 		glm::mat4 transform;
 		if(properties.rotation == 0) {
 			transform =
@@ -287,6 +293,8 @@ namespace Element {
 	}
 
 	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& spriteComponent, int entityID) {
+		EL_PROFILE_FUNCTION();
+
 		DrawPropertiesMat4 drawProps;
 		drawProps.transform = transform;
 		drawProps.color = spriteComponent.color;

@@ -14,6 +14,7 @@ namespace Element {
 	Scene::~Scene() {}
 
 	void Scene::OnUpdateRuntime(Timestep ts) {
+		EL_PROFILE_FUNCTION();
 
 		//Update script functions
 		{
@@ -63,6 +64,8 @@ namespace Element {
 	}
 
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera) {
+		EL_PROFILE_FUNCTION();
+
 		Renderer2D::BeginScene(camera);
 
 		//Render all sprite components
@@ -100,6 +103,8 @@ namespace Element {
 	}
 
 	Entity Scene::CreateEntity(const std::string& name) {
+		EL_PROFILE_FUNCTION();
+
 		Entity entity = { registry.create(), this };
 		entity.AddComponent<TransformComponent>();
 		
@@ -110,6 +115,8 @@ namespace Element {
 	}
 
 	void Scene::DestroyEntity(Entity entity) {
+		EL_PROFILE_FUNCTION();
+
 		registry.destroy(entity);
 	}
 

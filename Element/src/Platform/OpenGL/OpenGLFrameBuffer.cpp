@@ -79,6 +79,8 @@ namespace Element {
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& specification)
 		: rendererID(0), specification(specification) {
 
+		EL_PROFILE_FUNCTION();
+
 		//Get frame buffers from specification
 		for(auto spec : specification.attachments.attachments) {
 			if(!Utils::IsDepthFormat(spec.textureFormat))
@@ -91,6 +93,8 @@ namespace Element {
 	}
 
 	OpenGLFrameBuffer::~OpenGLFrameBuffer() {
+		EL_PROFILE_FUNCTION();
+
 		glDeleteFramebuffers(1, &rendererID);
 		glDeleteTextures(colorAttachmentIDs.size(), colorAttachmentIDs.data());
 		glDeleteTextures(1, &depthAttachmentID);
@@ -121,6 +125,8 @@ namespace Element {
 	}
 
 	int OpenGLFrameBuffer::ReadPixel(uint32_t attachmentIndex, int x, int y) {
+		EL_PROFILE_FUNCTION();
+
 		EL_CORE_ASSERT(attachmentIndex < colorAttachmentIDs.size(), "Index is out of range");
 
 		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
@@ -130,6 +136,8 @@ namespace Element {
 	}
 
 	void OpenGLFrameBuffer::ClearAttachment(uint32_t attachmentIndex, int value) {
+		EL_PROFILE_FUNCTION();
+
 		EL_CORE_ASSERT(attachmentIndex < colorAttachmentIDs.size(), "Index is out of range");
 
 		FrameBufferTextureSpecification& spec = colorAttachmentSpecifications[attachmentIndex];

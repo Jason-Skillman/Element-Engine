@@ -85,6 +85,7 @@ namespace Element {
 
 	OpenGLShader::OpenGLShader(const std::string& filepath)
 		: filePath(filepath) {
+
 		EL_PROFILE_FUNCTION();
 
 		Utils::CreateCacheDirectoryIfNeeded();
@@ -110,6 +111,7 @@ namespace Element {
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: name(name) {
+
 		EL_PROFILE_FUNCTION();
 
 		std::unordered_map<GLenum, std::string> sources;
@@ -175,6 +177,8 @@ namespace Element {
 	}
 
 	void OpenGLShader::CompileOrGetVulkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSources) {
+		EL_PROFILE_FUNCTION();
+
 		GLuint program = glCreateProgram();
 
 		shaderc::Compiler compiler;
@@ -227,6 +231,8 @@ namespace Element {
 	}
 
 	void OpenGLShader::CompileOrGetOpenGLBinaries() {
+		EL_PROFILE_FUNCTION();
+
 		auto& shaderData = openGLSPIRV;
 
 		shaderc::Compiler compiler;
@@ -277,6 +283,8 @@ namespace Element {
 	}
 
 	void OpenGLShader::CreateProgram() {
+		EL_PROFILE_FUNCTION();
+
 		GLuint program = glCreateProgram();
 
 		std::vector<GLuint> shaderIDs;
@@ -314,6 +322,8 @@ namespace Element {
 	}
 
 	void OpenGLShader::Reflect(GLenum stage, const std::vector<uint32_t>& shaderData) {
+		EL_PROFILE_FUNCTION();
+
 		spirv_cross::Compiler compiler(shaderData);
 		spirv_cross::ShaderResources resources = compiler.get_shader_resources();
 

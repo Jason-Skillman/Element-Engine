@@ -20,6 +20,8 @@ namespace Element {
 		: Layer("EditorLayer"), cameraController(16.0f / 9.0f), editorCamera(45.f, 16.0 / 9.0f, 0.1f, 1000.0f) {}
 
 	void EditorLayer::OnAttach() {
+		EL_PROFILE_FUNCTION();
+
 		textureCheckerboard = Texture2D::Create("assets/textures/checkerboard.png");
 		textureArrow = Texture2D::Create("assets/textures/arrow_head.png");
 
@@ -72,7 +74,9 @@ namespace Element {
 		sceneHierarchyPanel.SetContext(activeScene);
 	}
 
-	void EditorLayer::OnDetach() {}
+	void EditorLayer::OnDetach() {
+		EL_PROFILE_FUNCTION();
+	}
 
 	void EditorLayer::OnUpdate(Timestep ts) {
 		EL_PROFILE_FUNCTION();
@@ -135,6 +139,8 @@ namespace Element {
 	}
 
 	void EditorLayer::OnImGuiRender() {
+		EL_PROFILE_FUNCTION();
+
 		static bool dockspaceOpen = true;
 		static bool opt_fullscreen = true;
 		static bool opt_padding = false;
@@ -409,6 +415,8 @@ namespace Element {
 	}
 
 	void EditorLayer::OnEvent(Event& event) {
+		EL_PROFILE_FUNCTION();
+
 		cameraController.OnEvent(event);
 		editorCamera.OnEvent(event);
 
@@ -418,12 +426,16 @@ namespace Element {
 	}
 
 	void EditorLayer::NewScene() {
+		EL_PROFILE_FUNCTION();
+
 		activeScene = CreateRef<Scene>();
 		activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		sceneHierarchyPanel.SetContext(activeScene);
 	}
 
 	void EditorLayer::OpenScene() {
+		EL_PROFILE_FUNCTION();
+
 		std::string filePath = FileDialog::OpenFile("Element Scene (*.scene)\0*.scene\0");
 
 		if(!filePath.empty()) {
@@ -435,6 +447,8 @@ namespace Element {
 	}
 
 	void EditorLayer::SaveSceneAs() {
+		EL_PROFILE_FUNCTION();
+
 		std::string filePath = FileDialog::SaveFile("Element Scene (*.scene)\0*.scene\0");
 
 		if(!filePath.empty()) {
@@ -444,6 +458,8 @@ namespace Element {
 	}
 
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& event) {
+		EL_PROFILE_FUNCTION();
+
 		//Shortcuts
 		if(event.GetRepeatCount() > 0) return false;
 
@@ -483,6 +499,8 @@ namespace Element {
 	}
 
 	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& event) {
+		EL_PROFILE_FUNCTION();
+
 		//Select the hovered entity on mouse click
 		if(event.GetMouseButton() == Mouse::ButtonLeft && viewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftAlt))
 			sceneHierarchyPanel.SetSelectedEntity(hoveredEntity);

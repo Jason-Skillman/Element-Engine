@@ -19,6 +19,8 @@ namespace Element {
 	}
 
 	void EditorCamera::OnUpdate(Timestep ts) {
+		EL_PROFILE_FUNCTION();
+
 		//Maya style camera
 		if(Input::IsKeyPressed(Key::LeftAlt)) {
 			const glm::vec2& mouse{ Input::GetMouseX(), Input::GetMouseY() };

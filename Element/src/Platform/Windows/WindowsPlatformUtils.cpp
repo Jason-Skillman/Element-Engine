@@ -11,6 +11,8 @@
 namespace Element {
 
 	std::string FileDialog::OpenFile(const char* filter) {
+		EL_PROFILE_FUNCTION();
+
 		OPENFILENAMEA ofn;
 		CHAR szFile[260] = { 0 };
 		ZeroMemory(&ofn, sizeof(OPENFILENAME));
@@ -28,6 +30,8 @@ namespace Element {
 	}
 
 	std::string FileDialog::SaveFile(const char* filter) {
+		EL_PROFILE_FUNCTION();
+
 		OPENFILENAMEA ofn;
 		CHAR szFile[260] = { 0 };
 		ZeroMemory(&ofn, sizeof(OPENFILENAME));

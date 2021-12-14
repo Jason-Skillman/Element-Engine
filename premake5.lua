@@ -83,8 +83,7 @@ project "Element"
 	}
 
 	defines {
-		"_CRT_SECURE_NO_WARNINGS",
-		"PROFILE"
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs {
@@ -192,7 +191,8 @@ project "ElementEditor"
 		symbols "on"
 
 		defines { 
-			"DEBUG"
+			"DEBUG",
+			"PROFILE"
 		}
 
 		postbuildcommands {

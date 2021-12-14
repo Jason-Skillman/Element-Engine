@@ -10,6 +10,7 @@ namespace Element {
 
 	OpenGLContext::OpenGLContext(GLFWwindow* window)
 		: windowHandle(window) {
+
 		EL_CORE_ASSERT(windowHandle, "Window handle is null!");
 	}
 	

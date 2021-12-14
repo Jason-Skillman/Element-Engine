@@ -9,17 +9,25 @@ namespace Element {
 	Renderer::SceneData* Renderer::sceneData = new Renderer::SceneData();
 
 	void Renderer::Init() {
+		EL_PROFILE_FUNCTION();
+
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}
 
 	void Renderer::BeginScene(const OrthographicCamera& camera) {
+		EL_PROFILE_FUNCTION();
+
 		sceneData->viewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}
 	
-	void Renderer::EndScene() {}
+	void Renderer::EndScene() {
+		EL_PROFILE_FUNCTION();
+	}
 	
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform) {
+		EL_PROFILE_FUNCTION();
+
 		shader->Bind();
 
 		//Todo: Remove
