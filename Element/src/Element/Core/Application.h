@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Window.h"
 #include "Layer.h"
 #include "LayerStack.h"
@@ -9,9 +10,21 @@
 
 namespace Element {
 
+	struct ApplicationCommandLineArgs {
+		int count = 0;
+		char** args = nullptr;
+
+		const char* operator[](int index) const {
+			EL_CORE_ASSERT(index < count, "Index cant be less than or equal to count!");
+			return args[index];
+		}
+	};
+
 	class Application {
 	private:
 		static Application* instance;
+
+		ApplicationCommandLineArgs commandLineArgs;
 		
 		Scope<Window> window;
 		ImGuiLayer* imGuiLayer;
@@ -21,7 +34,7 @@ namespace Element {
 		float lastFrameTime = 0.0f;
 		
 	public:
-		Application(const std::string& name = std::string());
+		Application(const std::string& name = std::string(), ApplicationCommandLineArgs args = ApplicationCommandLineArgs());
 		virtual ~Application();
 
 	public:
@@ -52,6 +65,10 @@ namespace Element {
 			return isMinimized;
 		}
 
+		ApplicationCommandLineArgs GetCommandLineArgs() const { 
+			return commandLineArgs; 
+		}
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& event);
 		bool OnWindowResizeEvent(WindowResizeEvent& event);
@@ -61,5 +78,5 @@ namespace Element {
 	/// Defines the application for the engine to create.
 	/// <para>Note: This method should be defined in the client.</para>
 	/// </summary>
-	Application* CreateApplication();
+	Application* CreateApplication(ApplicationCommandLineArgs args);
 }

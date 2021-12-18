@@ -6,13 +6,13 @@
 
 #ifdef PLATFORM_WINDOWS
 
-extern Element::Application* Element::CreateApplication();
+extern Element::Application* Element::CreateApplication(ApplicationCommandLineArgs args);
 
 int main(int argc, char** argv) {
 	EL_PROFILE_BEGIN_SESSION("Startup", "Profile-Startup.json");
 	Element::Log::Init();
 	Element::Random::Init();
-	Element::Application* app = Element::CreateApplication();
+	Element::Application* app = Element::CreateApplication({ argc, argv });
 	EL_PROFILE_END_SESSION();
 	
 	EL_PROFILE_BEGIN_SESSION("Runtime", "Profile-Runtime.json");

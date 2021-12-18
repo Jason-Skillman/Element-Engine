@@ -6,15 +6,15 @@ namespace Element {
 
 	class ElementEditor : public Application {
 	public:
-		ElementEditor()
-			: Application("Element Editor") {
+		ElementEditor(ApplicationCommandLineArgs args)
+			: Application("Element Editor", args) {
 			
 			PushLayer(new EditorLayer());
 		}
 		~ElementEditor() = default;
 	};
 
-	Application* Element::CreateApplication() {
-		return new ElementEditor();
+	Application* Element::CreateApplication(ApplicationCommandLineArgs args) {
+		return new ElementEditor(args);
 	}
 }

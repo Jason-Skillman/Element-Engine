@@ -48,7 +48,9 @@ namespace Element {
 
 	Application* Application::instance = nullptr;
 	
-	Application::Application(const std::string& name) {
+	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+		: commandLineArgs(args) {
+
 		if(!instance) instance = this;
 		
 		window = Window::Create(WindowProps("Element Engine", Resolution_1080));

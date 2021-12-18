@@ -17,6 +17,6 @@ public:
 	~ElementEditorApp() = default;
 };
 
-Element::Application* Element::CreateApplication() {
+Element::Application* Element::CreateApplication(ApplicationCommandLineArgs args) {
 	return new ElementEditorApp();
 }
