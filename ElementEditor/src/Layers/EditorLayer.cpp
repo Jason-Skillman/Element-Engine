@@ -420,6 +420,7 @@ namespace Element {
 		}
 
 		sceneHierarchyPanel.OnImGuiRender();
+		contentBrowserPanel.OnImGuiRender();
 
 		ImGui::End();
 	}

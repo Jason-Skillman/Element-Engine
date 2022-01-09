@@ -2,6 +2,7 @@
 
 #include "Element.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include "Panels/ContentBrowserPanel.h"
 
 namespace Element {
 
@@ -26,6 +27,7 @@ namespace Element {
 
 		//Panels
 		SceneHierarchyPanel sceneHierarchyPanel;
+		ContentBrowserPanel contentBrowserPanel;
 
 		//Windows
 		bool showSettingsWindow = false;
