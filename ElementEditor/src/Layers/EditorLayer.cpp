@@ -38,7 +38,7 @@ namespace Element {
 		if(commandLineArgs.count > 1)
 		{
 			auto sceneFilePath = commandLineArgs[1];
-			EL_LOG_CORE_INFO("Loading scene at: \"{0}\"", sceneFilePath);
+			EL_LOG_CORE_INFO("Loading scene at: {0}", sceneFilePath);
 			SceneSerializer serializer(activeScene);
 			serializer.Deserialize(sceneFilePath);
 		}

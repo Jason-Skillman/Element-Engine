@@ -19,7 +19,7 @@ namespace Element {
 
 		Ref<FrameBuffer> frameBuffer;
 		glm::vec2 viewportSize = { 0, 0 };
-		glm::vec2 viewportBounds[2];
+		glm::vec2 viewportBounds[2] = { glm::vec2(0), glm::vec2(0)};
 		bool viewportFocused = false, viewportHovered = false;
 
 		int gizmoType = -1;
