@@ -8,7 +8,7 @@
 namespace Element {
 
 	//Todo: Change directory when project locations are added
-	static const std::filesystem::path assetsPath = "Assets";
+	extern const std::filesystem::path assetsPath = "Assets";
 
 	ContentBrowserPanel::ContentBrowserPanel()
 		: currentDirectory(assetsPath) {
@@ -53,12 +53,19 @@ namespace Element {
 				std::string filenameStr = filename.string();
 
 				//Alternateive to above filename. Displays parent folder relative to current path.
-				//auto relativePath = std::filesystem::relative(path, assetsPath);
-				//std::string relativePathStr = relativePath.string();
+				auto relativePath = std::filesystem::relative(path, assetsPath);
+				std::string relativePathStr = relativePath.string();
 
 				//Switch image depending on directory or file
 				Ref<Texture2D> icon = dirEntry.is_directory() ? directoryIcon : fileIcon;
+
+				//Each button needs their own ID for events. Eg. Dragging
+				ImGui::PushID(filenameStr.c_str());
+
+				//Display the button
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 				ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
+				ImGui::PopStyleColor();
 
 				//Button click
 				if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
@@ -69,10 +76,19 @@ namespace Element {
 					}
 				}
 
+				//Setup begin drag event
+				if(ImGui::BeginDragDropSource()) {
+					const wchar_t* itemPath = relativePath.c_str();
+					//ImGuiCond_Once
+					ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t) + 2);	//(lenght of characters in str * sizeof WideString which is 2 bytes) + 2 more bytes to account for null termination char
+					ImGui::EndDragDropSource();
+				}
+
 				//Display the filename
 				ImGui::TextWrapped(filenameStr.c_str());
 
 				ImGui::NextColumn();
+				ImGui::PopID();
 			}
 
 			ImGui::Columns(1);

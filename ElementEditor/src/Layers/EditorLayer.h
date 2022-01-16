@@ -46,6 +46,7 @@ namespace Element {
 	private:
 		void NewScene();
 		void OpenScene();
+		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
 
 		bool OnKeyPressed(KeyPressedEvent& event);

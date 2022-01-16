@@ -15,6 +15,10 @@
 #include "Element/Math/Math.h"
 
 namespace Element {
+
+	//Todo: Change directory when project locations are added
+	//Defined in "ContentBrowserPanel.cpp"
+	extern const std::filesystem::path assetsPath;
 	
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer"), cameraController(16.0f / 9.0f), editorCamera(45.f, 16.0 / 9.0f, 0.1f, 1000.0f) {}
@@ -268,6 +272,7 @@ namespace Element {
 			}
 		}
 
+		//Stats window
 		{
 			ImGui::Begin("Stats");
 
@@ -296,6 +301,7 @@ namespace Element {
 			ImGui::End();
 		}
 
+		//Viewport window
 		{
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 			ImGui::Begin("Viewport");
@@ -337,6 +343,15 @@ namespace Element {
 			//Min will be stored in the first slot, max in the second
 			viewportBounds[0] = { minBound.x, minBound.y };
 			viewportBounds[1] = { maxBound.x, maxBound.y };
+
+			//Setup drag drop events
+			if(ImGui::BeginDragDropTarget()) {
+				if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = static_cast<const wchar_t*>(payload->Data);
+					OpenScene(std::filesystem::path(assetsPath) / path);
+				}
+				ImGui::EndDragDropTarget();
+			}
 
 			//Draw gizmos
 			{
@@ -445,16 +460,19 @@ namespace Element {
 	}
 
 	void EditorLayer::OpenScene() {
-		EL_PROFILE_FUNCTION();
-
 		std::string filePath = FileDialog::OpenFile("Element Scene (*.scene)\0*.scene\0");
 
-		if(!filePath.empty()) {
-			NewScene();
+		if(!filePath.empty()) 
+			OpenScene(std::filesystem::path(filePath));
+	}
 
-			SceneSerializer serializer(activeScene);
-			serializer.Deserialize(filePath);
-		}
+	void EditorLayer::OpenScene(const std::filesystem::path& path) {
+		EL_PROFILE_FUNCTION();
+
+		NewScene();
+
+		SceneSerializer serializer(activeScene);
+		serializer.Deserialize(path.string());
 	}
 
 	void EditorLayer::SaveSceneAs() {
