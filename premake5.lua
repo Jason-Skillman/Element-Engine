@@ -162,7 +162,7 @@ project "ElementEditor"
 	files { 
 		"%{prj.name}/src/**.h", 
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/assets/**"
+		"%{prj.name}/Assets/**"
 	}
 	
 	includedirs {
@@ -220,7 +220,7 @@ project "Sandbox"
 	files { 
 		"%{prj.name}/src/**.h", 
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/assets/**"
+		"%{prj.name}/Assets/**"
 	}
 
 	defines {

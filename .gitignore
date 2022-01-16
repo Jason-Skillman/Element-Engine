@@ -363,7 +363,7 @@ MigrationBackup/
 x86_64/
 
 # Cache
-ElementEditor/cache
+ElementEditor/Cache
 scripts/Python/__pycache__
 
 # Vendor

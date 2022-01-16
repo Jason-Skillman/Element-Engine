@@ -12,6 +12,11 @@ Steps:
 1. Run `scripts/Premake.bat` to setup the Visual Studio project files.
 1. Open the Visual Studio project `Element-Engine.sln`.
 
+## Command line arguments
+1. Right click the `ElementEditor` project in Visual Studio and click on `Properties`.
+1. Navigate to `Debugging | Command arguments`.
+1. Input address to a scene file. Eg. `"D:\Workspaces\Git\Element-Engine\ElementEditor\Assets\Scenes\RGBSquares.scene"`
+
 # Sources
 
 ## 3rd party libraries

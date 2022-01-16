@@ -70,7 +70,7 @@ namespace Element {
 
 		//Objects
 		data.quadVertexArray = VertexArray::Create();
-		data.standardShader = Shader::Create("assets/shaders/glsl/Standard.glsl");
+		data.standardShader = Shader::Create("Assets/Shaders/Standard.glsl");
 
 		//Setup vertex buffer
 		data.quadVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(QuadVertex));

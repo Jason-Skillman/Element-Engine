@@ -49,7 +49,7 @@ namespace Element {
 
 		static const char* GetCacheDirectory() {
 			//Todo: Make sure the assets directory is valid
-			return "cache/shader/opengl";
+			return "Cache/Shaders/OpenGL";
 		}
 
 		static void CreateCacheDirectoryIfNeeded() {
@@ -141,12 +141,10 @@ namespace Element {
 				result.resize(size);
 				in.seekg(0, std::ios::beg);
 				in.read(&result[0], size);
-			} else {
-				EL_LOG_CORE_ERROR("Could not read from file '{0}'", filepath);
-			}
-		} else {
-			EL_LOG_CORE_ERROR("Could not open file '{0}'", filepath);
-		}
+			} else
+				EL_CORE_FAIL("Could not read from file '{0}'", filepath);
+		} else
+			EL_CORE_FAIL("Could not open file '{0}'", filepath);
 
 		return result;
 	}

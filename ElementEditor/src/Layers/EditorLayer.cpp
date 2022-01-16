@@ -22,8 +22,8 @@ namespace Element {
 	void EditorLayer::OnAttach() {
 		EL_PROFILE_FUNCTION();
 
-		textureCheckerboard = Texture2D::Create("assets/textures/checkerboard.png");
-		textureArrow = Texture2D::Create("assets/textures/arrow_head.png");
+		textureCheckerboard = Texture2D::Create("Assets/Textures/Checkerboard.png");
+		textureArrow = Texture2D::Create("Assets/Textures/arrow_head.png");
 
 		FrameBufferSpecification fbSpec;
 		fbSpec.attachments = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RED_INTEGER, FrameBufferTextureFormat::Depth };
