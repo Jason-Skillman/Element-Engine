@@ -20,7 +20,7 @@ namespace Element {
 		glTextureStorage2D(rendererID, 1, m_InternalFormat, width, height);
 
 		glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -60,7 +60,7 @@ namespace Element {
 		glTextureStorage2D(rendererID, 1, m_InternalFormat, this->width, this->height);
 		
 		glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
