@@ -5,9 +5,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Utils/ImGuiEditorUtils.h"
-#include "Element/Scene/Components.h"
 
 namespace Element {
+
+	//Todo: Change directory when project locations are added
+	//Defined in "ContentBrowserPanel.cpp"
+	extern const std::filesystem::path assetsPath;
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context) {
 		SetContext(context);
@@ -253,6 +256,21 @@ namespace Element {
 		//Draws sprite renderer
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component) {
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.color));
+
+			//Texture field
+			ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
+
+			//Setup drag drop events
+			if(ImGui::BeginDragDropTarget()) {
+				if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = static_cast<const wchar_t*>(payload->Data);
+					std::filesystem::path texturePath = std::filesystem::path(assetsPath) / path;
+					component.texture = Texture2D::Create(texturePath.string());
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			ImGui::DragFloat("Tiling", &component.tiling, 0.1f, 0.0f, 100.0f);
 		});
 	}
 }

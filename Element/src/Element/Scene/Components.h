@@ -8,6 +8,7 @@
 
 #include "ScriptableEntity.h"
 #include "Element/Scene/SceneCamera.h"
+#include "Element/Renderer/Texture.h"
 
 namespace Element {
 
@@ -32,6 +33,8 @@ namespace Element {
 
 	struct SpriteRendererComponent {
 		glm::vec4 color = glm::vec4(1.0f);
+		Ref<Texture2D> texture;
+		float tiling = 1.0f;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;

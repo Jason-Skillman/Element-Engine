@@ -298,9 +298,10 @@ namespace Element {
 		DrawPropertiesMat4 drawProps;
 		drawProps.transform = transform;
 		drawProps.color = spriteComponent.color;
+		drawProps.tiling = spriteComponent.tiling;
 		drawProps.entityID = entityID;
 
-		DrawQuad(drawProps);
+		DrawQuad(drawProps, spriteComponent.texture);
 	}
 
 	#pragma endregion
