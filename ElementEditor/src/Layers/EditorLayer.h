@@ -8,10 +8,16 @@ namespace Element {
 
 	class EditorLayer : public Layer {
 	private:
+		enum class SceneState {
+			Edit = 0,
+			Play = 1,
+		};
+		
+	private:
 		EditorCamera editorCamera;
 		OrthographicCameraController cameraController;
 
-		Ref<Texture2D> textureCheckerboard, textureArrow;
+		Ref<Texture2D> iconPlay, iconStop, textureCheckerboard, textureArrow;
 
 		Ref<Scene> activeScene;
 		Entity entityCamera;
@@ -24,6 +30,8 @@ namespace Element {
 		bool viewportFocused = false, viewportHovered = false;
 
 		int gizmoType = -1;
+
+		SceneState sceneState = SceneState::Edit;
 
 		//Panels
 		SceneHierarchyPanel sceneHierarchyPanel;
@@ -48,6 +56,11 @@ namespace Element {
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
+
+		void OnScenePlay();
+		void OnSceneStop();
+
+		void UIToolbar();
 
 		bool OnKeyPressed(KeyPressedEvent& event);
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& event);

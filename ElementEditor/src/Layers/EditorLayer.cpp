@@ -26,6 +26,9 @@ namespace Element {
 	void EditorLayer::OnAttach() {
 		EL_PROFILE_FUNCTION();
 
+		iconPlay = Texture2D::Create("Resources/Icons/play_button.png");
+		iconStop = Texture2D::Create("Resources/Icons/stop_button.png");
+
 		textureCheckerboard = Texture2D::Create("Assets/Textures/Checkerboard.png");
 		textureArrow = Texture2D::Create("Assets/Textures/arrow_head.png");
 
@@ -95,61 +98,58 @@ namespace Element {
 	void EditorLayer::OnUpdate(Timestep ts) {
 		EL_PROFILE_FUNCTION();
 
-		//Update
-		{
-			EL_PROFILE_SCOPE("Update");
+		Renderer2D::ResetStats();
 
-			if(viewportFocused)
-				cameraController.OnUpdate(ts);
-			
-			editorCamera.OnUpdate(ts);
+		frameBuffer->Bind();
+
+		//Pre-render
+		{
+			EL_PROFILE_SCOPE("Pre-render");
+
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			RenderCommand::Clear();
 		}
 
-		//Rendering
-		{
-			EL_PROFILE_SCOPE("Rendering");
+		//Clear enity ID attachment to -1
+		frameBuffer->ClearAttachment(1, -1);
 
-			Renderer2D::ResetStats();
+		//Update camera based on sceneState
+		switch(sceneState) {
+			case SceneState::Edit:
+				if(viewportFocused)
+					cameraController.OnUpdate(ts);
+				editorCamera.OnUpdate(ts);
 
-			frameBuffer->Bind();
-
-			//Pre-render
-			{
-				EL_PROFILE_SCOPE("Pre-render");
-
-				RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-				RenderCommand::Clear();
-			}
-
-			//Clear enity ID attachment to -1
-			frameBuffer->ClearAttachment(1, -1);
-			
-			activeScene->OnUpdateEditor(ts, editorCamera);
-
-			auto [mx, my] = ImGui::GetMousePos();
-			mx -= viewportBounds[0].x;	//Makes it 0, 0
-			my -= viewportBounds[0].y;	//Makes it 0, 0
-			glm::vec2 viewportSize = viewportBounds[1] - viewportBounds[0];
-			
-			//Top left is (0, 0)
-			
-			//Flip y to make it bottom left (0, 0)
-			//OpenGl/textures like (0, 0) on the bottom left
-			my = viewportSize.y - my;
-
-			int mouseX = static_cast<int>(mx);
-			int mouseY = static_cast<int>(my);
-
-			//Check if mouse is within viewport bounds
-			if(mouseX >= 0 && mouseY >= 0 && mouseX < static_cast<int>(viewportSize.x) && mouseY < static_cast<int>(viewportSize.y)) {
-				//EL_LOG_CORE_TRACE("Viewport mouse pos: {0}, {1}", mouseX, mouseY);
-
-				int value = frameBuffer->ReadPixel(1, mouseX, mouseY);
-				hoveredEntity = value != -1 ? Entity(static_cast<entt::entity>(value), activeScene.get()) : Entity();
-			}
-
-			frameBuffer->Unbind();
+				activeScene->OnUpdateEditor(ts, editorCamera);
+				break;
+			case SceneState::Play:
+				activeScene->OnUpdateRuntime(ts);
+				break;
 		}
+
+		auto [mx, my] = ImGui::GetMousePos();
+		mx -= viewportBounds[0].x;	//Makes it 0, 0
+		my -= viewportBounds[0].y;	//Makes it 0, 0
+		glm::vec2 viewportSize = viewportBounds[1] - viewportBounds[0];
+
+		//Top left is (0, 0)
+
+		//Flip y to make it bottom left (0, 0)
+		//OpenGl/textures like (0, 0) on the bottom left
+		my = viewportSize.y - my;
+
+		int mouseX = static_cast<int>(mx);
+		int mouseY = static_cast<int>(my);
+
+		//Check if mouse is within viewport bounds
+		if(mouseX >= 0 && mouseY >= 0 && mouseX < static_cast<int>(viewportSize.x) && mouseY < static_cast<int>(viewportSize.y)) {
+			//EL_LOG_CORE_TRACE("Viewport mouse pos: {0}, {1}", mouseX, mouseY);
+
+			int value = frameBuffer->ReadPixel(1, mouseX, mouseY);
+			hoveredEntity = value != -1 ? Entity(static_cast<entt::entity>(value), activeScene.get()) : Entity();
+		}
+
+		frameBuffer->Unbind();
 	}
 
 	void EditorLayer::OnImGuiRender() {
@@ -434,10 +434,41 @@ namespace Element {
 			ImGui::PopStyleVar();
 		}
 
+		UIToolbar();
+
 		sceneHierarchyPanel.OnImGuiRender();
 		contentBrowserPanel.OnImGuiRender();
 
 		ImGui::End();
+	}
+
+	void EditorLayer::UIToolbar() {
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+		auto& colors = ImGui::GetStyle().Colors;
+		const auto& buttonHovered = colors[ImGuiCol_ButtonHovered];
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(buttonHovered.x, buttonHovered.y, buttonHovered.z, 0.5f));
+		const auto& buttonActive = colors[ImGuiCol_ButtonActive];
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f));
+
+		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+
+		float size = 36.0f;	//(ImGui::GetWindowHeight() - 4.0f)	//Dynamiclly changes height of button based on window
+		Ref<Texture2D> icon = sceneState == SceneState::Edit ? iconPlay : iconStop;
+		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
+		if(ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
+		{
+			if(sceneState == SceneState::Edit)
+				OnScenePlay();
+			else if(sceneState == SceneState::Play)
+				OnSceneStop();
+		}
+
+		ImGui::End();
+
+		ImGui::PopStyleVar(2);
+		ImGui::PopStyleColor(3);
 	}
 
 	void EditorLayer::OnEvent(Event& event) {
@@ -484,6 +515,14 @@ namespace Element {
 			SceneSerializer serializer(activeScene);
 			serializer.Serialize(filePath);
 		}
+	}
+
+	void EditorLayer::OnScenePlay() {
+		sceneState = SceneState::Play;
+	}
+
+	void EditorLayer::OnSceneStop() {
+		sceneState = SceneState::Edit;
 	}
 
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& event) {
