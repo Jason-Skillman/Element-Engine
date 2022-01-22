@@ -5,6 +5,7 @@ workspace "Element-Engine"
 	configurations { 
 		"Debug", 
 		"Release",
+		"Distribution",
 	}
 
 	startproject "ElementEditor"
@@ -141,6 +142,22 @@ project "Element"
 
 	filter "configurations:Release"
 		runtime "Release"
+		symbols "on"
+		optimize "on"
+
+		defines { 
+			"RELEASE"
+		}
+
+		links {
+			"%{Library.ShaderC_Release}",
+			"%{Library.SPIRV_Cross_Release}",
+			"%{Library.SPIRV_Cross_GLSL_Release}"
+		}
+
+	filter "configurations:Distribution"
+		runtime "Release"
+		symbols "off"
 		optimize "on"
 
 		defines { 
@@ -211,6 +228,16 @@ project "ElementEditor"
 
 	filter "configurations:Release"
 		runtime "Release"
+		symbols "on"
+		optimize "on"
+
+		defines { 
+			"RELEASE"
+		}
+
+	filter "configurations:Distribution"
+		runtime "Release"
+		symbols "off"
 		optimize "on"
 
 		defines { 
@@ -267,6 +294,16 @@ project "Sandbox"
 
 	filter "configurations:Release"
 		runtime "Release"
+		symbols "on"
+		optimize "on"
+
+		defines { 
+			"RELEASE" 
+		}
+
+	filter "configurations:Release"
+		runtime "Release"
+		symbols "off"
 		optimize "on"
 
 		defines { 
