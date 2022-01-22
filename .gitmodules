@@ -12,7 +12,10 @@
 	url = https://github.com/gabime/spdlog.git
 [submodule "Element/vendor/yaml-cpp"]
 	path = Element/vendor/yaml-cpp
-	url = https://github.com/TheCherno/yaml-cpp
+	url = https://github.com/TheCherno/yaml-cpp.git
 [submodule "Element/vendor/ImGuizmo"]
 	path = Element/vendor/ImGuizmo
 	url = https://github.com/TheCherno/ImGuizmo.git
+[submodule "Element/vendor/box2d"]
+	path = Element/vendor/box2d
+	url = https://github.com/Jason-Skillman/box2d.git

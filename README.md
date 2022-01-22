@@ -37,6 +37,8 @@ List of all third party libraries and packages used in this project and where to
 - `ImGuizmo` https://github.com/CedricGuillemet/ImGuizmo 
   - Fork: https://github.com/TheCherno/ImGuizmo
 - `VulkanSDK` https://vulkan.lunarg.com/sdk/home
+- `Box2D` https://github.com/erincatto/box2d
+  - Fork: https://github.com/Jason-Skillman/box2d
 
 ### Original source
 This project is based off of `The Cherno`'s Game Engine series.

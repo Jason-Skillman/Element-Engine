@@ -30,6 +30,7 @@ IncludeDir["ImGuizmo"] = "Element/vendor/ImGuizmo"
 IncludeDir["shaderc"] = "Element/vendor/shaderc/include"
 IncludeDir["SPIRV_Cross"] = "Element/vendor/SPIRV-Cross"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
+IncludeDir["box2d"] = "Element/vendor/box2d/include"
 
 LibraryDir = {}
 
@@ -56,6 +57,7 @@ group "Dependencies"
 	include "Element/vendor/Glad"
 	include "Element/vendor/ImGui"
 	include "Element/vendor/yaml-cpp"
+	include "Element/vendor/box2d"
 group ""
 
 project "Element"
@@ -97,7 +99,8 @@ project "Element"
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.VulkanSDK}"
+		"%{IncludeDir.VulkanSDK}",
+		"%{IncludeDir.box2d}"
 	}
 
 	links {
@@ -105,7 +108,8 @@ project "Element"
 		"Glad",
 		"ImGui",
 		"yaml-cpp",
-		"opengl32.lib"
+		"opengl32.lib",
+		"box2d"
 	}
 
 	-- Marks ImGuizmo files to not require the pch file as it is not needed.
