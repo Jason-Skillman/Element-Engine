@@ -183,6 +183,12 @@ project "ElementEditor"
 		"Element"
 	}
 
+	postbuildcommands {
+		"{COPY} \"Assets\" \"%{cfg.targetdir}/Assets\"",
+		"{COPY} \"Resources\" \"%{cfg.targetdir}/Resources\"",
+		"{COPY} \"imgui.ini\" \"%{cfg.targetdir}\""
+	}
+
 	filter "system:windows"
 		systemversion "latest"
 
@@ -200,7 +206,7 @@ project "ElementEditor"
 		}
 
 		postbuildcommands {
-			"xcopy \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\" /Y"
+			"{COPY} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
 		}
 
 	filter "configurations:Release"
