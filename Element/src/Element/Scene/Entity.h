@@ -34,6 +34,23 @@ namespace Element {
 			return scene->registry.get<T>(entityID);
 		}
 
+		template<typename T, typename... Args>
+		bool TryAddComponent(Args&&... args) {
+			if(HasComponent<T>()) return false;
+			
+			T& component = scene->registry.emplace<T>(entityID, std::forward<Args>(args)...);
+			scene->OnComponentAdded<T>(*this, component);
+			return true;
+		}
+
+		template<typename T>
+		bool TryGetComponent(T& comp) const {
+			if(!HasComponent<T>()) return false;
+
+			comp = scene->registry.get<T>(entityID);
+			return true;
+		}
+
 		template<typename T>
 		void RemoveComponent() {
 			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
