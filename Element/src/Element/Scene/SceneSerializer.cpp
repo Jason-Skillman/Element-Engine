@@ -18,6 +18,7 @@ namespace Element {
 		{
 			out << YAML::Key << "Entity" << YAML::Value << "12345";	//Todo: Random entity ID goes here
 
+			//Tag component
 			if(entity.HasComponent<TagComponent>()) {
 				out << YAML::Key << "TagComponent";
 
@@ -30,6 +31,7 @@ namespace Element {
 				out << YAML::EndMap;
 			}
 
+			//Transform component
 			if(entity.HasComponent<TransformComponent>()) {
 				out << YAML::Key << "TransformComponent";
 
@@ -44,6 +46,7 @@ namespace Element {
 				out << YAML::EndMap;
 			}
 
+			//Camera component
 			if(entity.HasComponent<CameraComponent>()) {
 				out << YAML::Key << "CameraComponent";
 
@@ -55,7 +58,7 @@ namespace Element {
 					out << YAML::Key << "Camera" << YAML::Value;
 					out << YAML::BeginMap;
 					{
-						out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
+						out << YAML::Key << "ProjectionType" << YAML::Value << static_cast<int>(camera.GetProjectionType());
 						out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveFOV();
 						out << YAML::Key << "PerspectiveNearClip" << YAML::Value << camera.GetPerspectiveNearClip();
 						out << YAML::Key << "PerspectiveFarClip" << YAML::Value << camera.GetPerspectiveFarClip();
@@ -71,6 +74,7 @@ namespace Element {
 				out << YAML::EndMap;
 			}
 
+			//Sprite renderer component
 			if(entity.HasComponent<SpriteRendererComponent>()) {
 				out << YAML::Key << "SpriteRendererComponent";
 
@@ -79,6 +83,38 @@ namespace Element {
 					SpriteRendererComponent& component = entity.GetComponent<SpriteRendererComponent>();
 
 					out << YAML::Key << "Color" << YAML::Value << component.color;
+				}
+				out << YAML::EndMap;
+			}
+
+			//Rigidbody 2D component
+			if(entity.HasComponent<Rigidbody2DComponent>()) {
+				out << YAML::Key << "Rigidbody2DComponent";
+
+				out << YAML::BeginMap;
+				{
+					Rigidbody2DComponent& component = entity.GetComponent<Rigidbody2DComponent>();
+
+					out << YAML::Key << "BodyType" << YAML::Value << static_cast<int>(component.bodyType);
+					out << YAML::Key << "FixedRotation" << YAML::Value << component.fixedRotation;
+				}
+				out << YAML::EndMap;
+			}
+
+			//Box collider 2D component
+			if(entity.HasComponent<BoxCollider2DComponent>()) {
+				out << YAML::Key << "BoxCollider2DComponent";
+
+				out << YAML::BeginMap;
+				{
+					BoxCollider2DComponent& component = entity.GetComponent<BoxCollider2DComponent>();
+
+					out << YAML::Key << "Offset" << YAML::Value << component.offset;
+					out << YAML::Key << "Size" << YAML::Value << component.size;
+					out << YAML::Key << "Density" << YAML::Value << component.density;
+					out << YAML::Key << "Friction" << YAML::Value << component.friction;
+					out << YAML::Key << "Restitution" << YAML::Value << component.restitution;
+					out << YAML::Key << "RestitutionThreshold" << YAML::Value << component.restitutionThreshold;
 				}
 				out << YAML::EndMap;
 			}
@@ -145,7 +181,7 @@ namespace Element {
 				//Create the entity
 				Entity newEntity = scene->CreateEntity(name);
 
-				//Setup transform component. All entities have a transform component.
+				//Transform component
 				{
 					YAML::Node componentValue = entity["TransformComponent"];
 					if(componentValue) {
@@ -157,7 +193,7 @@ namespace Element {
 					}
 				}
 
-				//Setup camera component
+				//Camera component
 				{
 					YAML::Node componentValue = entity["CameraComponent"];
 					if(componentValue) {
@@ -179,7 +215,7 @@ namespace Element {
 					}
 				}
 
-				//Setup sprite renderer component
+				//Sprite renderer component
 				{
 					YAML::Node componentValue = entity["SpriteRendererComponent"];
 					if(componentValue) {
@@ -189,6 +225,31 @@ namespace Element {
 					}
 				}
 
+				//Rigidbody 2D component
+				{
+					YAML::Node componentValue = entity["Rigidbody2DComponent"];
+					if(componentValue) {
+						Rigidbody2DComponent& component = newEntity.AddComponent<Rigidbody2DComponent>();
+
+						component.bodyType = static_cast<Rigidbody2DComponent::BodyType>(componentValue["BodyType"].as<int>());
+						component.fixedRotation = componentValue["FixedRotation"].as<bool>();
+					}
+				}
+
+				//Box collider 2D component
+				{
+					YAML::Node componentValue = entity["BoxCollider2DComponent"];
+					if(componentValue) {
+						BoxCollider2DComponent& component = newEntity.AddComponent<BoxCollider2DComponent>();
+
+						component.offset = componentValue["Offset"].as<glm::vec2>();
+						component.size = componentValue["Size"].as<glm::vec2>();
+						component.density = componentValue["Density"].as<float>();
+						component.friction = componentValue["Friction"].as<float>();
+						component.restitution = componentValue["Restitution"].as<float>();
+						component.restitutionThreshold = componentValue["RestitutionThreshold"].as<float>();
+					}
+				}
 			}
 		}
 		

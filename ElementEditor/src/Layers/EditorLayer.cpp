@@ -519,10 +519,12 @@ namespace Element {
 
 	void EditorLayer::OnScenePlay() {
 		sceneState = SceneState::Play;
+		activeScene->OnRuntimeStart();
 	}
 
 	void EditorLayer::OnSceneStop() {
 		sceneState = SceneState::Edit;
+		activeScene->OnRuntimeStop();
 	}
 
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& event) {

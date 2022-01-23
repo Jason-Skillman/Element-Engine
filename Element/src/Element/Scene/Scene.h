@@ -5,6 +5,8 @@
 #include "Element/Core/Timestep.h"
 #include "Element/Renderer/EditorCamera.h"
 
+class b2World;
+
 namespace Element {
 
 	class Entity;
@@ -13,6 +15,8 @@ namespace Element {
 	private:
 		entt::registry registry;
 		uint32_t viewportWidth = 0, viewportHeight = 0;
+
+		b2World* physicsWorld = nullptr;
 
 		friend class Entity;
 		friend class SceneSerializer;
@@ -26,6 +30,10 @@ namespace Element {
 		void OnUpdateRuntime(Timestep ts);
 		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
+
+		void OnRuntimeStart();
+		void OnRuntimeStop();
+
 		Entity GetPrimaryCameraEntity();
 
 		Entity CreateEntity(const std::string& name = std::string());

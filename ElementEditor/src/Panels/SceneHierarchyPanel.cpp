@@ -144,8 +144,10 @@ namespace Element {
 		}
 	}
 
+	/// <summary>Draws all elements and components for the entity in the properties panel.</summary>
+	/// <param name="entity">The current entity.</param>
 	void SceneHierarchyPanel::DrawComponents(Entity entity) {
-		//Draws the name
+		//Draw the name of the entity
 		if(entity.HasComponent<TagComponent>()) {
 			std::string& tag = entity.GetComponent<TagComponent>().tag;
 
@@ -158,31 +160,49 @@ namespace Element {
 			}
 		}
 
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
+		//Draw the add component button
+		{
+			ImGui::SameLine();
+			ImGui::PushItemWidth(-1);
 
-		const char* addID = "AddComponent";
+			const char* addID = "AddComponent";
 
-		if(ImGui::Button("Add Component"))
-			ImGui::OpenPopup(addID);
+			if(ImGui::Button("Add Component"))
+				ImGui::OpenPopup(addID);
 
-		if(ImGui::BeginPopup(addID)) {
-			if(ImGui::MenuItem("Camera")) {
-				selectionContext.AddComponent<CameraComponent>();
-				ImGui::CloseCurrentPopup();
+			if(ImGui::BeginPopup(addID)) {
+
+				if(!selectionContext.HasComponent<CameraComponent>())
+					if(ImGui::MenuItem("Camera")) {
+						selectionContext.AddComponent<CameraComponent>();
+						ImGui::CloseCurrentPopup();
+					}
+
+				if(!selectionContext.HasComponent<SpriteRendererComponent>())
+					if(ImGui::MenuItem("Sprite Renderer")) {
+						selectionContext.AddComponent<SpriteRendererComponent>();
+						ImGui::CloseCurrentPopup();
+					}
+
+				if(!selectionContext.HasComponent<Rigidbody2DComponent>())
+					if(ImGui::MenuItem("Rigidbody 2D")) {
+						selectionContext.AddComponent<Rigidbody2DComponent>();
+						ImGui::CloseCurrentPopup();
+					}
+
+				if(!selectionContext.HasComponent<BoxCollider2DComponent>())
+					if(ImGui::MenuItem("Box Collider 2D")) {
+						selectionContext.AddComponent<BoxCollider2DComponent>();
+						ImGui::CloseCurrentPopup();
+					}
+
+				ImGui::EndPopup();
 			}
 
-			if(ImGui::MenuItem("Sprite Renderer")) {
-				selectionContext.AddComponent<SpriteRendererComponent>();
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::EndPopup();
+			ImGui::PopItemWidth;
 		}
 
-		ImGui::PopItemWidth;
-
-		//Draws the transform
+		//Transform component
 		DrawComponent<TransformComponent>("Transform", entity, [](auto& component) {
 			Editor::DrawVec3Control("Translation", component.translation);
 
@@ -194,7 +214,7 @@ namespace Element {
 			Editor::DrawVec3Control("Scale", component.scale, 1.0f);
 		}, false);
 
-		//Draws the camera
+		//Camera component
 		DrawComponent<CameraComponent>("Camera", entity, [](auto& component) {
 			auto& camera = component.camera;
 
@@ -206,7 +226,7 @@ namespace Element {
 			if(ImGui::BeginCombo("Projection", currentProjection, ImGuiTreeNodeFlags_DefaultOpen)) {
 				//Populate combo list
 				for(int i = 0; i < 2; i++) {
-					bool isSelected = currentProjection == projectionTypes[i];
+					bool isSelected = (currentProjection == projectionTypes[i]);
 
 					if(ImGui::Selectable(projectionTypes[i], isSelected)) {
 						currentProjection = projectionTypes[i];
@@ -253,7 +273,7 @@ namespace Element {
 			}
 		});
 
-		//Draws sprite renderer
+		//Sprite renderer component
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component) {
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.color));
 
@@ -271,6 +291,44 @@ namespace Element {
 			}
 
 			ImGui::DragFloat("Tiling", &component.tiling, 0.1f, 0.0f, 100.0f);
+		});
+
+		//Rigidbody 2D component
+		DrawComponent<Rigidbody2DComponent>("Rigidbody 2D", entity, [](auto& component) {
+			const int8_t bodyTypeCount = 3;
+			const char* bodyTypeStrings[] = { "Static", "Dynamic", "Kinematic"};
+			const char* currentBodyTypeString = bodyTypeStrings[static_cast<int>(component.bodyType)];
+
+			if(ImGui::BeginCombo("Body Type", currentBodyTypeString, ImGuiTreeNodeFlags_DefaultOpen)) {
+				//Populate combo list
+				for(int i = 0; i < bodyTypeCount; i++) {
+					bool isSelected = (currentBodyTypeString == bodyTypeStrings[i]);
+					if(ImGui::Selectable(bodyTypeStrings[i], isSelected)) {
+						currentBodyTypeString = bodyTypeStrings[i];
+
+						component.bodyType = static_cast<Rigidbody2DComponent::BodyType>(i);
+					}
+
+					if(isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+
+				ImGui::EndCombo();
+			}
+
+			ImGui::Checkbox("Fixed rotation", &component.fixedRotation);
+		});
+
+		//Box collider 2D component
+		DrawComponent<BoxCollider2DComponent>("Box Collider 2D", entity, [](auto& component) {
+			const float dragSpeed = 0.01f;
+
+			ImGui::DragFloat2("Offset", glm::value_ptr(component.offset));
+			ImGui::DragFloat2("Size", glm::value_ptr(component.size));
+			ImGui::DragFloat("Densisty", &component.density, dragSpeed, 0.0f, 1.0f);
+			ImGui::DragFloat("Friction", &component.friction, dragSpeed, 0.0f, 1.0f);
+			ImGui::DragFloat("Restitution", &component.restitution, dragSpeed, 0.0f, 1.0f);
+			ImGui::DragFloat("Restitution Threshold", &component.restitutionThreshold, dragSpeed, 0.0f);
 		});
 	}
 }
