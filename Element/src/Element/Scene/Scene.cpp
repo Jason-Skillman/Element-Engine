@@ -7,6 +7,7 @@
 #include <box2d/b2_fixture.h>
 #include <box2d/b2_polygon_shape.h>
 
+#include "ScriptableEntity.h"
 #include "Components.h"
 #include "Entity.h"
 #include "Element/Renderer/Renderer2D.h"
@@ -195,14 +196,21 @@ namespace Element {
 	}
 
 	Entity Scene::CreateEntity(const std::string& name) {
+		return CreateEntity(GUID(), name);
+	}
+
+	Entity Scene::CreateEntity(GUID guid, const std::string& name) {
 		EL_PROFILE_FUNCTION();
 
 		Entity entity = { registry.create(), this };
-		entity.AddComponent<TransformComponent>();
-		
+
+		entity.AddComponent<IDComponent>(guid);
+
 		TagComponent& tag = entity.AddComponent<TagComponent>();
 		tag = !name.empty() ? name : std::string("Entity");
-		
+
+		entity.AddComponent<TransformComponent>();
+
 		return entity;
 	}
 
@@ -216,9 +224,11 @@ namespace Element {
 
 	template<typename T>
 	void Scene::OnComponentAdded(Entity entity, T& component) {
-		//We dont support generic types. Instead define below.
-		static_assert(false);
+		static_assert(false, "Static assert failed! Scene::OnComponentAdded() does not currently support generic types. If you added a new component you probably just forgot to create a manual type below.");
 	}
+
+	template<>
+	void Scene::OnComponentAdded<IDComponent>(Entity entity, IDComponent& component) {}
 
 	template<>
 	void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component) {}

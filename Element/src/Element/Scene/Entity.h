@@ -3,7 +3,9 @@
 #include "entt.hpp"
 
 #include "Element/Core/Core.h"
+#include "Element/Core/GUID.h"
 #include "Scene.h"
+#include "Components.h"
 
 namespace Element {
 
@@ -20,7 +22,7 @@ namespace Element {
 	public:
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args) {
-			EL_CORE_ASSERT(!HasComponent<T>(), "Entity already has component: " + std::string(typeid(T).name()));
+			EL_CORE_ASSERT(!HasComponent<T>(), "Entity already has component: {0}", std::string(typeid(T).name()));
 
 			T& component = scene->registry.emplace<T>(entityID, std::forward<Args>(args)...);
 			scene->OnComponentAdded<T>(*this, component);
@@ -29,7 +31,7 @@ namespace Element {
 
 		template<typename T>
 		T& GetComponent() const {
-			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
+			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: {0}", std::string(typeid(T).name()));
 			
 			return scene->registry.get<T>(entityID);
 		}
@@ -53,7 +55,7 @@ namespace Element {
 
 		template<typename T>
 		void RemoveComponent() {
-			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: " + std::string(typeid(T).name()));
+			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: {0}", std::string(typeid(T).name()));
 			
 			scene->registry.remove<T>(entityID);
 		}
@@ -63,6 +65,11 @@ namespace Element {
 			return scene->registry.has<T>(entityID);
 		}
 
+		GUID GetGUID() {
+			return GetComponent<IDComponent>().guid;
+		}
+
+	public:
 		operator bool() const {
 			return entityID != entt::null;
 		}

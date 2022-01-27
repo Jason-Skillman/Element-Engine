@@ -4,6 +4,7 @@
 
 #include "Element/Core/Timestep.h"
 #include "Element/Renderer/EditorCamera.h"
+#include "Element/Core/GUID.h"
 
 class b2World;
 
@@ -37,6 +38,7 @@ namespace Element {
 		Entity GetPrimaryCameraEntity();
 
 		Entity CreateEntity(const std::string& name = std::string());
+		Entity CreateEntity(GUID guid, const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
 
 	private:

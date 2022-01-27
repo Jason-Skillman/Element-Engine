@@ -6,11 +6,20 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
-#include "ScriptableEntity.h"
 #include "Element/Scene/SceneCamera.h"
 #include "Element/Renderer/Texture.h"
+#include "Element/Core/GUID.h"
 
 namespace Element {
+
+	class ScriptableEntity;
+
+	struct IDComponent {
+		GUID guid;
+
+		IDComponent() = default;
+		IDComponent(const IDComponent&) = default;
+	};
 
 	struct TransformComponent {
 		glm::vec3 translation = { 0.0f, 0.0f, 0.0f };

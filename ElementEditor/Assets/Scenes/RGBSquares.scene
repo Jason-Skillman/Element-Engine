@@ -1,6 +1,33 @@
 Scene: Untitled
 Entities:
-  - Entity: 12345
+  - Entity: 5797956206073599314
+    TagComponent:
+      Tag: Blue Square
+    TransformComponent:
+      Translation: [1.5, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.139831692, 0.134166166, 0.868725896, 1]
+  - Entity: 12597501137445562085
+    TagComponent:
+      Tag: Green Square
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.144228652, 0.868725896, 0.144228652, 1]
+  - Entity: 5507182013159158003
+    TagComponent:
+      Tag: Red Square
+    TransformComponent:
+      Translation: [-1.5, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.857142866, 0.132377282, 0.132377282, 1]
+  - Entity: 5733157052415772806
     TagComponent:
       Tag: Camera
     TransformComponent:
@@ -18,30 +45,3 @@ Entities:
         OrthographicFarClip: 1
       Primary: true
       FixedAspectRation: false
-  - Entity: 12345
-    TagComponent:
-      Tag: Red Square
-    TransformComponent:
-      Translation: [-1.5, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.857142866, 0.132377282, 0.132377282, 1]
-  - Entity: 12345
-    TagComponent:
-      Tag: Green Square
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.144228652, 0.868725896, 0.144228652, 1]
-  - Entity: 12345
-    TagComponent:
-      Tag: Blue Square
-    TransformComponent:
-      Translation: [1.5, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.139831692, 0.134166166, 0.868725896, 1]

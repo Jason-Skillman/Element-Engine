@@ -14,9 +14,11 @@ namespace Element {
 		: scene(scene) {}
 	
 	static void SerializeEntity(YAML::Emitter& out, Entity entity) {
+		EL_CORE_ASSERT(entity.HasComponent<IDComponent>(), "Every entity must have an IDComponent!");
+
 		out << YAML::BeginMap;
 		{
-			out << YAML::Key << "Entity" << YAML::Value << "12345";	//Todo: Random entity ID goes here
+			out << YAML::Key << "Entity" << YAML::Value << entity.GetGUID();
 
 			//Tag component
 			if(entity.HasComponent<TagComponent>()) {
@@ -167,9 +169,10 @@ namespace Element {
 		YAML::Node entities = data["Entities"];
 		if(entities) {
 
+			//Loop through all entities in the scene
 			for(auto entity : entities) {
 
-				uint64_t uuid = entity["Entity"].as<uint64_t>();
+				uint64_t guid = entity["Entity"].as<uint64_t>();
 
 				std::string name;
 				YAML::Node tagComponent = entity["TagComponent"];
@@ -177,7 +180,7 @@ namespace Element {
 					name = tagComponent["Tag"].as<std::string>();
 
 				//Create the entity
-				Entity newEntity = scene->CreateEntity(name);
+				Entity newEntity = scene->CreateEntity(guid, name);
 
 				//Transform component
 				{
