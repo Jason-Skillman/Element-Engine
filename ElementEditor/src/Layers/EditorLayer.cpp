@@ -500,6 +500,11 @@ namespace Element {
 	void EditorLayer::OpenScene(const std::filesystem::path& path) {
 		EL_PROFILE_FUNCTION();
 
+		if(sceneState == SceneState::Play) {
+			EL_LOG_CORE_WARN("Can't load a scene while in play mode!");
+			return;
+		}
+
 		NewScene();
 
 		SceneSerializer serializer(activeScene);
