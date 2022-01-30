@@ -13,10 +13,10 @@ namespace Element {
 		SceneSerializer(const Ref<Scene>& scene);
 
 	public:
-		void Serialize(const std::string& filepath);
-		void SerializBinary(const std::string& filepath);
+		void Serialize(const std::filesystem::path& filepath);
+		void SerializBinary(const std::filesystem::path& filepath);
 
-		bool Deserialize(const std::string& filepath);
-		bool DeserializBinary(const std::string& filepath);
+		bool Deserialize(const std::filesystem::path& filepath);
+		bool DeserializBinary(const std::filesystem::path& filepath);
 	};
 }

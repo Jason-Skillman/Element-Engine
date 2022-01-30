@@ -14,6 +14,7 @@ namespace Element {
 
 	class Scene {
 	private:
+		std::string name = std::string();
 		entt::registry registry;
 		uint32_t viewportWidth = 0, viewportHeight = 0;
 
@@ -38,6 +39,13 @@ namespace Element {
 		void OnRuntimeStop();
 
 		void DuplicateEntity(Entity entity);
+
+		const std::string& GetName() const {
+			return name;
+		}
+		void SetName(const std::string& newName) {
+			name = newName;
+		}
 
 		Entity GetPrimaryCameraEntity();
 

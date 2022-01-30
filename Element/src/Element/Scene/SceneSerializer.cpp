@@ -124,12 +124,15 @@ namespace Element {
 		out << YAML::EndMap;
 	}
 	
-	void SceneSerializer::Serialize(const std::string& filepath) {
+	void SceneSerializer::Serialize(const std::filesystem::path& filepath) {
 		YAML::Emitter out;
 	
 		out << YAML::BeginMap;
 
-		const std::string sceneName("Untitled");
+		//Get filename without extention
+		const std::string sceneNameWithExtention(filepath.filename().string());
+		size_t lastindex = sceneNameWithExtention.find_last_of(".");
+		std::string sceneName = sceneNameWithExtention.substr(0, lastindex);
 	
 		out << YAML::Key << "Scene" << YAML::Value << sceneName;
 		out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
@@ -145,15 +148,17 @@ namespace Element {
 		out << YAML::EndSeq;
 		out << YAML::EndMap;
 	
-		std::ofstream fout(filepath);
+		std::ofstream fout(filepath.string());
 		fout << out.c_str();
 
 		//EL_LOG_CORE_TRACE("Serialized scene {0}", sceneName);
 	}
 	
-	void SceneSerializer::SerializBinary(const std::string& filepath) {}
+	void SceneSerializer::SerializBinary(const std::filesystem::path& filepath) {
+		throw "NotImplementedException";
+	}
 	
-	bool SceneSerializer::Deserialize(const std::string& filepath) {
+	bool SceneSerializer::Deserialize(const std::filesystem::path& filepath) {
 		std::ifstream stream(filepath);
 		std::stringstream strStream;
 		strStream << stream.rdbuf();
@@ -163,6 +168,7 @@ namespace Element {
 			return false;
 
 		std::string sceneName = data["Scene"].as<std::string>();
+		scene->SetName(sceneName);
 
 		//EL_LOG_CORE_TRACE("Deserialized scene {0}", sceneName);
 
@@ -257,7 +263,7 @@ namespace Element {
 		return true;
 	}
 	
-	bool SceneSerializer::DeserializBinary(const std::string& filepath) {
+	bool SceneSerializer::DeserializBinary(const std::filesystem::path& filepath) {
 		throw "NotImplementedException";
 		return false;
 	}

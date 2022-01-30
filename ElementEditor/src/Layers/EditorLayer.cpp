@@ -526,7 +526,7 @@ namespace Element {
 		Ref<Scene> newScene = CreateRef<Scene>();
 
 		SceneSerializer serializer(newScene);
-		if(serializer.Deserialize(path.string())) {
+		if(serializer.Deserialize(path)) {
 			editorScene = newScene;
 
 			sceneHierarchyPanel.SetContext(editorScene);
@@ -556,7 +556,7 @@ namespace Element {
 		EL_PROFILE_FUNCTION();
 
 		SceneSerializer serializer(scene);
-		serializer.Serialize(path.string());
+		serializer.Serialize(path);
 	}
 
 	void EditorLayer::OnScenePlay() {

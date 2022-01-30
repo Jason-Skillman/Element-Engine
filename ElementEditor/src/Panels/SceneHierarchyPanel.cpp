@@ -27,6 +27,8 @@ namespace Element {
 			ImGui::Begin("Scene Hierarchy");
 
 			if(context) {
+				ImGui::Text(context->GetName().c_str());
+
 				context->registry.each([&](auto entityID) {
 					Entity entity{ entityID, context.get() };
 					DrawEntityNode(entity);

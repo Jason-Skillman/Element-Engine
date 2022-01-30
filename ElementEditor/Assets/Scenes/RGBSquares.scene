@@ -1,4 +1,4 @@
-Scene: Untitled
+Scene: RGBSquares
 Entities:
   - Entity: 5797956206073599314
     TagComponent:
