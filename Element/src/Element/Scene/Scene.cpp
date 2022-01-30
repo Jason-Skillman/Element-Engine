@@ -11,6 +11,7 @@
 #include "Components.h"
 #include "Entity.h"
 #include "Element/Renderer/Renderer2D.h"
+#include "Element/Core/GUID.h"
 
 namespace Element {
 
@@ -40,9 +41,68 @@ namespace Element {
 		}
 	}
 
+	template<typename T>
+	static void CopyComponent(entt::registry& dst, entt::registry& src, std::unordered_map<GUID, entt::entity>& enttMap) {
+		auto view = src.view<T>();
+		for(auto entity : view) {
+			//The GUID of the entity to copy
+			GUID guid = src.get<IDComponent>(entity).guid;
+			//The component to copy
+			auto& component = src.get<T>(entity);
+			//Finds the destination entity from the guid in the map
+			EL_CORE_ASSERT(enttMap.find(guid) != enttMap.end(), "Entity with GUID {0} could not be found in the map! Make sure that all coppied entities were added in Scene::Copy().", guid);
+			entt::entity dstEnttID = enttMap.at(guid);
+			
+			//Copy the componet into the destination
+			dst.emplace_or_replace<T>(dstEnttID, component);
+		}
+	}
+
+	template<typename T>
+	static void CopyComponent(Entity dst, Entity src) {
+		if(!src.HasComponent<T>()) return;
+
+		dst.AddOrReplaceComponent<T>(src.GetComponent<T>());
+	}
+
 	Scene::Scene() {}
 	
 	Scene::~Scene() {}
+
+	Ref<Scene> Scene::Copy(Ref<Scene> other) {
+		Ref<Scene> newScene = CreateRef<Scene>();
+
+		newScene->viewportWidth = other->viewportWidth;
+		newScene->viewportHeight = other->viewportHeight;
+
+		std::unordered_map<GUID, entt::entity> enttMap;
+
+		auto& srcSceneRegistry = other->registry;
+		auto& dstSceneRegistry = newScene->registry;
+		auto idView = srcSceneRegistry.view<IDComponent>();
+
+		//Create the entities in the new scene
+		for(auto item : idView)
+		{
+			GUID guid = srcSceneRegistry.get<IDComponent>(item).guid;
+			const std::string& name = srcSceneRegistry.get<TagComponent>(item).tag;
+			Entity newEntity = newScene->CreateEntity(guid, name);
+
+			//Add the entity to the map
+			enttMap[guid] = static_cast<entt::entity>(newEntity);
+		}
+
+		//Todo: Replace with a component type look up
+		//Copy all components except IDComponent and TagComponent
+		CopyComponent<TransformComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<CameraComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<NativeScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<Rigidbody2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<BoxCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+
+		return newScene;
+	}
 
 	void Scene::OnUpdateRuntime(Timestep ts) {
 		EL_PROFILE_FUNCTION();
@@ -183,6 +243,19 @@ namespace Element {
 	void Scene::OnRuntimeStop() {
 		delete physicsWorld;
 		physicsWorld = nullptr;
+	}
+
+	void Scene::DuplicateEntity(Entity entity) {
+		std::string name = entity.GetName() + " (Duplicate)";
+		Entity newEntity = CreateEntity(name);
+
+		//Todo: Replace with a component type look up
+		CopyComponent<TransformComponent>(newEntity, entity);
+		CopyComponent<SpriteRendererComponent>(newEntity, entity);
+		CopyComponent<CameraComponent>(newEntity, entity);
+		CopyComponent<NativeScriptComponent>(newEntity, entity);
+		CopyComponent<Rigidbody2DComponent>(newEntity, entity);
+		CopyComponent<BoxCollider2DComponent>(newEntity, entity);
 	}
 
 	Entity Scene::GetPrimaryCameraEntity() {

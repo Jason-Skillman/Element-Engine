@@ -28,12 +28,16 @@ namespace Element {
 		~Scene();
 
 	public:
+		static Ref<Scene> Copy(Ref<Scene> other);
+
 		void OnUpdateRuntime(Timestep ts);
 		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		void OnRuntimeStart();
 		void OnRuntimeStop();
+
+		void DuplicateEntity(Entity entity);
 
 		Entity GetPrimaryCameraEntity();
 

@@ -29,6 +29,13 @@ namespace Element {
 			return component;
 		}
 
+		template<typename T, typename... Args>
+		T& AddOrReplaceComponent(Args&&... args) {
+			T& component = scene->registry.emplace_or_replace<T>(entityID, std::forward<Args>(args)...);
+			scene->OnComponentAdded<T>(*this, component);
+			return component;
+		}
+
 		template<typename T>
 		T& GetComponent() const {
 			EL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component: {0}", std::string(typeid(T).name()));
@@ -67,6 +74,10 @@ namespace Element {
 
 		GUID GetGUID() {
 			return GetComponent<IDComponent>().guid;
+		}
+
+		const std::string& GetName() {
+			return GetComponent<TagComponent>().tag;
 		}
 
 	public:

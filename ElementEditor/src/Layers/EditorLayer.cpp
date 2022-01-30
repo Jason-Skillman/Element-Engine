@@ -46,8 +46,11 @@ namespace Element {
 		{
 			auto sceneFilePath = commandLineArgs[1];
 			EL_LOG_CORE_INFO("Loading scene at: {0}", sceneFilePath);
-			SceneSerializer serializer(activeScene);
-			serializer.Deserialize(sceneFilePath);
+
+			//Dont remove: Required to open a scene before the update functions has init.
+			viewportSize = { 1, 1 };
+
+			OpenScene(std::filesystem::path(sceneFilePath));
 		}
 
 #if 0
@@ -87,8 +90,6 @@ namespace Element {
 
 		entityCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 #endif
-
-		sceneHierarchyPanel.SetContext(activeScene);
 	}
 
 	void EditorLayer::OnDetach() {
@@ -213,7 +214,7 @@ namespace Element {
 		ImFont* boldFont = io.Fonts->Fonts[static_cast<int>(FontType_Bold)];
 
 
-		//----- Setup the menu bar -----
+		//Setup the menu bar
 		if(ImGui::BeginMenuBar()) {
 
 			if(ImGui::BeginMenu("File")) {
@@ -222,7 +223,10 @@ namespace Element {
 					NewScene();
 
 				if(ImGui::MenuItem("Open", "Ctrl+O"))
-					OpenScene();
+					OpenSceneDialog();
+
+				if(ImGui::MenuItem("Save", "Ctrl+S"))
+					SaveScene();
 				
 				if(ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
 					SaveSceneAs();
@@ -230,6 +234,13 @@ namespace Element {
 				if(ImGui::MenuItem("Exit"))
 					Application::GetInstance().Close();
 
+				ImGui::EndMenu();
+			}
+
+			if(ImGui::BeginMenu("Entity")) {
+
+				if(ImGui::MenuItem("Duplicate", "Ctrl+D"))
+					DuplicateSelectedEntity();
 				ImGui::EndMenu();
 			}
 
@@ -488,9 +499,11 @@ namespace Element {
 		activeScene = CreateRef<Scene>();
 		activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		sceneHierarchyPanel.SetContext(activeScene);
+
+		editorScenePath = std::filesystem::path();
 	}
 
-	void EditorLayer::OpenScene() {
+	void EditorLayer::OpenSceneDialog() {
 		std::string filePath = FileDialog::OpenFile("Element Scene (*.scene)\0*.scene\0");
 
 		if(!filePath.empty()) 
@@ -500,36 +513,78 @@ namespace Element {
 	void EditorLayer::OpenScene(const std::filesystem::path& path) {
 		EL_PROFILE_FUNCTION();
 
+		if(path.extension().string() != ".scene") {
+			EL_LOG_CORE_WARN("\"{0}\" is not a scene!", path.extension().string());
+			return;
+		}
+
 		if(sceneState == SceneState::Play) {
 			EL_LOG_CORE_WARN("Can't load a scene while in play mode!");
 			return;
 		}
 
-		NewScene();
+		Ref<Scene> newScene = CreateRef<Scene>();
 
-		SceneSerializer serializer(activeScene);
-		serializer.Deserialize(path.string());
+		SceneSerializer serializer(newScene);
+		if(serializer.Deserialize(path.string())) {
+			editorScene = newScene;
+
+			sceneHierarchyPanel.SetContext(editorScene);
+			editorScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+
+			activeScene = editorScene;
+			editorScenePath = path;
+		}
+	}
+
+	void EditorLayer::SaveScene() {
+		if(!editorScenePath.empty())
+			SerializeScene(activeScene, editorScenePath);
+		else
+			SaveSceneAs();
 	}
 
 	void EditorLayer::SaveSceneAs() {
+		std::string filePath = FileDialog::SaveFile("Element Scene (*.scene)\0*.scene\0");
+		if(filePath.empty()) return;
+
+		SerializeScene(activeScene, filePath);
+		editorScenePath = filePath;
+	}
+
+	void EditorLayer::SerializeScene(Ref<Scene> scene, const std::filesystem::path& path) {
 		EL_PROFILE_FUNCTION();
 
-		std::string filePath = FileDialog::SaveFile("Element Scene (*.scene)\0*.scene\0");
-
-		if(!filePath.empty()) {
-			SceneSerializer serializer(activeScene);
-			serializer.Serialize(filePath);
-		}
+		SceneSerializer serializer(scene);
+		serializer.Serialize(path.string());
 	}
 
 	void EditorLayer::OnScenePlay() {
 		sceneState = SceneState::Play;
+
+		activeScene = Scene::Copy(editorScene);
 		activeScene->OnRuntimeStart();
+
+		sceneHierarchyPanel.SetContext(activeScene);
 	}
 
 	void EditorLayer::OnSceneStop() {
 		sceneState = SceneState::Edit;
 		activeScene->OnRuntimeStop();
+
+		activeScene = editorScene;
+
+		sceneHierarchyPanel.SetContext(activeScene);
+	}
+
+	void EditorLayer::DuplicateSelectedEntity() {
+		if(sceneState != SceneState::Edit) return;
+
+		Entity selectedEntity = sceneHierarchyPanel.GetSelectedEntity();
+
+		if(selectedEntity) {
+			editorScene->DuplicateEntity(selectedEntity);
+		}
 	}
 
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& event) {
@@ -542,15 +597,21 @@ namespace Element {
 		const bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
 
 		switch(event.GetKeyCode()) {
-			//Editor shortcuts
+			//File menu shortcuts
 			case Key::N:
 				if(control) NewScene();
 				break;
 			case Key::O:
-				if(control) OpenScene();
+				if(control) OpenSceneDialog();
 				break;
 			case Key::S:
+				if(control) SaveScene();
 				if(control && shift) SaveSceneAs();
+				break;
+
+			//Entity menu shortcuts
+			case Key::D:
+				if(control) DuplicateSelectedEntity();
 				break;
 			
 			//Gizmo shortcuts

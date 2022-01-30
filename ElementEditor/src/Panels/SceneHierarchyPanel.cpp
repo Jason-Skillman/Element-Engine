@@ -26,32 +26,34 @@ namespace Element {
 		{
 			ImGui::Begin("Scene Hierarchy");
 
-			context->registry.each([&](auto entityID) {
-				Entity entity{ entityID, context.get() };
-				DrawEntityNode(entity);
-			});
+			if(context) {
+				context->registry.each([&](auto entityID) {
+					Entity entity{ entityID, context.get() };
+					DrawEntityNode(entity);
+				});
 
-			//Removes the selected context when clicking in a blank area
-			if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-				selectionContext = {};
+				//Removes the selected context when clicking in a blank area
+				if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+					selectionContext = {};
 
-			//Context menu for the window (blank space)
-			if(ImGui::BeginPopupContextWindow(0, 1, false)) {
+				//Context menu for the window (blank space)
+				if(ImGui::BeginPopupContextWindow(0, 1, false)) {
 
-				if(ImGui::MenuItem("Create Entity")) {
-					Entity newEntity = context->CreateEntity("Entity");
-					selectionContext = newEntity;
-				} else if(ImGui::MenuItem("Sprite Renderer")) {
-					Entity newEntity = context->CreateEntity("Sprite Renderer");
-					newEntity.AddComponent<SpriteRendererComponent>();
-					selectionContext = newEntity;
-				} else if(ImGui::MenuItem("Camera")) {
-					Entity newEntity = context->CreateEntity("Camera");
-					newEntity.AddComponent<CameraComponent>();
-					selectionContext = newEntity;
+					if(ImGui::MenuItem("Create Entity")) {
+						Entity newEntity = context->CreateEntity("Entity");
+						selectionContext = newEntity;
+					} else if(ImGui::MenuItem("Sprite Renderer")) {
+						Entity newEntity = context->CreateEntity("Sprite Renderer");
+						newEntity.AddComponent<SpriteRendererComponent>();
+						selectionContext = newEntity;
+					} else if(ImGui::MenuItem("Camera")) {
+						Entity newEntity = context->CreateEntity("Camera");
+						newEntity.AddComponent<CameraComponent>();
+						selectionContext = newEntity;
+					}
+
+					ImGui::EndPopup();
 				}
-
-				ImGui::EndPopup();
 			}
 
 			ImGui::End();

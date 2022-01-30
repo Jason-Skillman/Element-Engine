@@ -19,7 +19,8 @@ namespace Element {
 
 		Ref<Texture2D> iconPlay, iconStop, textureCheckerboard, textureArrow;
 
-		Ref<Scene> activeScene;
+		Ref<Scene> activeScene, editorScene;
+		std::filesystem::path editorScenePath;
 		Entity entityCamera;
 		Entity entityRedSquare, entityGreenSquare;
 		Entity hoveredEntity;
@@ -53,12 +54,16 @@ namespace Element {
 
 	private:
 		void NewScene();
-		void OpenScene();
+		void OpenSceneDialog();
 		void OpenScene(const std::filesystem::path& path);
+		void SaveScene();
 		void SaveSceneAs();
+		void SerializeScene(Ref<Scene> scene, const std::filesystem::path& path);
 
 		void OnScenePlay();
 		void OnSceneStop();
+
+		void DuplicateSelectedEntity();
 
 		void UIToolbar();
 
