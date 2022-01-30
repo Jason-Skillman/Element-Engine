@@ -51,6 +51,15 @@ namespace Element {
 			: color(color) {}
 	};
 
+	struct CircleRendererComponent {
+		glm::vec4 color = glm::vec4(1.0f);
+		float thickness = 1.0f;
+		float fade = 0.005f;
+
+		CircleRendererComponent() = default;
+		CircleRendererComponent(const CircleRendererComponent&) = default;
+	};
+
 	struct TagComponent {
 		std::string tag;
 

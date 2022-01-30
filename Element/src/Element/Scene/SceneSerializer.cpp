@@ -89,6 +89,21 @@ namespace Element {
 				out << YAML::EndMap;
 			}
 
+			//Circle renderer component
+			if(entity.HasComponent<CircleRendererComponent>()) {
+				out << YAML::Key << "CircleRendererComponent";
+
+				out << YAML::BeginMap;
+				{
+					CircleRendererComponent& component = entity.GetComponent<CircleRendererComponent>();
+
+					out << YAML::Key << "Color" << YAML::Value << component.color;
+					out << YAML::Key << "Thickness" << YAML::Value << component.thickness;
+					out << YAML::Key << "Fade" << YAML::Value << component.fade;
+				}
+				out << YAML::EndMap;
+			}
+
 			//Rigidbody 2D component
 			if(entity.HasComponent<Rigidbody2DComponent>()) {
 				out << YAML::Key << "Rigidbody2DComponent";
@@ -229,6 +244,18 @@ namespace Element {
 						SpriteRendererComponent& component = newEntity.AddComponent<SpriteRendererComponent>();
 
 						component.color = componentValue["Color"].as<glm::vec4>();
+					}
+				}
+
+				//Circle renderer component
+				{
+					YAML::Node componentValue = entity["CircleRendererComponent"];
+					if(componentValue) {
+						CircleRendererComponent& component = newEntity.AddComponent<CircleRendererComponent>();
+
+						component.color = componentValue["Color"].as<glm::vec4>();
+						component.thickness = componentValue["Thickness"].as<float>();
+						component.fade = componentValue["Fade"].as<float>();
 					}
 				}
 

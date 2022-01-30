@@ -41,12 +41,16 @@ namespace Element {
 				//Context menu for the window (blank space)
 				if(ImGui::BeginPopupContextWindow(0, 1, false)) {
 
-					if(ImGui::MenuItem("Create Entity")) {
+					if(ImGui::MenuItem("Empty Entity")) {
 						Entity newEntity = context->CreateEntity("Entity");
 						selectionContext = newEntity;
 					} else if(ImGui::MenuItem("Sprite Renderer")) {
 						Entity newEntity = context->CreateEntity("Sprite Renderer");
 						newEntity.AddComponent<SpriteRendererComponent>();
+						selectionContext = newEntity;
+					} else if(ImGui::MenuItem("Circle Renderer")) {
+						Entity newEntity = context->CreateEntity("Circle Renderer");
+						newEntity.AddComponent<CircleRendererComponent>();
 						selectionContext = newEntity;
 					} else if(ImGui::MenuItem("Camera")) {
 						Entity newEntity = context->CreateEntity("Camera");
@@ -188,6 +192,12 @@ namespace Element {
 						ImGui::CloseCurrentPopup();
 					}
 
+				if(!selectionContext.HasComponent<CircleRendererComponent>())
+					if(ImGui::MenuItem("Circle Renderer")) {
+						selectionContext.AddComponent<CircleRendererComponent>();
+						ImGui::CloseCurrentPopup();
+					}
+
 				if(!selectionContext.HasComponent<Rigidbody2DComponent>())
 					if(ImGui::MenuItem("Rigidbody 2D")) {
 						selectionContext.AddComponent<Rigidbody2DComponent>();
@@ -295,6 +305,13 @@ namespace Element {
 			}
 
 			ImGui::DragFloat("Tiling", &component.tiling, 0.1f, 0.0f, 100.0f);
+		});
+
+		//Circle renderer component
+		DrawComponent<CircleRendererComponent>("Circle Renderer", entity, [](auto& component) {
+			ImGui::ColorEdit4("Color", glm::value_ptr(component.color));
+			ImGui::DragFloat("Thickness", &component.thickness, 0.025f, 0.0f, 1.0f);
+			ImGui::DragFloat("Fade", &component.fade, 0.00025f, 0.0f, 1.0f);
 		});
 
 		//Rigidbody 2D component

@@ -63,7 +63,10 @@ namespace Element {
 		static void DrawQuad(const DrawPropertiesMat4& properties, const Ref<Texture2D>& texture = nullptr, const glm::vec2* texCoords = nullptr);
 		static void DrawQuad(const DrawPropertiesMat4& properties, const Ref<SubTexture2D>& subTexture);
 
-		static void DrawSprite(const glm::mat4& transform, SpriteRendererComponent& spriteComponent, int entityID = -1);
+		static void DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& spriteComponent, int entityID = -1);
+
+		static void DrawCircle(const glm::mat4& transform, const CircleRendererComponent& circleComponent, int entityID = -1);
+		static void DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness = 1.0f, float fade = 0.005f, int entityID = -1);
 
 	private:
 		static void StartBatch();

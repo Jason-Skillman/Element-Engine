@@ -22,20 +22,42 @@ namespace Element {
 		int entityID;
 	};
 
+	struct CircleVertex {
+		glm::vec3 worldPosition;
+		glm::vec3 localPosition;
+		glm::vec4 color;
+		float thickness;
+		float fade;
+
+		//Editor only
+		int entityID;
+	};
+
 	struct Renderer2DData {
 		const uint32_t maxQuads = 1000;
 		const uint32_t maxVertices = maxQuads * 4;
 		const uint32_t maxIndices = maxQuads * 6;
 		static const uint32_t maxTextureSlots = 32; //Todo: Render caps
 
+		//Quad data
 		Ref<VertexArray> quadVertexArray;
 		Ref<VertexBuffer> quadVertexBuffer;
-		Ref<Shader> standardShader;
+		Ref<Shader> quadShader;
 		Ref<Texture2D> whiteTexture;
 
 		uint32_t quadIndexCount = 0;
 		QuadVertex* quadVertexBufferBase = nullptr;
 		QuadVertex* quadVertexBufferPtr = nullptr;
+
+		//Circle data
+		Ref<VertexArray> circleVertexArray;
+		Ref<VertexBuffer> circleVertexBuffer;
+		Ref<Shader> circleShader;
+
+		uint32_t circleIndexCount = 0;
+		CircleVertex* circleVertexBufferBase = nullptr;
+		CircleVertex* circleVertexBufferPtr = nullptr;
+
 
 		std::array<Ref<Texture2D>, maxTextureSlots> textureSlots;
 		uint32_t textureSlotIndex = 1;
@@ -70,7 +92,7 @@ namespace Element {
 
 		//Objects
 		data.quadVertexArray = VertexArray::Create();
-		data.standardShader = Shader::Create("Assets/Shaders/Standard.glsl");
+		data.quadShader = Shader::Create("Assets/Shaders/Renderer2D_Quad.glsl");
 
 		//Setup vertex buffer
 		data.quadVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(QuadVertex));
@@ -121,6 +143,33 @@ namespace Element {
 		data.quadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
 
 		data.cameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData), 0);
+
+		//Circle data
+		{
+			const BufferLayout layout = {
+				{ ShaderDataType::Float3, "a_WorldPosition" },
+				{ ShaderDataType::Float3, "a_LocalPosition" },
+				{ ShaderDataType::Float4, "a_Color" },
+				{ ShaderDataType::Float, "a_Thickness" },
+				{ ShaderDataType::Float, "a_Fade" },
+
+				//Editor only
+				{ ShaderDataType::Int, "a_EntityID" },
+			};
+
+			data.circleVertexArray = VertexArray::Create();
+			data.circleShader = Shader::Create("Assets/Shaders/Renderer2D_Circle.glsl");
+
+			//Setup vertex buffer
+			data.circleVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(CircleVertex));
+			data.circleVertexBuffer->SetLayout(layout);
+			data.circleVertexArray->AddVertexBuffer(data.circleVertexBuffer);
+
+			data.circleVertexBufferBase = new CircleVertex[data.maxVertices];
+
+			//Setup index buffer
+			data.circleVertexArray->SetIndexBuffer(indexBuffer);	//Use quad index buffer
+		}
 	}
 	
 	void Renderer2D::Shutdown() {
@@ -158,8 +207,8 @@ namespace Element {
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
 		EL_PROFILE_FUNCTION();
 		
-		data.standardShader->Bind();
-		data.standardShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		data.quadShader->Bind();
+		data.quadShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
 		StartBatch();
 	}
@@ -169,6 +218,9 @@ namespace Element {
 
 		data.quadIndexCount = 0;
 		data.quadVertexBufferPtr = data.quadVertexBufferBase;
+
+		data.circleIndexCount = 0;
+		data.circleVertexBufferPtr = data.circleVertexBufferBase;
 
 		data.textureSlotIndex = 1;
 	}
@@ -182,20 +234,30 @@ namespace Element {
 	void Renderer2D::Flush() {
 		EL_PROFILE_FUNCTION();
 
-		//Check if nothing to draw
-		if(data.quadIndexCount == 0) return; 
+		//Draw quads
+		if(data.quadIndexCount) {
+			uint32_t dataSize = (uint32_t)(reinterpret_cast<uint8_t*>(data.quadVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.quadVertexBufferBase));
+			data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
 
-		uint32_t dataSize = (uint32_t)(reinterpret_cast<uint8_t*>(data.quadVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.quadVertexBufferBase));
-		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
+			//Bind all textures to their texture slot
+			for(uint32_t i = 0; i < data.textureSlotIndex; i++) {
+				data.textureSlots[i]->Bind(i);
+			}
 
-		//Bind all textures to their texture slot
-		for(uint32_t i = 0; i < data.textureSlotIndex; i++) {
-			data.textureSlots[i]->Bind(i);
+			data.quadShader->Bind();
+			RenderCommand::DrawIndexed(data.quadVertexArray, data.quadIndexCount);
+			data.stats.drawCalls++;
 		}
-		
-		data.standardShader->Bind();
-		RenderCommand::DrawIndexed(data.quadVertexArray, data.quadIndexCount);
-		data.stats.drawCalls++;
+
+		//Draw circles
+		if(data.circleIndexCount) {
+			uint32_t dataSize = (uint32_t)(reinterpret_cast<uint8_t*>(data.circleVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.circleVertexBufferBase));
+			data.circleVertexBuffer->SetData(data.circleVertexBufferBase, dataSize);
+
+			data.circleShader->Bind();
+			RenderCommand::DrawIndexed(data.circleVertexArray, data.circleIndexCount);
+			data.stats.drawCalls++;
+		}
 	}
 
 	void Renderer2D::NextBatch() {
@@ -292,7 +354,7 @@ namespace Element {
 		DrawQuad(properties, subTexture->GetTexture(), subTexture->GetTexCoords());
 	}
 
-	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& spriteComponent, int entityID) {
+	void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& spriteComponent, int entityID) {
 		EL_PROFILE_FUNCTION();
 
 		DrawPropertiesMat4 drawProps;
@@ -302,6 +364,34 @@ namespace Element {
 		drawProps.entityID = entityID;
 
 		DrawQuad(drawProps, spriteComponent.texture);
+	}
+
+	void Renderer2D::DrawCircle(const glm::mat4& transform, const CircleRendererComponent& circleComponent, int entityID) {
+		DrawCircle(transform, circleComponent.color, circleComponent.thickness, circleComponent.fade, entityID);
+	}
+
+	void Renderer2D::DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness, float fade, int entityID) {
+		EL_PROFILE_FUNCTION();
+
+		//Todo:
+		//if(data.quadIndexCount >= data.maxIndices)
+		//	NextBatch();	//Start the next batch
+
+		//Setup the vertex buffer
+		const int vertexCount = 4;
+		for(uint32_t i = 0; i < vertexCount; i++) {
+			data.circleVertexBufferPtr->worldPosition = transform * data.quadVertexPositions[i];
+			data.circleVertexBufferPtr->localPosition = data.quadVertexPositions[i] * 2.0f;
+			data.circleVertexBufferPtr->color = color;
+			data.circleVertexBufferPtr->thickness = thickness;
+			data.circleVertexBufferPtr->fade = fade;
+			data.circleVertexBufferPtr->entityID = entityID;
+			data.circleVertexBufferPtr++;
+		}
+		data.circleIndexCount += 6;
+
+		//Stats
+		data.stats.quadCount++;
 	}
 
 	#pragma endregion
