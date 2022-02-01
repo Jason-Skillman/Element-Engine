@@ -183,7 +183,8 @@ project "ElementEditor"
 	files { 
 		"%{prj.name}/src/**.h", 
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/Assets/**"
+		"%{prj.name}/Assets/**",
+		"%{prj.name}/Resources/**",
 	}
 	
 	includedirs {
@@ -208,6 +209,11 @@ project "ElementEditor"
 
 	filter "system:windows"
 		systemversion "latest"
+
+		files { 
+			'%{prj.name}/%{prj.name}.rc',
+			'%{prj.name}/resource.h',
+		}
 
 		defines {
 			"PLATFORM_WINDOWS"
