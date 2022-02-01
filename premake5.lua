@@ -82,11 +82,11 @@ project "Element"
 		"%{prj.name}/vendor/stb/**.h",
 		"%{prj.name}/vendor/stb/**.cpp",
 		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
-		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp",
 	}
 
 	defines {
-		"_CRT_SECURE_NO_WARNINGS"
+		"_CRT_SECURE_NO_WARNINGS",
 	}
 
 	includedirs {
@@ -101,7 +101,7 @@ project "Element"
 		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.ImGuizmo}",
 		"%{IncludeDir.VulkanSDK}",
-		"%{IncludeDir.box2d}"
+		"%{IncludeDir.box2d}",
 	}
 
 	links {
@@ -110,7 +110,7 @@ project "Element"
 		"ImGui",
 		"yaml-cpp",
 		"opengl32.lib",
-		"box2d"
+		"box2d",
 	}
 
 	-- Marks ImGuizmo files to not require the pch file as it is not needed.
@@ -123,7 +123,7 @@ project "Element"
 		defines {
 			"PLATFORM_WINDOWS",
 			"BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
+			"GLFW_INCLUDE_NONE",
 		}
 
 	filter "configurations:Debug"
@@ -131,13 +131,13 @@ project "Element"
 		symbols "on"
 
 		defines { 
-			"DEBUG"
+			"DEBUG",
 		}
 
 		links {
 			"%{Library.ShaderC_Debug}",
 			"%{Library.SPIRV_Cross_Debug}",
-			"%{Library.SPIRV_Cross_GLSL_Debug}"
+			"%{Library.SPIRV_Cross_GLSL_Debug}",
 		}
 
 	filter "configurations:Release"
@@ -146,13 +146,13 @@ project "Element"
 		optimize "on"
 
 		defines { 
-			"RELEASE"
+			"RELEASE",
 		}
 
 		links {
 			"%{Library.ShaderC_Release}",
 			"%{Library.SPIRV_Cross_Release}",
-			"%{Library.SPIRV_Cross_GLSL_Release}"
+			"%{Library.SPIRV_Cross_GLSL_Release}",
 		}
 
 	filter "configurations:Distribution"
@@ -161,13 +161,13 @@ project "Element"
 		optimize "on"
 
 		defines { 
-			"RELEASE"
+			"RELEASE",
 		}
 
 		links {
 			"%{Library.ShaderC_Release}",
 			"%{Library.SPIRV_Cross_Release}",
-			"%{Library.SPIRV_Cross_GLSL_Release}"
+			"%{Library.SPIRV_Cross_GLSL_Release}",
 		}
 
 project "ElementEditor"
@@ -185,6 +185,7 @@ project "ElementEditor"
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/Assets/**",
 		"%{prj.name}/Resources/**",
+		"%{prj.name}/imgui.ini",
 	}
 	
 	includedirs {
@@ -194,17 +195,17 @@ project "ElementEditor"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.ImGuizmo}"
+		"%{IncludeDir.ImGuizmo}",
 	}
 
 	links {
-		"Element"
+		"Element",
 	}
 
 	postbuildcommands {
 		"{COPY} \"Assets\" \"%{cfg.targetdir}/Assets\"",
 		"{COPY} \"Resources\" \"%{cfg.targetdir}/Resources\"",
-		"{COPY} \"imgui.ini\" \"%{cfg.targetdir}\""
+		"{COPY} \"imgui.ini\" \"%{cfg.targetdir}\"",
 	}
 
 	filter "system:windows"
@@ -216,7 +217,7 @@ project "ElementEditor"
 		}
 
 		defines {
-			"PLATFORM_WINDOWS"
+			"PLATFORM_WINDOWS",
 		}
 
 	filter "configurations:Debug"
@@ -225,11 +226,11 @@ project "ElementEditor"
 
 		defines { 
 			"DEBUG",
-			"PROFILE"
+			"PROFILE",
 		}
 
 		postbuildcommands {
-			"{COPY} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
+			"{COPY} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\"",
 		}
 
 	filter "configurations:Release"
@@ -238,7 +239,7 @@ project "ElementEditor"
 		optimize "on"
 
 		defines { 
-			"RELEASE"
+			"RELEASE",
 		}
 
 	filter "configurations:Distribution"
@@ -247,7 +248,7 @@ project "ElementEditor"
 		optimize "on"
 
 		defines { 
-			"RELEASE"
+			"RELEASE",
 		}
 
 project "Sandbox"
@@ -263,11 +264,11 @@ project "Sandbox"
 	files { 
 		"%{prj.name}/src/**.h", 
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/Assets/**"
+		"%{prj.name}/Assets/**",
 	}
 
 	defines {
-		"PROFILE"
+		"PROFILE",
 	}
 
 	includedirs {
@@ -276,18 +277,18 @@ project "Sandbox"
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
 	}
 
 	links {
-		"Element"
+		"Element",
 	}
 
 	filter "system:windows"
 		systemversion "latest"
 
 		defines {
-			"PLATFORM_WINDOWS"
+			"PLATFORM_WINDOWS",
 		}
 
 	filter "configurations:Debug"
@@ -295,7 +296,7 @@ project "Sandbox"
 		symbols "on"
 
 		defines { 
-			"DEBUG" 
+			"DEBUG",
 		}
 
 	filter "configurations:Release"
@@ -304,7 +305,7 @@ project "Sandbox"
 		optimize "on"
 
 		defines { 
-			"RELEASE" 
+			"RELEASE",
 		}
 
 	filter "configurations:Release"
@@ -313,5 +314,5 @@ project "Sandbox"
 		optimize "on"
 
 		defines { 
-			"RELEASE" 
+			"RELEASE",
 		}
