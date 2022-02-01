@@ -34,7 +34,7 @@ namespace Element {
 		float lastFrameTime = 0.0f;
 		
 	public:
-		Application(const std::string& name = std::string(), ApplicationCommandLineArgs args = ApplicationCommandLineArgs());
+		Application(const std::string& name = std::string(), const std::string& windowIconPath = std::string(), ApplicationCommandLineArgs args = ApplicationCommandLineArgs());
 		virtual ~Application();
 
 	public:

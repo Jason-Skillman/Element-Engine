@@ -36,6 +36,8 @@ namespace Element {
 		virtual void SetVsync(bool enabled) override;
 		virtual bool IsVsync() const override;
 
+		virtual void SetWindowIcon(const std::string& filepath) override;
+
 		virtual void* GetNativeWindow() const override {
 			return window;
 		}

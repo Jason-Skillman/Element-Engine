@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <stb_image.h>
 
 #include "Element/Core/Log.h"
 #include "Element/Events/ApplicationEvent.h"
@@ -63,6 +64,15 @@ namespace Element {
 	
 	bool WindowsWindow::IsVsync() const {
 		return data.vsync;
+	}
+
+	void WindowsWindow::SetWindowIcon(const std::string& filepath) {
+		if(filepath.empty()) return;
+
+		GLFWimage images[1];
+		images[0].pixels = stbi_load(filepath.c_str(), &images[0].width, &images[0].height, 0, 4);
+		glfwSetWindowIcon(window, 1, images);
+		stbi_image_free(images[0].pixels);
 	}
 
 	void WindowsWindow::Init(const WindowProps& props) {

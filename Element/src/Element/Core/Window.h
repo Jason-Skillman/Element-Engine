@@ -36,6 +36,8 @@ namespace Element {
 		virtual void SetVsync(bool enables) = 0;
 		virtual bool IsVsync() const = 0;
 
+		virtual void SetWindowIcon(const std::string& filepath) = 0;
+
 		/// <summary>
 		/// Returns a GLFW window
 		/// </summary>

@@ -7,7 +7,7 @@ namespace Element {
 	class ElementEditor : public Application {
 	public:
 		ElementEditor(ApplicationCommandLineArgs args)
-			: Application("Element Editor", args) {
+			: Application("Element Editor", "Resources/element_engine.png", args) {
 			
 			PushLayer(new EditorLayer());
 		}

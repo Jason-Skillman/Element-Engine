@@ -48,13 +48,14 @@ namespace Element {
 
 	Application* Application::instance = nullptr;
 	
-	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+	Application::Application(const std::string& name, const std::string& windowIconPath, ApplicationCommandLineArgs args)
 		: commandLineArgs(args) {
 
 		if(!instance) instance = this;
 		
 		window = Window::Create(WindowProps("Element Engine", Resolution_1080));
 		window->SetEventCallback(EL_BIND_EVENT_FUNC(Application::OnEvent));
+		window->SetWindowIcon(windowIconPath);
 
 		Renderer::Init();
 
