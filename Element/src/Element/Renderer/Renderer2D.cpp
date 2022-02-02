@@ -96,28 +96,22 @@ namespace Element {
 
 	void Renderer2D::Init() {
 		EL_PROFILE_FUNCTION();
-		
-		//Data
-		const BufferLayout layout = {
+
+		//Quad data
+		data.quadShader = Shader::Create("Assets/Shaders/Renderer2D_Quad.glsl");
+		data.quadVertexArray = VertexArray::Create();
+		data.quadVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(QuadVertex));
+
+		//Setup vertex buffer
+		data.quadVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float2, "a_TexCoord" },
 			{ ShaderDataType::Float4, "a_Color" },
 			{ ShaderDataType::Float, "a_TextureIndex" },
 			{ ShaderDataType::Float, "a_Tiling" },
-
-			//Editor only
-			{ ShaderDataType::Int, "a_EntityID" },
-		};
-
-		//Objects
-		data.quadVertexArray = VertexArray::Create();
-		data.quadShader = Shader::Create("Assets/Shaders/Renderer2D_Quad.glsl");
-
-		//Setup vertex buffer
-		data.quadVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(QuadVertex));
-		data.quadVertexBuffer->SetLayout(layout);
+			{ ShaderDataType::Int, "a_EntityID" },	//Editor only
+		});
 		data.quadVertexArray->AddVertexBuffer(data.quadVertexBuffer);
-
 		data.quadVertexBufferBase = new QuadVertex[data.maxVertices];
 
 		//Setup index buffer
@@ -128,19 +122,17 @@ namespace Element {
 			quadIndices[i + 0] = offset + 0;
 			quadIndices[i + 1] = offset + 1;
 			quadIndices[i + 2] = offset + 2;
-			
+
 			quadIndices[i + 3] = offset + 2;
 			quadIndices[i + 4] = offset + 3;
 			quadIndices[i + 5] = offset + 0;
 
 			offset += 4;
 		}
-		
+
 		Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(quadIndices, data.maxIndices);
 		data.quadVertexArray->SetIndexBuffer(indexBuffer);
 		delete[] quadIndices;
-
-		
 
 		//Create textures
 		data.whiteTexture = Texture2D::Create(1, 1);
@@ -165,25 +157,20 @@ namespace Element {
 
 		//Circle data
 		{
-			const BufferLayout layout = {
+			data.circleShader = Shader::Create("Assets/Shaders/Renderer2D_Circle.glsl");
+			data.circleVertexArray = VertexArray::Create();
+			data.circleVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(CircleVertex));
+
+			//Setup vertex buffer
+			data.circleVertexBuffer->SetLayout({
 				{ ShaderDataType::Float3, "a_WorldPosition" },
 				{ ShaderDataType::Float3, "a_LocalPosition" },
 				{ ShaderDataType::Float4, "a_Color" },
 				{ ShaderDataType::Float, "a_Thickness" },
 				{ ShaderDataType::Float, "a_Fade" },
-
-				//Editor only
-				{ ShaderDataType::Int, "a_EntityID" },
-			};
-
-			data.circleVertexArray = VertexArray::Create();
-			data.circleShader = Shader::Create("Assets/Shaders/Renderer2D_Circle.glsl");
-
-			//Setup vertex buffer
-			data.circleVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(CircleVertex));
-			data.circleVertexBuffer->SetLayout(layout);
+				{ ShaderDataType::Int, "a_EntityID" },	//Editor only
+			});
 			data.circleVertexArray->AddVertexBuffer(data.circleVertexBuffer);
-
 			data.circleVertexBufferBase = new CircleVertex[data.maxVertices];
 
 			//Setup index buffer
@@ -192,22 +179,17 @@ namespace Element {
 
 		//Line data
 		{
-			const BufferLayout layout = {
-				{ ShaderDataType::Float3, "a_Position" },
-				{ ShaderDataType::Float4, "a_Color" },
-
-				//Editor only
-				{ ShaderDataType::Int, "a_EntityID" },
-			};
-
-			data.lineVertexArray = VertexArray::Create();
 			data.lineShader = Shader::Create("Assets/Shaders/Renderer2D_Line.glsl");
+			data.lineVertexArray = VertexArray::Create();
+			data.lineVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(LineVertex));
 
 			//Setup vertex buffer
-			data.lineVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(LineVertex));
-			data.lineVertexBuffer->SetLayout(layout);
+			data.lineVertexBuffer->SetLayout({
+				{ ShaderDataType::Float3, "a_Position" },
+				{ ShaderDataType::Float4, "a_Color" },
+				{ ShaderDataType::Int, "a_EntityID" },	//Editor only
+			});
 			data.lineVertexArray->AddVertexBuffer(data.lineVertexBuffer);
-
 			data.lineVertexBufferBase = new LineVertex[data.maxVertices];
 		}
 	}
@@ -216,6 +198,8 @@ namespace Element {
 		EL_PROFILE_FUNCTION();
 
 		delete[] data.quadVertexBufferBase;
+		delete[] data.circleVertexBufferBase;
+		delete[] data.lineVertexBufferBase;
 	}
 
 	void Renderer2D::ResetStats() {
