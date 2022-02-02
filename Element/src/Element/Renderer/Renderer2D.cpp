@@ -33,6 +33,14 @@ namespace Element {
 		int entityID;
 	};
 
+	struct LineVertex {
+		glm::vec3 position;
+		glm::vec4 color;
+
+		//Editor only
+		int entityID;
+	};
+
 	struct Renderer2DData {
 		const uint32_t maxQuads = 1000;
 		const uint32_t maxVertices = maxQuads * 4;
@@ -57,6 +65,17 @@ namespace Element {
 		uint32_t circleIndexCount = 0;
 		CircleVertex* circleVertexBufferBase = nullptr;
 		CircleVertex* circleVertexBufferPtr = nullptr;
+
+		//Line data
+		Ref<VertexArray> lineVertexArray;
+		Ref<VertexBuffer> lineVertexBuffer;
+		Ref<Shader> lineShader;
+
+		uint32_t lineVertexCount = 0;
+		LineVertex* lineVertexBufferBase = nullptr;
+		LineVertex* lineVertexBufferPtr = nullptr;
+
+		float lineWidth = 2.0f;
 
 
 		std::array<Ref<Texture2D>, maxTextureSlots> textureSlots;
@@ -170,6 +189,27 @@ namespace Element {
 			//Setup index buffer
 			data.circleVertexArray->SetIndexBuffer(indexBuffer);	//Use quad index buffer
 		}
+
+		//Line data
+		{
+			const BufferLayout layout = {
+				{ ShaderDataType::Float3, "a_Position" },
+				{ ShaderDataType::Float4, "a_Color" },
+
+				//Editor only
+				{ ShaderDataType::Int, "a_EntityID" },
+			};
+
+			data.lineVertexArray = VertexArray::Create();
+			data.lineShader = Shader::Create("Assets/Shaders/Renderer2D_Line.glsl");
+
+			//Setup vertex buffer
+			data.lineVertexBuffer = VertexBuffer::Create(data.maxVertices * sizeof(LineVertex));
+			data.lineVertexBuffer->SetLayout(layout);
+			data.lineVertexArray->AddVertexBuffer(data.lineVertexBuffer);
+
+			data.lineVertexBufferBase = new LineVertex[data.maxVertices];
+		}
 	}
 	
 	void Renderer2D::Shutdown() {
@@ -222,6 +262,9 @@ namespace Element {
 		data.circleIndexCount = 0;
 		data.circleVertexBufferPtr = data.circleVertexBufferBase;
 
+		data.lineVertexCount = 0;
+		data.lineVertexBufferPtr = data.lineVertexBufferBase;
+
 		data.textureSlotIndex = 1;
 	}
 
@@ -256,6 +299,17 @@ namespace Element {
 
 			data.circleShader->Bind();
 			RenderCommand::DrawIndexed(data.circleVertexArray, data.circleIndexCount);
+			data.stats.drawCalls++;
+		}
+
+		//Draw lines
+		if(data.lineVertexCount) {
+			uint32_t dataSize = (uint32_t)(reinterpret_cast<uint8_t*>(data.lineVertexBufferPtr) - reinterpret_cast<uint8_t*>(data.lineVertexBufferBase));
+			data.lineVertexBuffer->SetData(data.lineVertexBufferBase, dataSize);
+
+			data.lineShader->Bind();
+			RenderCommand::SetLineWidth(data.lineWidth);
+			RenderCommand::DrawLines(data.lineVertexArray, data.lineVertexCount);
 			data.stats.drawCalls++;
 		}
 	}
@@ -392,6 +446,51 @@ namespace Element {
 
 		//Stats
 		data.stats.quadCount++;
+	}
+
+	void Renderer2D::DrawLine(const glm::vec3& startPosition, const glm::vec3& endPosition, const glm::vec4& color, int entityID) {
+		data.lineVertexBufferPtr->position = startPosition;
+		data.lineVertexBufferPtr->color = color;
+		data.lineVertexBufferPtr->entityID = entityID;
+		data.lineVertexBufferPtr++;
+
+		data.lineVertexBufferPtr->position = endPosition;
+		data.lineVertexBufferPtr->color = color;
+		data.lineVertexBufferPtr->entityID = entityID;
+		data.lineVertexBufferPtr++;
+
+		data.lineVertexCount += 2;
+	}
+
+	void Renderer2D::DrawRect(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, int entityID) {
+		glm::vec3 pos0 = glm::vec3(position.x - size.x * 0.5f, position.y - size.y * 0.5f, position.z);
+		glm::vec3 pos1 = glm::vec3(position.x + size.x * 0.5f, position.y - size.y * 0.5f, position.z);
+		glm::vec3 pos2 = glm::vec3(position.x + size.x * 0.5f, position.y + size.y * 0.5f, position.z);
+		glm::vec3 pos3 = glm::vec3(position.x - size.x * 0.5f, position.y + size.y * 0.5f, position.z);
+
+		DrawLine(pos0, pos1, color);
+		DrawLine(pos1, pos2, color);
+		DrawLine(pos2, pos3, color);
+		DrawLine(pos3, pos0, color);
+	}
+
+	void Renderer2D::DrawRect(const glm::mat4& transform, const glm::vec4& color, int entityID) {
+		glm::vec3 lineVertices[4];
+		for(size_t i = 0; i < 4; i++)
+			lineVertices[i] = transform * data.quadVertexPositions[i];
+		
+		DrawLine(lineVertices[0], lineVertices[1], color);
+		DrawLine(lineVertices[1], lineVertices[2], color);
+		DrawLine(lineVertices[2], lineVertices[3], color);
+		DrawLine(lineVertices[3], lineVertices[0], color);
+	}
+
+	float Renderer2D::GetLineWidth() {
+		return data.lineWidth;
+	}
+
+	void Renderer2D::SetLineWidth(float width) {
+		data.lineWidth = width;
 	}
 
 	#pragma endregion
