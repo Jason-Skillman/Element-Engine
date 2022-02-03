@@ -1,16 +1,81 @@
 Scene: Physics
 Entities:
-  - Entity: 3397442582585907790
+  - Entity: 105340310360099798
     TagComponent:
-      Tag: Circle Renderer
+      Tag: Blocker
     TransformComponent:
-      Translation: [-1.99999988, 1.00000001e-07, 1.00000001e-07]
+      Translation: [-5, -2, 5.96046448e-08]
+      Rotation: [0, 0, 0]
+      Scale: [1, 2, 1]
+    SpriteRendererComponent:
+      Color: [0.807843149, 0.525490224, 0.0980392173, 1]
+    Rigidbody2DComponent:
+      BodyType: 0
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 16580212490450855474
+    TagComponent:
+      Tag: Red Square
+    TransformComponent:
+      Translation: [1.04308128e-07, 2.38418579e-07, 1.00000001e-07]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    CircleRendererComponent:
-      Color: [0.876447856, 0.514415324, 0.101519063, 1]
-      Thickness: 1
-      Fade: 0.00499999989
+    SpriteRendererComponent:
+      Color: [0.868725896, 0.144228652, 0.144228652, 1]
+    Rigidbody2DComponent:
+      BodyType: 1
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 5966353867961842669
+    TagComponent:
+      Tag: Blocker
+    TransformComponent:
+      Translation: [5, -2, 1.00000008e-07]
+      Rotation: [0, 0, 0]
+      Scale: [1, 2, 1]
+    SpriteRendererComponent:
+      Color: [0.807843149, 0.525490224, 0.0980392173, 1]
+    Rigidbody2DComponent:
+      BodyType: 0
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 3509135521347537059
+    TagComponent:
+      Tag: Floor
+    TransformComponent:
+      Translation: [1.00000001e-07, -3.5, 1.00000001e-07]
+      Rotation: [0, 0, 0]
+      Scale: [11, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.806949794, 0.523645163, 0.0965847373, 1]
+    Rigidbody2DComponent:
+      BodyType: 0
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.25
+      RestitutionThreshold: 0.5
   - Entity: 8385841533024812656
     TagComponent:
       Tag: Camera
@@ -29,40 +94,23 @@ Entities:
         OrthographicFarClip: 1
       Primary: true
       FixedAspectRation: false
-  - Entity: 3509135521347537059
+  - Entity: 3397442582585907790
     TagComponent:
-      Tag: Floor
+      Tag: Circle Renderer
     TransformComponent:
-      Translation: [1.00000001e-07, -3.5, 1.00000001e-07]
-      Rotation: [0, 0, 0]
-      Scale: [11.5, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.806949794, 0.523645163, 0.0965847373, 1]
-    Rigidbody2DComponent:
-      BodyType: 0
-      FixedRotation: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [0.5, 0.5]
-      Density: 1
-      Friction: 0.5
-      Restitution: 0.25
-      RestitutionThreshold: 0.5
-  - Entity: 5966353867961842669
-    TagComponent:
-      Tag: Red Square
-    TransformComponent:
-      Translation: [1.00000001e-07, 1.00000001e-07, 1.00000001e-07]
+      Translation: [-0.69363296, 2.13677216, 2.38418579e-07]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.868725896, 0.144228652, 0.144228652, 1]
+    CircleRendererComponent:
+      Color: [0.876447856, 0.514415324, 0.101519063, 1]
+      Thickness: 0.100000001
+      Fade: 0.00499999989
     Rigidbody2DComponent:
       BodyType: 1
       FixedRotation: false
-    BoxCollider2DComponent:
+    CircleCollider2DComponent:
       Offset: [0, 0]
-      Size: [0.5, 0.5]
+      Radius: 0.5
       Density: 1
       Friction: 0.5
       Restitution: 0

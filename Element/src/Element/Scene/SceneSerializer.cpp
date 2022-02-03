@@ -135,6 +135,24 @@ namespace Element {
 				}
 				out << YAML::EndMap;
 			}
+
+			//Circle collider 2D component
+			if(entity.HasComponent<CircleCollider2DComponent>()) {
+				out << YAML::Key << "CircleCollider2DComponent";
+
+				out << YAML::BeginMap;
+				{
+					CircleCollider2DComponent& component = entity.GetComponent<CircleCollider2DComponent>();
+
+					out << YAML::Key << "Offset" << YAML::Value << component.offset;
+					out << YAML::Key << "Radius" << YAML::Value << component.radius;
+					out << YAML::Key << "Density" << YAML::Value << component.density;
+					out << YAML::Key << "Friction" << YAML::Value << component.friction;
+					out << YAML::Key << "Restitution" << YAML::Value << component.restitution;
+					out << YAML::Key << "RestitutionThreshold" << YAML::Value << component.restitutionThreshold;
+				}
+				out << YAML::EndMap;
+			}
 		}
 		out << YAML::EndMap;
 	}
@@ -278,6 +296,21 @@ namespace Element {
 
 						component.offset = componentValue["Offset"].as<glm::vec2>();
 						component.size = componentValue["Size"].as<glm::vec2>();
+						component.density = componentValue["Density"].as<float>();
+						component.friction = componentValue["Friction"].as<float>();
+						component.restitution = componentValue["Restitution"].as<float>();
+						component.restitutionThreshold = componentValue["RestitutionThreshold"].as<float>();
+					}
+				}
+
+				//Circle collider 2D component
+				{
+					YAML::Node componentValue = entity["CircleCollider2DComponent"];
+					if(componentValue) {
+						CircleCollider2DComponent& component = newEntity.AddComponent<CircleCollider2DComponent>();
+
+						component.offset = componentValue["Offset"].as<glm::vec2>();
+						component.radius = componentValue["Radius"].as<float>();
 						component.density = componentValue["Density"].as<float>();
 						component.friction = componentValue["Friction"].as<float>();
 						component.restitution = componentValue["Restitution"].as<float>();
