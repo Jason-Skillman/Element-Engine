@@ -248,37 +248,40 @@ namespace Element {
 			body->SetFixedRotation(rigidbody.fixedRotation);
 			rigidbody.runtimeBody = body;
 
-			//Todo: Try get
-			if(entity.HasComponent<BoxCollider2DComponent>()) {
-				auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+			//Box collider
+			{
+				BoxCollider2DComponent component;
+				if(entity.TryGetComponent<BoxCollider2DComponent>(component)) {
+					//Todo: Add option to disable scale
+					b2PolygonShape boxShape;
+					boxShape.SetAsBox(component.size.x * transform.scale.x, component.size.y * transform.scale.y);
 
-				//Todo: Add option to disable scale
-				b2PolygonShape boxShape;
-				boxShape.SetAsBox(bc2d.size.x * transform.scale.x, bc2d.size.y * transform.scale.y);
-
-				b2FixtureDef fixtureDef;
-				fixtureDef.shape = &boxShape;
-				fixtureDef.density = bc2d.density;
-				fixtureDef.friction = bc2d.friction;
-				fixtureDef.restitution = bc2d.restitution;
-				fixtureDef.restitutionThreshold = bc2d.restitutionThreshold;
-				body->CreateFixture(&fixtureDef);
+					b2FixtureDef fixtureDef;
+					fixtureDef.shape = &boxShape;
+					fixtureDef.density = component.density;
+					fixtureDef.friction = component.friction;
+					fixtureDef.restitution = component.restitution;
+					fixtureDef.restitutionThreshold = component.restitutionThreshold;
+					body->CreateFixture(&fixtureDef);
+				}
 			}
 
-			if(entity.HasComponent<CircleCollider2DComponent>()) {
-				auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
+			//Circle collider
+			{
+				CircleCollider2DComponent component;
+				if(entity.TryGetComponent<CircleCollider2DComponent>(component)) {
+					b2CircleShape circleShape;
+					circleShape.m_p.Set(component.offset.x, component.offset.y);
+					circleShape.m_radius = component.radius;
 
-				b2CircleShape circleShape;
-				circleShape.m_p.Set(cc2d.offset.x, cc2d.offset.y);
-				circleShape.m_radius = cc2d.radius;
-
-				b2FixtureDef fixtureDef;
-				fixtureDef.shape = &circleShape;
-				fixtureDef.density = cc2d.density;
-				fixtureDef.friction = cc2d.friction;
-				fixtureDef.restitution = cc2d.restitution;
-				fixtureDef.restitutionThreshold = cc2d.restitutionThreshold;
-				body->CreateFixture(&fixtureDef);
+					b2FixtureDef fixtureDef;
+					fixtureDef.shape = &circleShape;
+					fixtureDef.density = component.density;
+					fixtureDef.friction = component.friction;
+					fixtureDef.restitution = component.restitution;
+					fixtureDef.restitutionThreshold = component.restitutionThreshold;
+					body->CreateFixture(&fixtureDef);
+				}
 			}
 		}
 	}
