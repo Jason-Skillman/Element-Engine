@@ -73,6 +73,8 @@ namespace Element {
 	Ref<Scene> Scene::Copy(Ref<Scene> other) {
 		Ref<Scene> newScene = CreateRef<Scene>();
 
+		newScene->SetName(other->GetName() + " (Runtime)");
+
 		newScene->viewportWidth = other->viewportWidth;
 		newScene->viewportHeight = other->viewportHeight;
 
