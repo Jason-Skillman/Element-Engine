@@ -53,6 +53,12 @@ namespace Element {
 		Entity CreateEntity(GUID guid, const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
 
+		/// <summary>Returns all entities with the components T.</summary>
+		template<typename... T>
+		auto GetEntitiesWithComponents() {
+			return registry.view<T...>();
+		}
+
 	private:
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);

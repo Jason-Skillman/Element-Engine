@@ -272,7 +272,7 @@ namespace Element {
 				if(entity.TryGetComponent<CircleCollider2DComponent>(component)) {
 					b2CircleShape circleShape;
 					circleShape.m_p.Set(component.offset.x, component.offset.y);
-					circleShape.m_radius = component.radius;
+					circleShape.m_radius = transform.scale.x * component.radius;
 
 					b2FixtureDef fixtureDef;
 					fixtureDef.shape = &circleShape;

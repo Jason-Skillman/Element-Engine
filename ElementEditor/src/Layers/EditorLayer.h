@@ -32,6 +32,8 @@ namespace Element {
 
 		int gizmoType = -1;
 
+		bool showOverlay = true;
+
 		SceneState sceneState = SceneState::Edit;
 
 		//Panels
@@ -62,6 +64,7 @@ namespace Element {
 
 		void OnScenePlay();
 		void OnSceneStop();
+		void OnOverlayRender();
 
 		void DuplicateSelectedEntity();
 

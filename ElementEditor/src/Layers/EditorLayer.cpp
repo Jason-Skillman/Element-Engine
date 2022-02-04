@@ -149,8 +149,52 @@ namespace Element {
 			int value = frameBuffer->ReadPixel(1, mouseX, mouseY);
 			hoveredEntity = value != -1 ? Entity(static_cast<entt::entity>(value), activeScene.get()) : Entity();
 		}
+		if(showOverlay)
+			OnOverlayRender();
 
 		frameBuffer->Unbind();
+	}
+
+	void EditorLayer::OnOverlayRender() {
+		if(sceneState == SceneState::Play) {
+			Entity camera = activeScene->GetPrimaryCameraEntity();
+			Renderer2D::BeginScene(camera.GetComponent<CameraComponent>().camera, camera.GetComponent<TransformComponent>().GetTransform());
+		} else
+			Renderer2D::BeginScene(editorCamera);
+
+		{
+			//Box collider
+			auto view = activeScene->GetEntitiesWithComponents<TransformComponent, BoxCollider2DComponent>();
+			for(auto entity : view) {
+				auto [transform, collider] = view.get<TransformComponent, BoxCollider2DComponent>(entity);
+
+				glm::vec3 translation = transform.translation + glm::vec3(collider.offset, 0.001f);
+				float rotation = transform.rotation.z;
+				glm::vec3 scale = transform.scale * glm::vec3(collider.size * 2.0f, 1.0f);
+				glm::mat4 newTransform = glm::translate(glm::mat4(1.0f), translation)
+					* glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0.0f, 0.0f, 1.0f))
+					* glm::scale(glm::mat4(1.0f), scale);
+
+				Renderer2D::DrawRect(newTransform, { 0, 1, 0, 1 });
+			}
+		}
+
+		{
+			//Circle collider
+			auto view = activeScene->GetEntitiesWithComponents<TransformComponent, CircleCollider2DComponent>();
+			for(auto entity : view) {
+				auto [transform, collider] = view.get<TransformComponent, CircleCollider2DComponent>(entity);
+
+				glm::vec3 translation = transform.translation + glm::vec3(collider.offset, 0.001f);
+				glm::vec3 scale = transform.scale * glm::vec3(collider.radius * 2.0f);
+				glm::mat4 newTransform = glm::translate(glm::mat4(1.0f), translation)
+					* glm::scale(glm::mat4(1.0f), scale);
+
+				Renderer2D::DrawCircle(newTransform, { 0, 1, 0, 1 }, 0.025f);
+			}
+		}
+
+		Renderer2D::EndScene();
 	}
 
 	void EditorLayer::OnImGuiRender() {
@@ -308,6 +352,14 @@ namespace Element {
 				ImGui::Text("Textures loaded: %d", stats.texturesLoaded);
 				ImGui::Separator();
 			}
+
+			ImGui::End();
+		}
+
+		{
+			ImGui::Begin("Settings");
+
+			ImGui::Checkbox("Overlay", &showOverlay);
 
 			ImGui::End();
 		}
