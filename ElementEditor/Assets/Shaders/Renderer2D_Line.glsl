@@ -10,7 +10,7 @@ layout(location = 2) in int a_EntityID;	//Editor only
 //Get data in uniform buffer 0
 layout(std140, binding = 0) uniform CameraBuffer {
 	mat4 u_ViewProjection;
-};
+} Camera;
 
 struct VertexOutput {
 	vec4 color;
@@ -20,7 +20,7 @@ layout(location = 0) out VertexOutput vertexOutput;
 layout(location = 1) out flat int v_EntityID;
 
 void main() {
-	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+	gl_Position = Camera.u_ViewProjection * vec4(a_Position, 1.0);
 
 	vertexOutput.color = a_Color;
 
