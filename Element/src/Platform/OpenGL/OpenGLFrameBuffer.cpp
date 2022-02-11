@@ -115,7 +115,7 @@ namespace Element {
 
 	void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height) {
 		if(width == 0 || height == 0 || width > maxFrameBufferSize || height > maxFrameBufferSize) {
-			EL_LOG_CORE_ERROR("Invalid frame buffer size x: {0}, y: {1}", width, height);
+			EL_CORE_LOG_ERROR("Invalid frame buffer size x: {0}, y: {1}", width, height);
 			return;
 		}
 

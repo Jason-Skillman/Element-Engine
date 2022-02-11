@@ -16,7 +16,7 @@ namespace Element {
 	static bool glfwInitialized = false;
 
 	static void GLFWErrorCallback(int error, const char* description) {
-		EL_LOG_CORE_ERROR("GLFW Error ({0}): {1}", error, description)
+		EL_CORE_LOG_ERROR("GLFW Error ({0}): {1}", error, description)
 	}
 
 	Scope<Window> Window::Create(const WindowProps& props) {
@@ -82,7 +82,7 @@ namespace Element {
 		data.width = props.width;
 		data.height = props.height;
 
-		EL_LOG_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
+		EL_CORE_LOG_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
 
 		if(!glfwInitialized) {
 			//Todo: glfwTerminate

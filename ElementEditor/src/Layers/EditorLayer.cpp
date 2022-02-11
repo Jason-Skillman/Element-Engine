@@ -45,7 +45,7 @@ namespace Element {
 		if(commandLineArgs.count > 1)
 		{
 			auto sceneFilePath = commandLineArgs[1];
-			EL_LOG_CORE_INFO("Loading scene at: {0}", sceneFilePath);
+			EL_CORE_LOG_INFO("Loading scene at: {0}", sceneFilePath);
 
 			//Dont remove: Required to open a scene before the update functions has init.
 			viewportSize = { 1, 1 };
@@ -144,7 +144,7 @@ namespace Element {
 
 		//Check if mouse is within viewport bounds
 		if(mouseX >= 0 && mouseY >= 0 && mouseX < static_cast<int>(viewportSize.x) && mouseY < static_cast<int>(viewportSize.y)) {
-			//EL_LOG_CORE_TRACE("Viewport mouse pos: {0}, {1}", mouseX, mouseY);
+			//EL_CORE_LOG_TRACE("Viewport mouse pos: {0}, {1}", mouseX, mouseY);
 
 			int value = frameBuffer->ReadPixel(1, mouseX, mouseY);
 			hoveredEntity = value != -1 ? Entity(static_cast<entt::entity>(value), activeScene.get()) : Entity();
@@ -566,12 +566,12 @@ namespace Element {
 		EL_PROFILE_FUNCTION();
 
 		if(path.extension().string() != ".scene") {
-			EL_LOG_CORE_WARN("\"{0}\" is not a scene!", path.extension().string());
+			EL_CORE_LOG_WARN("\"{0}\" is not a scene!", path.extension().string());
 			return;
 		}
 
 		if(sceneState == SceneState::Play) {
-			EL_LOG_CORE_WARN("Can't load a scene while in play mode!");
+			EL_CORE_LOG_WARN("Can't load a scene while in play mode!");
 			return;
 		}
 

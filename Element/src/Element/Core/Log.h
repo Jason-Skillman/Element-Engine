@@ -4,12 +4,12 @@
 #include "spdlog/fmt/ostr.h"
 
 //Core logging macros
-#define EL_LOG_CORE_TRACE(...) ::Element::Log::GetCoreLogger()->trace(__VA_ARGS__);
-#define EL_LOG_CORE_DEBUG(...) ::Element::Log::GetCoreLogger()->debug(__VA_ARGS__);
-#define EL_LOG_CORE_INFO(...) ::Element::Log::GetCoreLogger()->info(__VA_ARGS__);
-#define EL_LOG_CORE_WARN(...) ::Element::Log::GetCoreLogger()->warn(__VA_ARGS__);
-#define EL_LOG_CORE_ERROR(...) ::Element::Log::GetCoreLogger()->error(__VA_ARGS__);
-#define EL_LOG_CORE_CRITICAL(...) ::Element::Log::GetCoreLogger()->critical(__VA_ARGS__);
+#define EL_CORE_LOG_TRACE(...) ::Element::Log::GetCoreLogger()->trace(__VA_ARGS__);
+#define EL_CORE_LOG_DEBUG(...) ::Element::Log::GetCoreLogger()->debug(__VA_ARGS__);
+#define EL_CORE_LOG_INFO(...) ::Element::Log::GetCoreLogger()->info(__VA_ARGS__);
+#define EL_CORE_LOG_WARN(...) ::Element::Log::GetCoreLogger()->warn(__VA_ARGS__);
+#define EL_CORE_LOG_ERROR(...) ::Element::Log::GetCoreLogger()->error(__VA_ARGS__);
+#define EL_CORE_LOG_CRITICAL(...) ::Element::Log::GetCoreLogger()->critical(__VA_ARGS__);
 
 //Client logging macros
 #define EL_LOG_TRACE(...) ::Element::Log::GetClientLogger()->trace(__VA_ARGS__);

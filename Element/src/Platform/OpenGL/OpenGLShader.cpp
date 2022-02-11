@@ -98,7 +98,7 @@ namespace Element {
 			CompileOrGetVulkanBinaries(shaderSources);
 			CompileOrGetOpenGLBinaries();
 			CreateProgram();
-			EL_LOG_CORE_INFO("Shaders compiled in {0} ms", timer.ElapsedMillis());
+			EL_CORE_LOG_INFO("Shaders compiled in {0} ms", timer.ElapsedMillis());
 		}
 
 		// Extract name from filepath
@@ -206,7 +206,7 @@ namespace Element {
 			} else {
 				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, Utils::GLShaderStageToShaderC(stage), filePath.c_str(), options);
 				if(module.GetCompilationStatus() != shaderc_compilation_status_success) {
-					EL_LOG_CORE_ERROR(module.GetErrorMessage());
+					EL_CORE_LOG_ERROR(module.GetErrorMessage());
 					EL_CORE_FAIL("Shader could not be compiled! The shader probably has a syntax error.");
 				}
 
@@ -222,8 +222,8 @@ namespace Element {
 			}
 		}
 
-		EL_LOG_CORE_INFO("");
-		EL_LOG_CORE_INFO("SPIR-V Shader Compiler");
+		EL_CORE_LOG_INFO("");
+		EL_CORE_LOG_INFO("SPIR-V Shader Compiler");
 		for(auto&& [stage, data] : shaderData)
 			Reflect(stage, data);
 	}
@@ -303,7 +303,7 @@ namespace Element {
 
 			std::vector<GLchar> infoLog(maxLength);
 			glGetProgramInfoLog(program, maxLength, &maxLength, infoLog.data());
-			EL_LOG_CORE_ERROR("Shader linking failed ({0}):\n{1}", filePath, infoLog.data());
+			EL_CORE_LOG_ERROR("Shader linking failed ({0}):\n{1}", filePath, infoLog.data());
 
 			glDeleteProgram(program);
 
@@ -325,22 +325,22 @@ namespace Element {
 		spirv_cross::Compiler compiler(shaderData);
 		spirv_cross::ShaderResources resources = compiler.get_shader_resources();
 
-		EL_LOG_CORE_INFO("  Compiling shader \"{0}\" at \"{1}\"", Utils::GLShaderStageToString(stage), filePath);
-		EL_LOG_CORE_INFO("    {0} uniform buffers", resources.uniform_buffers.size());
-		EL_LOG_CORE_INFO("    {0} resources", resources.sampled_images.size());
+		EL_CORE_LOG_INFO("  Compiling shader \"{0}\" at \"{1}\"", Utils::GLShaderStageToString(stage), filePath);
+		EL_CORE_LOG_INFO("    {0} uniform buffers", resources.uniform_buffers.size());
+		EL_CORE_LOG_INFO("    {0} resources", resources.sampled_images.size());
 
 		if(!resources.uniform_buffers.empty())
-			EL_LOG_CORE_INFO("  Uniform buffers:");
+			EL_CORE_LOG_INFO("  Uniform buffers:");
 		for(const auto& resource : resources.uniform_buffers) {
 			const auto& bufferType = compiler.get_type(resource.base_type_id);
 			uint32_t bufferSize = compiler.get_declared_struct_size(bufferType);
 			uint32_t binding = compiler.get_decoration(resource.id, spv::DecorationBinding);
 			int memberCount = bufferType.member_types.size();
 
-			EL_LOG_CORE_INFO("    {0}", resource.name);
-			EL_LOG_CORE_INFO("      Size = {0}", bufferSize);
-			EL_LOG_CORE_INFO("      Binding = {0}", binding);
-			EL_LOG_CORE_INFO("      Members = {0}", memberCount);
+			EL_CORE_LOG_INFO("    {0}", resource.name);
+			EL_CORE_LOG_INFO("      Size = {0}", bufferSize);
+			EL_CORE_LOG_INFO("      Binding = {0}", binding);
+			EL_CORE_LOG_INFO("      Members = {0}", memberCount);
 		}
 	}
 

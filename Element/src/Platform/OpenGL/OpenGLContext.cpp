@@ -22,10 +22,10 @@ namespace Element {
 		EL_CORE_ASSERT(status, "Failed to initalized Glad!");
 
 		//Print graphics info
-		EL_LOG_CORE_INFO("OpenGL Renderer");
-		EL_LOG_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
-		EL_LOG_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
-		EL_LOG_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
+		EL_CORE_LOG_INFO("OpenGL Renderer");
+		EL_CORE_LOG_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
+		EL_CORE_LOG_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
+		EL_CORE_LOG_INFO("  Version: {0}", glGetString(GL_VERSION));
 	}
 	
 	void OpenGLContext::SwapBuffers() {

@@ -184,7 +184,7 @@ namespace Element {
 		std::ofstream fout(filepath.string());
 		fout << out.c_str();
 
-		//EL_LOG_CORE_TRACE("Serialized scene {0}", sceneName);
+		//EL_CORE_LOG_TRACE("Serialized scene {0}", sceneName);
 	}
 	
 	void SceneSerializer::SerializBinary(const std::filesystem::path& filepath) {
@@ -203,7 +203,7 @@ namespace Element {
 		std::string sceneName = data["Scene"].as<std::string>();
 		scene->SetName(sceneName);
 
-		//EL_LOG_CORE_TRACE("Deserialized scene {0}", sceneName);
+		//EL_CORE_LOG_TRACE("Deserialized scene {0}", sceneName);
 
 		YAML::Node entities = data["Entities"];
 		if(entities) {
