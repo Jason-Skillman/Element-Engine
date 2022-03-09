@@ -1,6 +1,8 @@
 # Element-Engine
 An OpenGL game engine written in C++ for games.
 
+<img src="ElementEditor/Resources/element_engine.png" width="100px">
+
 ## Getting started
 Requierments:
 - Windows
